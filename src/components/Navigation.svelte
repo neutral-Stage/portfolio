@@ -31,8 +31,6 @@
     { name: "Skills", href: "#skills", icon: Code },
     { name: "Projects", href: "/projects", icon: Briefcase },
     { name: "Blog", href: "/blog", icon: BookOpen },
-    { name: "Remote Ready", href: "#remote-ready", icon: MapPin },
-    { name: "GitHub", href: "#github-activity", icon: Github },
     { name: "Experience", href: "#experience", icon: Briefcase },
     { name: "Contact", href: "#contact", icon: Mail },
   ];
@@ -151,39 +149,41 @@
 
       <!-- Desktop Navigation -->
       <div class="hidden lg:block">
-        <div class="flex items-center space-x-1">
+        <div class="flex items-center gap-1.5 xl:gap-2">
           {#each navItems as item}
             <button
               on:click={() => scrollToSection(item.href)}
-              class="group relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:scale-105"
+              class="group relative px-3 xl:px-4 py-2.5 rounded-xl text-sm xl:text-base font-medium transition-all duration-300 hover:scale-105 whitespace-nowrap"
               class:text-white={isActive(item.href)}
               class:text-gray-400={!isActive(item.href)}
+              title={item.name}
+              aria-label={item.name}
             >
               <!-- Active Indicator -->
               {#if isActive(item.href)}
-                <div class="absolute inset-0 glass-light rounded-lg"></div>
+                <div class="absolute inset-0 glass-light rounded-xl"></div>
                 <div
-                  class="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-lg"
+                  class="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-xl"
                 ></div>
               {/if}
 
               <span
-                class="relative z-10 flex items-center gap-2 transition-colors group-hover:text-white"
+                class="relative z-10 flex items-center gap-1.5 xl:gap-2 transition-colors group-hover:text-white"
               >
                 <svelte:component
                   this={item.icon}
                   size={16}
                   class="transition-transform duration-300 group-hover:scale-110"
                 />
-                {item.name}
+                <span class="hidden xl:inline">{item.name}</span>
               </span>
 
               <!-- Hover Effect -->
               <div
-                class="absolute inset-0 glass-light rounded-lg opacity-0 group-hover:opacity-100 transition-opacity -z-10"
+                class="absolute inset-0 glass-light rounded-xl opacity-0 group-hover:opacity-100 transition-opacity -z-10"
               ></div>
               <div
-                class="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity -z-10"
+                class="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity -z-10"
               ></div>
             </button>
           {/each}
@@ -217,10 +217,11 @@
   <!-- Mobile Navigation Menu -->
   {#if isMenuOpen}
     <div
-      class="lg:hidden absolute top-full left-0 right-0 glass-strong border-t border-white/10 shadow-2xl animate-slide-up"
+      class="lg:hidden absolute top-full left-0 right-0 glass-strong border-t border-white/10 animate-slide-up"
       style="max-height: calc(100vh - 80px); overflow-y: auto;"
     >
       <div class="px-4 py-6 space-y-2">
+        <!-- Main Navigation Items -->
         {#each navItems as item, index}
           <button
             on:click={() => scrollToSection(item.href)}
@@ -283,5 +284,10 @@
   /* Ensure smooth transitions */
   nav {
     will-change: transform, background;
+  }
+
+  /* Remove box-shadow from glass effect for cleaner look */
+  nav.glass-strong {
+    border: none;
   }
 </style>

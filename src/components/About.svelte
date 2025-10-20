@@ -3,13 +3,15 @@
   import {
     User,
     Award,
-    Coffee,
-    Heart,
+    CheckCircle,
+    Users,
     Zap,
     Target,
     Rocket,
     Star,
     Mail,
+    Code,
+    Briefcase,
   } from "lucide-svelte";
 
   let aboutRef: HTMLElement;
@@ -38,7 +40,7 @@
   const stats = [
     {
       icon: Rocket,
-      label: "Projects Completed",
+      label: "Projects Delivered",
       value: "50+",
       color: "from-purple-500 to-pink-500",
     },
@@ -49,14 +51,14 @@
       color: "from-blue-500 to-cyan-500",
     },
     {
-      icon: Coffee,
-      label: "Cups of Coffee",
-      value: "1000+",
+      icon: Code,
+      label: "Technologies",
+      value: "20+",
       color: "from-orange-500 to-yellow-500",
     },
     {
-      icon: Heart,
-      label: "Happy Clients",
+      icon: Users,
+      label: "Satisfied Clients",
       value: "25+",
       color: "from-pink-500 to-rose-500",
     },
@@ -64,19 +66,22 @@
 
   const highlights = [
     {
-      icon: Zap,
-      title: "Fast Learner",
-      description: "Quick to adapt to new technologies and frameworks",
+      icon: CheckCircle,
+      title: "Results-Driven",
+      description:
+        "Delivering measurable business outcomes and ROI through technology solutions",
     },
     {
-      icon: Target,
-      title: "Goal-Oriented",
-      description: "Focused on delivering results and exceeding expectations",
+      icon: Briefcase,
+      title: "Client-Focused",
+      description:
+        "Building long-term partnerships through exceptional service and communication",
     },
     {
       icon: Star,
-      title: "Quality First",
-      description: "Committed to writing clean, maintainable code",
+      title: "Best Practices",
+      description:
+        "Adherence to industry standards, clean code, and scalable architecture",
     },
   ];
 </script>
@@ -106,194 +111,198 @@
         >
       </div>
       <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">
-        <span class="gradient-text"> Passionate Developer </span>
+        <span class="gradient-text"> Professional Background </span>
       </h2>
       <p class="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-        Turning ideas into elegant digital solutions with creativity and
-        precision
+        Delivering enterprise-grade solutions with expertise in modern web
+        technologies
       </p>
     </div>
 
-    <div class="grid lg:grid-cols-2 gap-16 items-center mb-20">
-      <!-- Text Content with Cards -->
-      <div class="space-y-8 animate-fade-slide-right">
+    <!-- Main Content Grid -->
+    <div class="grid lg:grid-cols-[1fr_400px] gap-8 mb-16 items-start">
+      <!-- Left Column: Description -->
+      <div class="space-y-6 animate-fade-slide-right">
         <!-- Main Description Card -->
         <div
-          class="card-glow glass p-8 rounded-2xl group hover:scale-[1.02] transition-transform duration-300"
+          class="card-glow glass p-8 rounded-2xl hover:scale-[1.01] transition-transform duration-300"
         >
-          <div class="prose prose-lg prose-invert max-w-none">
-            <p class="text-gray-300 leading-relaxed text-lg mb-4">
-              I'm a passionate full-stack developer with over 3 years of
-              experience creating digital solutions that make a real impact. My
-              journey began with a curiosity about how things work, which led me
-              to discover the world of programming.
-            </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            A seasoned full-stack developer with 3+ years of professional
+            experience in designing, developing, and deploying scalable web
+            applications. Specialized in delivering high-quality solutions that
+            drive business growth and enhance user engagement.
+          </p>
 
-            <p class="text-gray-300 leading-relaxed text-lg mb-4">
-              I specialize in modern web technologies and love building
-              applications that are not only functional but also beautiful and
-              user-friendly. When I'm not coding, you can find me exploring new
-              technologies, contributing to open-source projects, or sharing
-              knowledge with the developer community.
-            </p>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            My expertise spans modern JavaScript frameworks, cloud
+            infrastructure, and full-stack development. I've successfully led
+            projects from conception to deployment, collaborating with
+            cross-functional teams to deliver solutions that exceed client
+            expectations.
+          </p>
 
-            <p class="text-gray-300 leading-relaxed text-lg">
-              My goal is to create meaningful digital experiences that solve
-              real-world problems and make people's lives easier.
-            </p>
-          </div>
+          <p class="text-gray-300 leading-relaxed">
+            Committed to staying current with industry trends and best
+            practices, I bring a strategic approach to problem-solving and a
+            track record of delivering projects on time and within budget.
+          </p>
         </div>
 
-        <!-- Highlight Cards -->
-        <div class="grid gap-4">
+        <!-- Highlight Cards Grid -->
+        <div class="grid sm:grid-cols-3 gap-4">
           {#each highlights as highlight, index}
             <div
               role="button"
               tabindex="0"
-              class="card-shine glass-light p-6 rounded-xl group hover:scale-[1.02] transition-all duration-300 animate-slide-up delay-{(index +
-                1) *
+              class="card-shine glass-light p-6 rounded-xl hover:scale-[1.02] transition-all duration-300 animate-slide-up delay-{index *
                 100}"
               on:mouseenter={() => (activeCard = index)}
               on:mouseleave={() => (activeCard = -1)}
               on:keydown={() => {}}
             >
-              <div class="flex items-start gap-4">
-                <div
-                  class="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform"
-                >
-                  <svelte:component
-                    this={highlight.icon}
-                    size={24}
-                    class="text-white"
-                  />
-                </div>
-                <div>
-                  <h4 class="text-lg font-bold text-white mb-1">
-                    {highlight.title}
-                  </h4>
-                  <p class="text-gray-400 text-sm">{highlight.description}</p>
-                </div>
-              </div>
-            </div>
-          {/each}
-        </div>
-
-        <!-- Skills Preview Tags -->
-        <div class="flex flex-wrap gap-3 pt-4">
-          {#each ["JavaScript", "TypeScript", "React", "Svelte", "Node.js", "Python", "AWS", "Docker"] as skill, index}
-            <span
-              class="group relative glass-light px-5 py-2.5 rounded-full text-sm font-semibold text-purple-300 hover:text-white hover:scale-110 transition-all duration-300 cursor-default animate-bounce-in delay-{index *
-                50} overflow-hidden"
-            >
-              <span class="relative z-10">{skill}</span>
               <div
-                class="absolute inset-0 bg-gradient-to-r from-purple-600/30 to-pink-600/30 opacity-0 group-hover:opacity-100 transition-opacity"
-              ></div>
-            </span>
+                class="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mb-4"
+              >
+                <svelte:component
+                  this={highlight.icon}
+                  size={24}
+                  class="text-white"
+                />
+              </div>
+              <h4 class="text-base font-bold text-white mb-2">
+                {highlight.title}
+              </h4>
+              <p class="text-gray-400 text-sm leading-relaxed">
+                {highlight.description}
+              </p>
+            </div>
           {/each}
         </div>
       </div>
 
-      <!-- Stats Grid with Enhanced Cards -->
-      <div class="space-y-8 animate-scale-in delay-300">
-        <!-- Profile Visual -->
+      <!-- Right Column: Profile & Status -->
+      <div class="space-y-6 animate-scale-in delay-300">
+        <!-- Professional Profile Image -->
         <div class="relative group">
-          <div
-            class="w-full max-w-md mx-auto aspect-square relative perspective-container"
-          >
-            <!-- Animated Background Rings -->
+          <div class="w-full aspect-square relative">
+            <!-- Gradient Background -->
             <div
-              class="absolute inset-0 animate-glow-pulse"
-              style="animation-duration: 4s;"
-            >
-              <div
-                class="absolute inset-8 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 blur-3xl opacity-40"
-              ></div>
-            </div>
-            <div
-              class="absolute inset-0 animate-glow-pulse"
-              style="animation-duration: 3s; animation-delay: 1s;"
-            >
-              <div
-                class="absolute inset-16 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 blur-2xl opacity-30"
-              ></div>
-            </div>
+              class="absolute inset-0 rounded-2xl bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-blue-500/20 blur-2xl"
+            ></div>
 
-            <!-- Main Circle -->
+            <!-- Main Profile Container -->
             <div
-              class="absolute inset-0 rounded-full glass-strong border-2 border-white/10 group-hover:border-purple-500/50 transition-all duration-500 group-hover:scale-105"
+              class="relative rounded-2xl glass-strong border border-white/10 overflow-hidden group-hover:border-purple-500/50 transition-all duration-500"
             >
               <div
-                class="absolute inset-8 rounded-full bg-gradient-to-br from-purple-600/20 to-pink-600/20 flex items-center justify-center"
+                class="aspect-square flex items-center justify-center bg-gradient-to-br from-purple-600/10 to-pink-600/10"
               >
                 <User
-                  size={120}
-                  class="text-purple-400/80 group-hover:scale-110 transition-transform duration-500"
+                  size={140}
+                  class="text-purple-400/60 group-hover:text-purple-400 transition-colors duration-500"
                 />
               </div>
-            </div>
 
-            <!-- Floating Badges -->
-            <div
-              class="absolute -top-4 -right-4 glass px-4 py-2 rounded-full animate-float"
-            >
-              <span class="text-sm font-bold gradient-text">Available</span>
-            </div>
-            <div
-              class="absolute -bottom-4 -left-4 glass px-4 py-2 rounded-full animate-float"
-              style="animation-delay: 2s;"
-            >
-              <span class="text-sm font-bold gradient-text">Remote</span>
+              <!-- Status Badge Overlay -->
+              <div
+                class="absolute top-4 right-4 glass px-3 py-1.5 rounded-full border border-green-500/30"
+              >
+                <div class="flex items-center gap-2">
+                  <div
+                    class="w-2 h-2 rounded-full bg-green-400 animate-pulse"
+                  ></div>
+                  <span class="text-xs font-bold text-white">Available</span>
+                </div>
+              </div>
+
+              <!-- Remote Badge -->
+              <div
+                class="absolute bottom-4 left-4 glass px-3 py-1.5 rounded-full border border-blue-500/30"
+              >
+                <span class="text-xs font-bold text-white">Remote Ready</span>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Stats Cards -->
-        <div class="grid grid-cols-2 gap-4">
-          {#each stats as stat, index}
+        <!-- Professional Status Info -->
+        <div
+          class="card-glow glass-strong p-5 rounded-2xl border border-purple-500/20"
+        >
+          <div class="flex items-start gap-3">
             <div
-              class="card-3d card-glow glass p-6 rounded-2xl group cursor-default animate-bounce-in delay-{(index +
-                4) *
-                100}"
+              class="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center flex-shrink-0"
             >
-              <div class="relative z-10">
-                <div
-                  class="mb-4 inline-flex p-3 rounded-xl bg-gradient-to-br {stat.color}"
+              <CheckCircle size={20} class="text-white" />
+            </div>
+            <div>
+              <h3 class="text-base font-black text-white mb-2">
+                Open to Opportunities
+              </h3>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="text-xs px-2.5 py-1 rounded-full bg-green-500/20 text-green-400 border border-green-500/30"
                 >
-                  <svelte:component
-                    this={stat.icon}
-                    size={28}
-                    class="text-white group-hover:scale-110 transition-transform"
-                  />
-                </div>
-                <div
-                  class="text-3xl font-black text-white mb-2 group-hover:scale-110 transition-transform gradient-text"
+                  Freelance
+                </span>
+                <span
+                  class="text-xs px-2.5 py-1 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30"
                 >
-                  {stat.value}
-                </div>
-                <div class="text-sm text-gray-400 font-medium">
-                  {stat.label}
-                </div>
+                  Contract
+                </span>
+                <span
+                  class="text-xs px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-400 border border-purple-500/30"
+                >
+                  Full-Time
+                </span>
               </div>
             </div>
-          {/each}
+          </div>
         </div>
+      </div>
+    </div>
 
-        <!-- Call to Action Card -->
+    <!-- Stats Grid - Full Width Below -->
+    <div
+      class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12 animate-slide-up delay-500"
+    >
+      {#each stats as stat, index}
         <div
-          class="card-shine glass-light p-8 rounded-2xl text-center group hover:scale-[1.02] transition-transform duration-300"
+          class="card-3d card-glow glass p-6 rounded-2xl text-center hover:scale-105 transition-all duration-300 animate-bounce-in delay-{index *
+            100}"
         >
-          <p class="text-gray-300 mb-6 text-lg">
-            Let's build something amazing together!
-          </p>
-          <a
-            href="#contact"
-            class="inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-white bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-[length:200%_100%] animate-gradient hover:scale-105 transition-all duration-300 btn-glow"
+          <div
+            class="mb-4 inline-flex p-3 rounded-xl bg-gradient-to-br {stat.color}"
           >
-            <Mail size={20} />
-            Get In Touch
-          </a>
+            <svelte:component this={stat.icon} size={28} class="text-white" />
+          </div>
+          <div class="text-3xl font-black text-white mb-2 gradient-text">
+            {stat.value}
+          </div>
+          <div class="text-sm text-gray-400 font-medium">{stat.label}</div>
         </div>
+      {/each}
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="text-center animate-slide-up delay-600">
+      <div
+        class="card-shine glass-strong p-8 rounded-2xl inline-block max-w-2xl border border-purple-500/20"
+      >
+        <h3 class="text-2xl font-black text-white mb-3">
+          Ready to Collaborate?
+        </h3>
+        <p class="text-gray-400 mb-6">
+          Let's discuss how I can contribute to your next project
+        </p>
+        <a
+          href="#contact"
+          class="inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-white bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-[length:200%_100%] animate-gradient hover:scale-105 transition-all duration-300 btn-glow"
+        >
+          <Mail size={20} />
+          Schedule Consultation
+        </a>
       </div>
     </div>
   </div>

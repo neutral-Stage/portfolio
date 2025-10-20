@@ -299,19 +299,31 @@
 
       <!-- Contribution Streak -->
       <div
-        class="card-glow glass-strong p-8 rounded-3xl text-center animate-slide-up delay-500"
+        class="relative card-glow glass-strong p-8 rounded-3xl text-center animate-slide-up delay-500 overflow-hidden"
       >
-        <Flame
-          size={48}
-          class="text-orange-500 mx-auto mb-4 animate-glow-pulse"
-        />
-        <div class="text-5xl font-black gradient-text mb-2">
+        <!-- Glowing Background -->
+        <div
+          class="absolute top-1/4 left-1/2 -translate-x-1/2 w-32 h-32 bg-orange-500/20 rounded-full blur-3xl"
+        ></div>
+
+        <!-- Icon Container -->
+        <div class="relative inline-block mb-4">
+          <div
+            class="absolute inset-0 bg-orange-500/20 rounded-2xl blur-xl"
+          ></div>
+          <Flame
+            size={56}
+            class="relative text-orange-500 animate-glow-pulse"
+          />
+        </div>
+
+        <div class="relative text-5xl font-black gradient-text mb-2">
           {stats.streak}
         </div>
-        <p class="text-gray-300 text-lg font-semibold mb-2">
+        <p class="relative text-gray-200 text-lg font-semibold mb-2">
           Day Contribution Streak
         </p>
-        <p class="text-gray-400 text-sm">
+        <p class="relative text-gray-400 text-sm">
           Committed to continuous learning and growth
         </p>
       </div>

@@ -115,49 +115,50 @@
     "
   ></div>
 
-  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
     <div class="text-center">
       <!-- Floating Badge -->
-      <div class="flex justify-center mb-8 animate-bounce-in">
+      <div class="flex justify-center mb-10 animate-bounce-in">
         <div
-          class="glass px-6 py-3 rounded-full inline-flex items-center gap-3 group hover:scale-105 transition-transform duration-300"
+          class="glass px-6 py-2.5 rounded-full inline-flex items-center gap-2.5 group hover:scale-105 transition-transform duration-300"
         >
           <div
-            class="w-3 h-3 rounded-full bg-green-400 animate-glow-pulse"
+            class="w-2.5 h-2.5 rounded-full bg-green-400 animate-glow-pulse"
           ></div>
-          <span class="text-sm font-medium text-gray-300"
+          <span class="text-sm font-semibold text-gray-200"
             >Available for opportunities</span
           >
-          <Sparkles size={16} class="text-purple-400" />
+          <Sparkles size={14} class="text-purple-400" />
         </div>
       </div>
 
       <!-- Main Heading with Gradient Text -->
       <h1
-        class="text-5xl sm:text-6xl lg:text-8xl font-black mb-6 leading-tight animate-scale-in"
+        class="text-5xl sm:text-6xl lg:text-7xl font-black mb-8 leading-tight animate-scale-in"
       >
-        <span class="block mb-2 text-gray-200">Hi, I'm</span>
-        <span class="gradient-text text-shadow-glow">
+        <span
+          class="block mb-3 text-white text-4xl sm:text-5xl lg:text-6xl font-medium"
+          >Hi, I'm</span
+        >
+        <span class="gradient-text">
           {data?.name || "Your Name"}
         </span>
       </h1>
 
       <!-- Animated Subtitle -->
       <div class="mb-8 animate-slide-up delay-200">
-        <h2
-          class="text-2xl sm:text-3xl lg:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 via-pink-300 to-blue-300"
-        >
-          {data?.title || "Full-Stack Developer & UI/UX Designer"}
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-200">
+          {data?.title || "Full-Stack Developer"}
         </h2>
       </div>
 
       <!-- Description with Glass Effect -->
       <div class="flex justify-center animate-slide-up delay-300">
         <p
-          class="text-lg sm:text-xl text-gray-400 mb-12 max-w-3xl leading-relaxed"
+          class="text-lg sm:text-xl text-gray-400 mb-14 max-w-2xl leading-relaxed"
         >
           {data?.bio?.[0]?.children?.[0]?.text ||
-            "Crafting exceptional digital experiences with cutting-edge technologies. Passionate about turning complex problems into elegant solutions that users love."}
+            "Passionate developer creating amazing digital experiences."}
         </p>
       </div>
 
@@ -188,11 +189,11 @@
 
       <!-- CTA Buttons with Premium Effects -->
       <div
-        class="flex flex-col sm:flex-row gap-5 justify-center items-center mb-16 animate-slide-up delay-500"
+        class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 animate-slide-up delay-500"
       >
         <button
           on:click={scrollToAbout}
-          class="group relative px-8 py-4 rounded-full font-bold text-white overflow-hidden btn-magnetic btn-glow transition-all duration-300"
+          class="group relative px-8 py-3.5 rounded-xl font-semibold text-white overflow-hidden hover:scale-105 transition-all duration-300"
         >
           <div
             class="absolute inset-0 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-[length:200%_100%] animate-gradient"
@@ -200,7 +201,7 @@
           <span class="relative z-10 flex items-center gap-2">
             View My Work
             <ChevronDown
-              size={20}
+              size={18}
               class="group-hover:translate-y-1 transition-transform"
             />
           </span>
@@ -209,15 +210,15 @@
         <a
           href={data?.resume?.url || "/resume.pdf"}
           download
-          class="group relative px-8 py-4 rounded-full font-bold text-white overflow-hidden btn-magnetic transition-all duration-300"
+          class="group relative px-8 py-3.5 rounded-xl font-semibold text-white overflow-hidden hover:scale-105 transition-all duration-300"
         >
           <div class="absolute inset-0 glass-strong"></div>
           <div
-            class="absolute inset-0 border-2 border-purple-500/50 rounded-full"
+            class="absolute inset-0 border-2 border-white/20 rounded-xl"
           ></div>
           <span class="relative z-10 flex items-center gap-2">
             <Download
-              size={20}
+              size={18}
               class="group-hover:translate-y-1 transition-transform"
             />
             Download Resume
@@ -226,18 +227,19 @@
       </div>
 
       <!-- Social Links with Hover Effects -->
-      <div class="flex justify-center gap-6 animate-slide-up delay-600">
+      <div class="flex justify-center gap-4 animate-slide-up delay-600">
         <a
           href={socialLinks.github}
           target="_blank"
           rel="noopener noreferrer"
-          class="group relative w-14 h-14 rounded-full glass-light flex items-center justify-center hover:scale-110 transition-all duration-300"
+          class="group relative w-12 h-12 rounded-xl glass-light flex items-center justify-center hover:scale-110 transition-all duration-300 overflow-hidden"
+          aria-label="GitHub"
         >
           <div
-            class="absolute inset-0 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 blur transition-opacity duration-300"
+            class="absolute inset-0 bg-gradient-to-r from-purple-600/30 to-pink-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           ></div>
           <Github
-            size={24}
+            size={20}
             class="relative z-10 text-gray-400 group-hover:text-white transition-colors"
           />
         </a>
@@ -246,26 +248,28 @@
           href={socialLinks.linkedin}
           target="_blank"
           rel="noopener noreferrer"
-          class="group relative w-14 h-14 rounded-full glass-light flex items-center justify-center hover:scale-110 transition-all duration-300"
+          class="group relative w-12 h-12 rounded-xl glass-light flex items-center justify-center hover:scale-110 transition-all duration-300 overflow-hidden"
+          aria-label="LinkedIn"
         >
           <div
-            class="absolute inset-0 rounded-full bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 blur transition-opacity duration-300"
+            class="absolute inset-0 bg-gradient-to-r from-blue-600/30 to-purple-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           ></div>
           <Linkedin
-            size={24}
+            size={20}
             class="relative z-10 text-gray-400 group-hover:text-white transition-colors"
           />
         </a>
 
         <a
           href={socialLinks.email}
-          class="group relative w-14 h-14 rounded-full glass-light flex items-center justify-center hover:scale-110 transition-all duration-300"
+          class="group relative w-12 h-12 rounded-xl glass-light flex items-center justify-center hover:scale-110 transition-all duration-300 overflow-hidden"
+          aria-label="Email"
         >
           <div
-            class="absolute inset-0 rounded-full bg-gradient-to-r from-pink-600 to-orange-600 opacity-0 group-hover:opacity-100 blur transition-opacity duration-300"
+            class="absolute inset-0 bg-gradient-to-r from-pink-600/30 to-orange-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           ></div>
           <Mail
-            size={24}
+            size={20}
             class="relative z-10 text-gray-400 group-hover:text-white transition-colors"
           />
         </a>
