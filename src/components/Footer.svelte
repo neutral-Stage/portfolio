@@ -211,25 +211,11 @@
 
     <!-- Additional Bottom Links -->
     <div class="mt-6 text-center">
-      <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-500">
-        <a
-          href="/privacy"
-          class="hover:text-purple-400 transition-colors duration-300"
-          >Privacy Policy</a
-        >
-        <span class="text-gray-700">•</span>
-        <a
-          href="/terms"
-          class="hover:text-purple-400 transition-colors duration-300"
-          >Terms of Service</a
-        >
-        <span class="text-gray-700">•</span>
-        <a
-          href="/sitemap.xml"
-          class="hover:text-purple-400 transition-colors duration-300"
-          >Sitemap</a
-        >
-      </div>
+      <a
+        href="/sitemap.xml"
+        class="text-sm text-gray-500 hover:text-purple-400 transition-colors duration-300"
+        >Sitemap</a
+      >
     </div>
   </div>
 </footer>
