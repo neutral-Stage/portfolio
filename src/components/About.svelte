@@ -148,11 +148,14 @@
         <div class="grid gap-4">
           {#each highlights as highlight, index}
             <div
+              role="button"
+              tabindex="0"
               class="card-shine glass-light p-6 rounded-xl group hover:scale-[1.02] transition-all duration-300 animate-slide-up delay-{(index +
                 1) *
                 100}"
               on:mouseenter={() => (activeCard = index)}
               on:mouseleave={() => (activeCard = -1)}
+              on:keydown={() => {}}
             >
               <div class="flex items-start gap-4">
                 <div
@@ -179,10 +182,13 @@
         <div class="flex flex-wrap gap-3 pt-4">
           {#each ["JavaScript", "TypeScript", "React", "Svelte", "Node.js", "Python", "AWS", "Docker"] as skill, index}
             <span
-              class="glass-light px-5 py-2.5 rounded-full text-sm font-semibold text-purple-300 hover:scale-110 transition-all duration-300 cursor-default animate-bounce-in delay-{index *
-                50}"
+              class="group relative glass-light px-5 py-2.5 rounded-full text-sm font-semibold text-purple-300 hover:text-white hover:scale-110 transition-all duration-300 cursor-default animate-bounce-in delay-{index *
+                50} overflow-hidden"
             >
-              {skill}
+              <span class="relative z-10">{skill}</span>
+              <div
+                class="absolute inset-0 bg-gradient-to-r from-purple-600/30 to-pink-600/30 opacity-0 group-hover:opacity-100 transition-opacity"
+              ></div>
             </span>
           {/each}
         </div>

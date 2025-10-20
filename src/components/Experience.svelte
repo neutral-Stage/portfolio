@@ -181,7 +181,7 @@
           >
             <!-- Timeline Dot -->
             <div
-              class="absolute left-8 md:left-1/2 w-4 h-4 transform -translate-x-1/2 md:translate-x-0 md:-translate-x-1/2"
+              class="absolute left-8 md:left-1/2 w-4 h-4 transform -translate-x-1/2"
             >
               <div
                 class="w-full h-full rounded-full bg-gradient-to-r {experience.gradient} animate-glow-pulse"
@@ -285,9 +285,12 @@
                   <div class="flex flex-wrap gap-2">
                     {#each experience.technologies as tech}
                       <span
-                        class="glass-light px-3 py-1.5 rounded-lg text-xs font-semibold text-gray-300 hover:text-purple-300 hover:scale-105 transition-all duration-300"
+                        class="group relative glass-light px-3 py-1.5 rounded-lg text-xs font-semibold text-gray-300 hover:text-white hover:scale-105 transition-all duration-300 overflow-hidden"
                       >
-                        {tech}
+                        <span class="relative z-10">{tech}</span>
+                        <div
+                          class="absolute inset-0 bg-gradient-to-r {experience.gradient} opacity-0 group-hover:opacity-30 transition-opacity"
+                        ></div>
                       </span>
                     {/each}
                   </div>

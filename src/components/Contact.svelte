@@ -146,10 +146,10 @@
             <a
               href={info.href}
               class="card-shine card-glow glass p-6 rounded-2xl flex items-center gap-6 group hover:scale-[1.02] transition-all duration-300 animate-slide-up delay-{index *
-                100}"
+                100} relative overflow-hidden"
             >
               <div
-                class="w-16 h-16 rounded-2xl bg-gradient-to-br {info.gradient} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform"
+                class="w-16 h-16 rounded-2xl bg-gradient-to-br {info.gradient} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform relative z-10"
               >
                 <svelte:component
                   this={info.icon}
@@ -157,14 +157,19 @@
                   class="text-white"
                 />
               </div>
-              <div>
-                <p class="text-sm text-gray-400 mb-1">{info.label}</p>
+              <div class="relative z-10">
                 <p
-                  class="text-lg font-bold text-white group-hover:gradient-text transition-all"
+                  class="text-sm text-gray-400 mb-1 group-hover:text-gray-300 transition-colors"
                 >
+                  {info.label}
+                </p>
+                <p class="text-lg font-bold text-white transition-all">
                   {info.value}
                 </p>
               </div>
+              <div
+                class="absolute inset-0 bg-gradient-to-r {info.gradient} opacity-0 group-hover:opacity-10 transition-opacity"
+              ></div>
             </a>
           {/each}
         </div>
@@ -185,11 +190,11 @@
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="group relative w-16 h-16 rounded-2xl glass-light flex items-center justify-center hover:scale-110 transition-all duration-300"
+                class="group relative w-16 h-16 rounded-2xl glass-light flex items-center justify-center hover:scale-110 transition-all duration-300 overflow-hidden"
                 title={social.label}
               >
                 <div
-                  class="absolute inset-0 rounded-2xl bg-gradient-to-br {social.gradient} opacity-0 group-hover:opacity-100 blur transition-opacity"
+                  class="absolute inset-0 rounded-2xl bg-gradient-to-br {social.gradient} opacity-0 group-hover:opacity-30 transition-opacity"
                 ></div>
                 <svelte:component
                   this={social.icon}

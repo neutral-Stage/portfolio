@@ -9,6 +9,7 @@ import GitHubActivity from "../components/GitHubActivity.svelte";
 import Experience from "../components/Experience.svelte";
 import Contact from "../components/Contact.svelte";
 import Navigation from "../components/Navigation.svelte";
+import Footer from "../components/Footer.svelte";
 
 // Fetch data from Sanity CMS
 import {
@@ -94,4 +95,5 @@ const fallbackData = {
     <Experience client:visible data={experiences || []} />
     <Contact client:visible data={contactInfo || {}} />
   </main>
+  <Footer client:visible />
 </Layout>

@@ -193,7 +193,10 @@
               class="absolute inset-0 bg-gradient-to-r from-purple-600/30 to-pink-600/30 rounded-xl"
             ></div>
           {/if}
-          <span class="relative z-10 flex items-center gap-2">
+          <span
+            class="relative z-10 flex items-center gap-2 transition-colors"
+            class:text-white={selectedCategory !== category.name}
+          >
             <svelte:component
               this={category.icon}
               size={18}
@@ -204,6 +207,9 @@
           {#if selectedCategory !== category.name}
             <div
               class="absolute inset-0 glass-light opacity-0 group-hover:opacity-100 rounded-xl transition-opacity"
+            ></div>
+            <div
+              class="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20 opacity-0 group-hover:opacity-100 rounded-xl transition-opacity"
             ></div>
           {/if}
         </button>
@@ -329,9 +335,12 @@
             <div class="flex flex-wrap gap-2 pt-2">
               {#each project.technologies as tech}
                 <span
-                  class="glass-light px-3 py-1 rounded-lg text-xs font-semibold text-gray-300 hover:text-purple-300 hover:scale-105 transition-all duration-300"
+                  class="group relative glass-light px-3 py-1 rounded-lg text-xs font-semibold text-gray-300 hover:text-white hover:scale-105 transition-all duration-300 overflow-hidden"
                 >
-                  {tech}
+                  <span class="relative z-10">{tech}</span>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-r {project.gradient} opacity-0 group-hover:opacity-30 transition-opacity"
+                  ></div>
                 </span>
               {/each}
             </div>
@@ -368,6 +377,7 @@
   .line-clamp-3 {
     display: -webkit-box;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }

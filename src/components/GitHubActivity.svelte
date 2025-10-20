@@ -198,10 +198,17 @@
           href="https://github.com/yourusername"
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 px-6 py-3 glass-light rounded-xl hover:scale-105 transition-all duration-300 group"
+          class="relative inline-flex items-center gap-2 px-6 py-3 glass-light rounded-xl hover:scale-105 transition-all duration-300 group overflow-hidden"
         >
-          <Github size={20} class="text-gray-300 group-hover:text-white" />
-          <span class="text-gray-300 group-hover:text-white font-semibold"
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20 opacity-0 group-hover:opacity-100 transition-opacity"
+          ></div>
+          <Github
+            size={20}
+            class="relative z-10 text-gray-300 group-hover:text-white transition-colors"
+          />
+          <span
+            class="relative z-10 text-gray-300 group-hover:text-white font-semibold transition-colors"
             >View All</span
           >
         </a>
@@ -277,11 +284,14 @@
         <div class="flex flex-wrap gap-3">
           {#each stats.languages as language, index}
             <span
-              class="glass-light px-5 py-2.5 rounded-full text-sm font-semibold text-purple-300 hover:scale-110 transition-all duration-300 cursor-default animate-bounce-in delay-{(index +
+              class="group relative glass-light px-5 py-2.5 rounded-full text-sm font-semibold text-purple-300 hover:text-white hover:scale-110 transition-all duration-300 cursor-default animate-bounce-in delay-{(index +
                 4) *
-                50}"
+                50} overflow-hidden"
             >
-              {language}
+              <span class="relative z-10">{language}</span>
+              <div
+                class="absolute inset-0 bg-gradient-to-r from-purple-600/30 to-pink-600/30 opacity-0 group-hover:opacity-100 transition-opacity"
+              ></div>
             </span>
           {/each}
         </div>

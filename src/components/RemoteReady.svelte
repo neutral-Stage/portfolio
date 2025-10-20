@@ -342,11 +342,14 @@
       <div class="flex flex-wrap gap-3">
         {#each tools as tool, index}
           <span
-            class="glass-light px-5 py-2.5 rounded-full text-sm font-semibold text-gray-300 hover:text-purple-300 hover:scale-110 transition-all duration-300 cursor-default animate-bounce-in delay-{(index +
+            class="group relative glass-light px-5 py-2.5 rounded-full text-sm font-semibold text-gray-300 hover:text-white hover:scale-110 transition-all duration-300 cursor-default animate-bounce-in delay-{(index +
               6) *
-              30}"
+              30} overflow-hidden"
           >
-            {tool}
+            <span class="relative z-10">{tool}</span>
+            <div
+              class="absolute inset-0 bg-gradient-to-r from-purple-600/30 to-pink-600/30 opacity-0 group-hover:opacity-100 transition-opacity"
+            ></div>
           </span>
         {/each}
       </div>
