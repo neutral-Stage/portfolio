@@ -1,16 +1,97 @@
 ---
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.svelte";
+import About from "../components/About.svelte";
+import Skills from "../components/Skills.svelte";
+import Projects from "../components/Projects.svelte";
+import RemoteReady from "../components/RemoteReady.svelte";
+import GitHubActivity from "../components/GitHubActivity.svelte";
+import Experience from "../components/Experience.svelte";
+import Contact from "../components/Contact.svelte";
+import Navigation from "../components/Navigation.svelte";
 
+// Fetch data from Sanity CMS
+import {
+  getPersonalInfo,
+  getSiteSettings,
+  getSkills,
+  getFeaturedProjects,
+  getRemoteWorkInfo,
+  getGitHubStats,
+  getExperiences,
+  getContactInfo,
+} from "../lib/sanity";
+
+// Fetch all data
+const [
+  personalInfo,
+  siteSettings,
+  skills,
+  projects,
+  remoteWorkInfo,
+  githubStats,
+  experiences,
+  contactInfo,
+] = await Promise.all([
+  getPersonalInfo(),
+  getSiteSettings(),
+  getSkills(),
+  getFeaturedProjects(),
+  getRemoteWorkInfo(),
+  getGitHubStats(),
+  getExperiences(),
+  getContactInfo(),
+]);
+
+// Fallback data if Sanity is not configured
+const fallbackData = {
+  personalInfo: personalInfo || {
+    name: "Your Name",
+    title: "Full-Stack Developer",
+    bio: [
+      {
+        _type: "block",
+        children: [
+          {
+            _type: "span",
+            text: "Passionate developer creating amazing digital experiences.",
+          },
+        ],
+      },
+    ],
+    heroContent: {
+      headline: "Building the Future, One Line of Code at a Time",
+      subheadline:
+        "Full-Stack Developer specializing in modern web technologies",
+      ctaText: "Get In Touch",
+      ctaLink: "#contact",
+    },
+  },
+  siteSettings: siteSettings || {
+    siteName: "Your Portfolio",
+    siteDescription:
+      "Professional portfolio showcasing projects, skills, and achievements",
+    siteUrl: "https://yourportfolio.com",
+  },
+};
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout
+  title={personalInfo?.seo?.metaTitle ||
+    `${fallbackData.personalInfo.name} - ${fallbackData.siteSettings.siteName}`}
+  description={personalInfo?.seo?.metaDescription ||
+    fallbackData.siteSettings.siteDescription}
+  image={personalInfo?.seo?.ogImage || personalInfo?.profileImage}
+>
+  <Navigation client:load />
+  <main>
+    <Hero client:load data={personalInfo || fallbackData.personalInfo} />
+    <About client:visible data={personalInfo || fallbackData.personalInfo} />
+    <Skills client:visible data={skills || []} />
+    <Projects client:visible data={projects || []} />
+    <RemoteReady client:visible data={remoteWorkInfo || {}} />
+    <GitHubActivity client:visible data={githubStats || {}} />
+    <Experience client:visible data={experiences || []} />
+    <Contact client:visible data={contactInfo || {}} />
+  </main>
+</Layout>

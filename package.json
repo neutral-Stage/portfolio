@@ -1,14 +1,43 @@
 {
-  "name": "zany-zenith",
+  "name": "portfolio-website",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "description": "Professional portfolio website built with Astro, Svelte, and Sanity CMS",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "sanity:dev": "sanity dev",
+    "sanity:build": "sanity build",
+    "sanity:deploy": "sanity deploy"
   },
   "dependencies": {
-    "astro": "^5.14.6"
+    "@astrojs/partytown": "^2.1.4",
+    "@astrojs/sitemap": "^3.6.0",
+    "@astrojs/svelte": "^7.2.0",
+    "@sanity/client": "^7.12.0",
+    "@sanity/image-url": "^1.2.0",
+    "@sanity/vision": "^3.0.0",
+    "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/vite": "^4.1.14",
+    "astro": "^5.14.6",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.23.24",
+    "lenis": "^1.1.15",
+    "lucide-svelte": "^0.546.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "sanity": "^3.0.0",
+    "styled-components": "^6.1.19",
+    "svelte": "^5.41.0",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss": "^4.1.14",
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1"
   }
 }

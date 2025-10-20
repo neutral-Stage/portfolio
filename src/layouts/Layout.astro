@@ -1,0 +1,308 @@
+---
+import '../styles/global.css';
+import SmoothScroll from '../components/SmoothScroll.svelte';
+
+export interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+  keywords?: string[];
+  noIndex?: boolean;
+  structuredData?: any;
+}
+
+const { 
+  title, 
+  description = "Professional Portfolio - Showcasing innovative projects, technical expertise, and creative solutions", 
+  image = "/og-image.jpg", 
+  canonical,
+  keywords = ["portfolio", "web development", "full-stack developer", "UI/UX", "Astro", "Svelte", "Sanity CMS"],
+  noIndex = false,
+  structuredData
+} = Astro.props;
+
+const canonicalURL = new URL(canonical ?? Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+---
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- SEO Meta Tags -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords.join(', ')} />
+    <link rel="canonical" href={canonicalURL} />
+    
+    <!-- Robots -->
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={ogImage} />
+    
+    <!-- Structured Data -->
+    {structuredData ? (
+      <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    ) : (
+      <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Your Name",
+          "jobTitle": "Full-Stack Developer & UI/UX Designer",
+          "description": description,
+          "url": Astro.site,
+          "sameAs": [
+            "https://linkedin.com/in/yourprofile",
+            "https://github.com/yourusername"
+          ]
+        }
+      </script>
+    )}
+    
+    <!-- Google Fonts - Inter for modern typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  </head>
+  <body class="min-h-screen bg-slate-950 text-white antialiased font-sans">
+    <!-- Background Pattern -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
+      <div class="absolute inset-0 bg-gradient-to-br from-slate-950 via-purple-950/20 to-slate-950"></div>
+      <div class="absolute inset-0 opacity-30" style="background-image: radial-gradient(circle at 1px 1px, rgba(168, 85, 247, 0.15) 1px, transparent 0); background-size: 40px 40px;"></div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="relative z-10" transition:animate="fade">
+      <slot />
+    </main>
+    
+    <!-- Custom Cursor (Desktop Only) -->
+    <div id="custom-cursor" class="fixed pointer-events-none z-[9999]" style="top: 0; left: 0; width: 32px; height: 32px;">
+      <div id="cursor-outer" class="w-8 h-8 border-2 border-purple-500/50 rounded-full"></div>
+      <div id="cursor-inner" class="absolute w-2 h-2 bg-purple-500 rounded-full" style="top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+    </div>
+
+    <!-- Lenis Smooth Scroll -->
+    <SmoothScroll client:load />
+
+    <!-- Custom Cursor Script (Fixed) -->
+    <script is:inline>
+      // Wait for DOM to be ready
+      document.addEventListener('DOMContentLoaded', function() {
+        // Only run on desktop
+        if (window.innerWidth < 1024) return;
+        
+        const cursor = document.getElementById('custom-cursor');
+        const cursorOuter = document.getElementById('cursor-outer');
+        const cursorInner = document.getElementById('cursor-inner');
+        
+        if (!cursor || !cursorOuter || !cursorInner) {
+          console.warn('Cursor elements not found');
+          return;
+        }
+        
+        let mouseX = 0;
+        let mouseY = 0;
+        let cursorX = 0;
+        let cursorY = 0;
+        let isHovering = false;
+        let rafId = null;
+
+        // Track mouse position
+        document.addEventListener('mousemove', function(e) {
+          mouseX = e.clientX;
+          mouseY = e.clientY;
+        }, { passive: true });
+
+        // Smooth cursor animation
+        function animateCursor() {
+          // Smooth interpolation
+          const ease = isHovering ? 0.2 : 0.15;
+          cursorX += (mouseX - cursorX) * ease;
+          cursorY += (mouseY - cursorY) * ease;
+
+          // Update cursor position - offset by half width/height to center
+          cursor.style.transform = `translate(${cursorX - 16}px, ${cursorY - 16}px)`;
+          
+          rafId = requestAnimationFrame(animateCursor);
+        }
+        
+        // Start animation
+        rafId = requestAnimationFrame(animateCursor);
+
+        // Handle hover states with event delegation
+        document.addEventListener('mouseover', function(e) {
+          const target = e.target;
+          // Check if target or any parent is interactive
+          const interactive = target.closest('a, button, input, textarea, [role="button"], .btn-glow, .btn-magnetic, [onclick]');
+          
+          if (interactive) {
+            isHovering = true;
+            cursorOuter.style.transform = 'scale(1.5)';
+            cursorOuter.style.borderColor = 'rgb(192 132 252)';
+            cursorInner.style.transform = 'translate(-50%, -50%) scale(0)';
+          }
+        }, { passive: true });
+        
+        document.addEventListener('mouseout', function(e) {
+          const target = e.target;
+          const interactive = target.closest('a, button, input, textarea, [role="button"], .btn-glow, .btn-magnetic, [onclick]');
+          
+          if (interactive) {
+            isHovering = false;
+            cursorOuter.style.transform = 'scale(1)';
+            cursorOuter.style.borderColor = 'rgba(168, 85, 247, 0.5)';
+            cursorInner.style.transform = 'translate(-50%, -50%) scale(1)';
+          }
+        }, { passive: true });
+
+        // Hide cursor when leaving window
+        document.addEventListener('mouseleave', function() {
+          cursor.style.opacity = '0';
+        });
+        
+        document.addEventListener('mouseenter', function() {
+          cursor.style.opacity = '1';
+        });
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', function() {
+          if (rafId) cancelAnimationFrame(rafId);
+        });
+      });
+    </script>
+
+    <!-- Scroll Reveal Animations -->
+    <script is:inline>
+      // Intersection Observer for scroll animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      // Observe elements with data-animate attribute
+      document.addEventListener('DOMContentLoaded', () => {
+        const animatedElements = document.querySelectorAll('[data-animate]');
+        animatedElements.forEach(el => observer.observe(el));
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  /* Modern Typography */
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    font-feature-settings: 'cv11', 'ss01', 'ss02';
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Custom Cursor Styles */
+  #custom-cursor {
+    transition: opacity 0.3s ease;
+    will-change: transform;
+  }
+
+  #cursor-outer {
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    will-change: transform;
+  }
+
+  #cursor-inner {
+    transition: transform 0.15s ease;
+    will-change: transform;
+  }
+
+  /* Hide default cursor on desktop */
+  @media (min-width: 1024px) {
+    * {
+      cursor: none !important;
+    }
+    
+    #custom-cursor {
+      display: block;
+    }
+  }
+  
+  /* Show default cursor on mobile */
+  @media (max-width: 1023px) {
+    #custom-cursor {
+      display: none !important;
+    }
+    
+    * {
+      cursor: auto !important;
+    }
+  }
+
+  /* Scroll animations */
+  .animate-in {
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Improved focus visible styles */
+  :focus-visible {
+    outline: 2px solid rgba(168, 85, 247, 0.8);
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+
+  /* Better text selection */
+  ::selection {
+    background: rgba(168, 85, 247, 0.4);
+    color: white;
+    text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+  }
+
+  /* Smooth transitions for all interactive elements */
+  a, button, input, textarea {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+</style>

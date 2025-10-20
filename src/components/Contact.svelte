@@ -1,0 +1,388 @@
+<script lang="ts">
+  import { onMount } from "svelte";
+  import {
+    Mail,
+    Phone,
+    MapPin,
+    Github,
+    Linkedin,
+    Twitter,
+    Send,
+    CheckCircle,
+    MessageSquare,
+    Sparkles,
+  } from "lucide-svelte";
+
+  let contactRef: HTMLElement;
+  let isVisible = false;
+  let formData = {
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  };
+  let isSubmitting = false;
+  let isSubmitted = false;
+
+  onMount(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            isVisible = true;
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (contactRef) {
+      observer.observe(contactRef);
+    }
+
+    return () => observer.disconnect();
+  });
+
+  const contactInfo = [
+    {
+      icon: Mail,
+      label: "Email",
+      value: "your.email@example.com",
+      href: "mailto:your.email@example.com",
+      gradient: "from-purple-500 to-pink-500",
+    },
+    {
+      icon: Phone,
+      label: "Phone",
+      value: "+1 (555) 123-4567",
+      href: "tel:+15551234567",
+      gradient: "from-blue-500 to-cyan-500",
+    },
+    {
+      icon: MapPin,
+      label: "Location",
+      value: "San Francisco, CA",
+      href: "#",
+      gradient: "from-green-500 to-emerald-500",
+    },
+  ];
+
+  const socialLinks = [
+    {
+      icon: Github,
+      label: "GitHub",
+      href: "https://github.com/yourusername",
+      gradient: "from-gray-500 to-gray-700",
+    },
+    {
+      icon: Linkedin,
+      label: "LinkedIn",
+      href: "https://linkedin.com/in/yourprofile",
+      gradient: "from-blue-500 to-blue-700",
+    },
+    {
+      icon: Twitter,
+      label: "Twitter",
+      href: "https://twitter.com/yourusername",
+      gradient: "from-sky-400 to-blue-500",
+    },
+  ];
+
+  const handleSubmit = async (e: Event) => {
+    e.preventDefault();
+    isSubmitting = true;
+
+    // Simulate form submission
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    isSubmitting = false;
+    isSubmitted = true;
+
+    // Reset form after 3 seconds
+    setTimeout(() => {
+      isSubmitted = false;
+      formData = { name: "", email: "", subject: "", message: "" };
+    }, 3000);
+  };
+</script>
+
+<section
+  id="contact"
+  bind:this={contactRef}
+  class="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden"
+>
+  <!-- Background -->
+  <div class="absolute inset-0 gradient-mesh-1"></div>
+  <div
+    class="absolute bottom-0 left-1/3 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl animate-float"
+  ></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto">
+    <!-- Section Header -->
+    <div class="text-center mb-20 animate-scale-in">
+      <div
+        class="inline-flex items-center gap-3 px-6 py-3 glass-light rounded-full mb-6"
+      >
+        <MessageSquare size={20} class="text-purple-400" />
+        <span
+          class="text-sm font-semibold text-gray-300 uppercase tracking-wider"
+          >Get In Touch</span
+        >
+      </div>
+      <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">
+        <span class="gradient-text"> Let's Start a Conversation </span>
+      </h2>
+      <p class="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
+        Have a project in mind? Let's build something amazing together
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-12 items-start">
+      <!-- Contact Info Section -->
+      <div class="space-y-8 animate-fade-slide-right">
+        <!-- Contact Cards -->
+        <div class="space-y-6">
+          {#each contactInfo as info, index}
+            <a
+              href={info.href}
+              class="card-shine card-glow glass p-6 rounded-2xl flex items-center gap-6 group hover:scale-[1.02] transition-all duration-300 animate-slide-up delay-{index *
+                100}"
+            >
+              <div
+                class="w-16 h-16 rounded-2xl bg-gradient-to-br {info.gradient} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform"
+              >
+                <svelte:component
+                  this={info.icon}
+                  size={28}
+                  class="text-white"
+                />
+              </div>
+              <div>
+                <p class="text-sm text-gray-400 mb-1">{info.label}</p>
+                <p
+                  class="text-lg font-bold text-white group-hover:gradient-text transition-all"
+                >
+                  {info.value}
+                </p>
+              </div>
+            </a>
+          {/each}
+        </div>
+
+        <!-- Social Links -->
+        <div
+          class="card-glow glass-strong p-8 rounded-3xl animate-slide-up delay-400"
+        >
+          <h3
+            class="text-2xl font-black text-white mb-6 flex items-center gap-3"
+          >
+            <Sparkles size={24} class="text-purple-400" />
+            Connect With Me
+          </h3>
+          <div class="flex gap-4">
+            {#each socialLinks as social}
+              <a
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group relative w-16 h-16 rounded-2xl glass-light flex items-center justify-center hover:scale-110 transition-all duration-300"
+                title={social.label}
+              >
+                <div
+                  class="absolute inset-0 rounded-2xl bg-gradient-to-br {social.gradient} opacity-0 group-hover:opacity-100 blur transition-opacity"
+                ></div>
+                <svelte:component
+                  this={social.icon}
+                  size={28}
+                  class="relative z-10 text-gray-400 group-hover:text-white transition-colors"
+                />
+              </a>
+            {/each}
+          </div>
+        </div>
+
+        <!-- Additional Info Card -->
+        <div
+          class="card-shine glass-light p-8 rounded-3xl animate-slide-up delay-500"
+        >
+          <h3 class="text-xl font-black text-white mb-4">Why Work With Me?</h3>
+          <ul class="space-y-3 text-gray-300">
+            <li class="flex items-start gap-3">
+              <CheckCircle
+                size={20}
+                class="text-purple-400 flex-shrink-0 mt-0.5"
+              />
+              <span>Fast response time (usually within 24 hours)</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle
+                size={20}
+                class="text-purple-400 flex-shrink-0 mt-0.5"
+              />
+              <span>Clear communication throughout the project</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle
+                size={20}
+                class="text-purple-400 flex-shrink-0 mt-0.5"
+              />
+              <span>Flexible and adaptable to your needs</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <CheckCircle
+                size={20}
+                class="text-purple-400 flex-shrink-0 mt-0.5"
+              />
+              <span>Commitment to quality and deadlines</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="animate-scale-in delay-200">
+        <div class="card-glow glass-strong p-8 md:p-10 rounded-3xl">
+          <h3
+            class="text-3xl font-black text-white mb-8 flex items-center gap-3"
+          >
+            <Send size={28} class="text-purple-400" />
+            Send Me a Message
+          </h3>
+
+          {#if isSubmitted}
+            <div class="text-center py-16 animate-bounce-in">
+              <CheckCircle size={64} class="text-green-400 mx-auto mb-6" />
+              <h4 class="text-2xl font-bold text-white mb-3">Message Sent!</h4>
+              <p class="text-gray-400">
+                Thank you for reaching out. I'll get back to you soon!
+              </p>
+            </div>
+          {:else}
+            <form on:submit={handleSubmit} class="space-y-6">
+              <!-- Name -->
+              <div>
+                <label
+                  for="name"
+                  class="block text-sm font-semibold text-gray-300 mb-2"
+                >
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  bind:value={formData.name}
+                  required
+                  class="w-full px-5 py-4 glass-light rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+                  placeholder="John Doe"
+                />
+              </div>
+
+              <!-- Email -->
+              <div>
+                <label
+                  for="email"
+                  class="block text-sm font-semibold text-gray-300 mb-2"
+                >
+                  Your Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  bind:value={formData.email}
+                  required
+                  class="w-full px-5 py-4 glass-light rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+                  placeholder="john@example.com"
+                />
+              </div>
+
+              <!-- Subject -->
+              <div>
+                <label
+                  for="subject"
+                  class="block text-sm font-semibold text-gray-300 mb-2"
+                >
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  id="subject"
+                  bind:value={formData.subject}
+                  required
+                  class="w-full px-5 py-4 glass-light rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all"
+                  placeholder="Project Inquiry"
+                />
+              </div>
+
+              <!-- Message -->
+              <div>
+                <label
+                  for="message"
+                  class="block text-sm font-semibold text-gray-300 mb-2"
+                >
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  bind:value={formData.message}
+                  required
+                  rows="6"
+                  class="w-full px-5 py-4 glass-light rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all resize-none"
+                  placeholder="Tell me about your project..."
+                ></textarea>
+              </div>
+
+              <!-- Submit Button -->
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                class="w-full py-4 rounded-xl font-bold text-white bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-[length:200%_100%] animate-gradient hover:scale-[1.02] transition-all duration-300 btn-glow disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+              >
+                {#if isSubmitting}
+                  <div
+                    class="w-6 h-6 border-3 border-white/30 border-t-white rounded-full animate-spin"
+                  ></div>
+                  Sending...
+                {:else}
+                  <Send size={20} />
+                  Send Message
+                {/if}
+              </button>
+            </form>
+          {/if}
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Section -->
+    <div class="mt-20 text-center animate-slide-up delay-700">
+      <div class="glass-light p-8 rounded-3xl inline-block max-w-2xl">
+        <p class="text-gray-300 text-lg mb-4">
+          <span class="font-bold gradient-text">Open to opportunities!</span>
+        </p>
+        <p class="text-gray-400">
+          I'm currently available for freelance projects and full-time
+          positions. Let's create something extraordinary together.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Custom focus styles for form inputs */
+  input:focus,
+  textarea:focus {
+    background: rgba(15, 23, 42, 0.7);
+  }
+
+  /* Loading spinner animation */
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .animate-spin {
+    animation: spin 1s linear infinite;
+  }
+</style>
