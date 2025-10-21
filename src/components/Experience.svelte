@@ -136,9 +136,7 @@
   class="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden"
 >
   <!-- Background -->
-  <div
-    class="absolute inset-0 bg-gradient-to-b from-slate-900/50 to-transparent"
-  ></div>
+  <div class="absolute inset-0 bg-slate-900/50"></div>
   <div
     class="absolute top-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-float"
     style="animation-delay: 2s;"
@@ -146,9 +144,9 @@
 
   <div class="relative z-10 max-w-6xl mx-auto">
     <!-- Section Header -->
-    <div class="text-center mb-20 animate-scale-in">
+    <div class="text-center mb-20 scroll-fade-up">
       <div
-        class="inline-flex items-center gap-3 px-6 py-3 glass-light rounded-full mb-6"
+        class="inline-flex items-center gap-3 px-6 py-3 glass-light rounded-full mb-6 hover-border-glow"
       >
         <TrendingUp size={20} class="text-purple-400" />
         <span
@@ -157,7 +155,7 @@
         >
       </div>
       <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">
-        <span class="gradient-text"> Professional Experience </span>
+        <span class="text-purple-400"> Professional Experience </span>
       </h2>
       <p class="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
         A timeline of growth, achievements, and continuous learning
@@ -168,14 +166,14 @@
     <div class="relative">
       <!-- Timeline Line -->
       <div
-        class="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-purple-500 via-pink-500 to-blue-500 transform md:-translate-x-1/2"
+        class="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-purple-500/50 transform md:-translate-x-1/2"
       ></div>
 
       <!-- Experience Items -->
       <div class="space-y-16">
         {#each experiences as experience, index}
           <div
-            class="relative animate-fade-slide-right delay-{index * 200}"
+            class="relative scroll-fade-up scroll-fade-up-delay-{index * 200}"
             class:md:flex-row-reverse={index % 2 === 0}
             class:md:flex={true}
           >
@@ -184,11 +182,11 @@
               class="absolute left-8 md:left-1/2 w-4 h-4 transform -translate-x-1/2"
             >
               <div
-                class="w-full h-full rounded-full bg-gradient-to-r {experience.gradient} animate-glow-pulse"
+                class="w-full h-full rounded-full bg-purple-500 animate-glow-pulse"
               >
                 {#if experience.current}
                   <div
-                    class="absolute inset-0 rounded-full bg-gradient-to-r {experience.gradient} blur-md"
+                    class="absolute inset-0 rounded-full bg-purple-500 blur-md"
                   ></div>
                 {/if}
               </div>
@@ -201,15 +199,15 @@
               class:md:pl-12={index % 2 === 0}
             >
               <div
-                class="card-3d card-glow glass p-8 rounded-3xl group hover:scale-[1.02] transition-all duration-300"
+                class="card-3d card-glow glass p-8 rounded-3xl group hover-scale-glow transition-all duration-300 hover-border-glow"
               >
                 <!-- Current Badge -->
                 {#if experience.current}
                   <div
-                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r {experience.gradient} mb-6"
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/20 mb-6 hover-border-glow"
                   >
                     <div
-                      class="w-2 h-2 rounded-full bg-white animate-pulse"
+                      class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"
                     ></div>
                     <span class="text-sm font-bold text-white"
                       >Current Position</span
@@ -220,11 +218,11 @@
                 <!-- Header -->
                 <div class="mb-6">
                   <h3
-                    class="text-2xl font-black text-white mb-2 group-hover:gradient-text transition-all"
+                    class="text-2xl font-black text-white mb-2 group-hover:text-purple-400 transition-all"
                   >
                     {experience.title}
                   </h3>
-                  <p class="text-lg font-bold gradient-text mb-4">
+                  <p class="text-lg font-bold text-purple-400 mb-4">
                     {experience.company}
                   </p>
 
@@ -264,7 +262,7 @@
                     {#each experience.achievements as achievement}
                       <li class="flex items-start gap-3 text-sm text-gray-300">
                         <div
-                          class="w-1.5 h-1.5 rounded-full bg-gradient-to-r {experience.gradient} mt-2 flex-shrink-0"
+                          class="w-1.5 h-1.5 rounded-full bg-purple-500 mt-2 flex-shrink-0"
                         ></div>
                         <span>{achievement}</span>
                       </li>
@@ -285,12 +283,9 @@
                   <div class="flex flex-wrap gap-2">
                     {#each experience.technologies as tech}
                       <span
-                        class="group relative glass-light px-3 py-1.5 rounded-lg text-xs font-semibold text-gray-300 hover:text-white hover:scale-105 transition-all duration-300 overflow-hidden"
+                        class="group relative glass-light px-3 py-1.5 rounded-lg text-xs font-semibold text-gray-300 hover:text-white hover-scale-glow transition-all duration-300 overflow-hidden hover-border-glow"
                       >
                         <span class="relative z-10">{tech}</span>
-                        <div
-                          class="absolute inset-0 bg-gradient-to-r {experience.gradient} opacity-0 group-hover:opacity-30 transition-opacity"
-                        ></div>
                       </span>
                     {/each}
                   </div>
@@ -303,8 +298,8 @@
     </div>
 
     <!-- Bottom CTA -->
-    <div class="mt-24 text-center animate-slide-up delay-800">
-      <div class="glass-light p-8 rounded-3xl inline-block">
+    <div class="mt-24 text-center scroll-fade-up scroll-fade-up-delay-800">
+      <div class="glass-light p-8 rounded-3xl inline-block hover-border-glow">
         <Users size={48} class="text-purple-400 mx-auto mb-4" />
         <h3 class="text-2xl font-black text-white mb-3">Let's Work Together</h3>
         <p class="text-gray-400 mb-6 max-w-md">
@@ -313,7 +308,7 @@
         </p>
         <a
           href="#contact"
-          class="inline-flex items-center gap-3 px-8 py-4 rounded-full font-bold text-white bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-[length:200%_100%] animate-gradient hover:scale-105 transition-all duration-300 btn-glow"
+          class="inline-flex items-center gap-3 px-8 py-4 rounded-full font-bold text-white glass-strong hover-scale-glow transition-all duration-300 btn-border-glow"
         >
           Get In Touch
         </a>

@@ -75,24 +75,22 @@
   bind:this={heroRef}
   class="relative min-h-screen flex items-center justify-center overflow-hidden"
 >
-  <!-- Dynamic Gradient Mesh Background -->
-  <div
-    class="absolute inset-0 bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950"
-  ></div>
+  <!-- Dynamic Background -->
+  <div class="absolute inset-0 bg-slate-950"></div>
 
-  <!-- Animated Gradient Orbs -->
+  <!-- Animated Glow Orbs -->
   <div class="absolute inset-0 overflow-hidden">
     <div
-      class="absolute w-[600px] h-[600px] rounded-full opacity-30 blur-3xl animate-float"
-      style="background: radial-gradient(circle, rgba(168,85,247,0.4) 0%, transparent 70%); top: -10%; left: -10%;"
+      class="absolute w-[600px] h-[600px] rounded-full opacity-20 blur-3xl animate-float"
+      style="background: radial-gradient(circle, rgba(168,85,247,0.3) 0%, transparent 70%); top: -10%; left: -10%;"
     ></div>
     <div
-      class="absolute w-[500px] h-[500px] rounded-full opacity-30 blur-3xl animate-float"
-      style="background: radial-gradient(circle, rgba(236,72,153,0.4) 0%, transparent 70%); bottom: -10%; right: -10%; animation-delay: 2s;"
+      class="absolute w-[500px] h-[500px] rounded-full opacity-20 blur-3xl animate-float"
+      style="background: radial-gradient(circle, rgba(236,72,153,0.3) 0%, transparent 70%); bottom: -10%; right: -10%; animation-delay: 2s;"
     ></div>
     <div
-      class="absolute w-[400px] h-[400px] rounded-full opacity-20 blur-3xl animate-float"
-      style="background: radial-gradient(circle, rgba(59,130,246,0.4) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: 4s;"
+      class="absolute w-[400px] h-[400px] rounded-full opacity-15 blur-3xl animate-float"
+      style="background: radial-gradient(circle, rgba(59,130,246,0.3) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: 4s;"
     ></div>
   </div>
 
@@ -132,28 +130,28 @@
         </div>
       </div>
 
-      <!-- Main Heading with Gradient Text -->
+      <!-- Main Heading -->
       <h1
-        class="text-5xl sm:text-6xl lg:text-7xl font-black mb-8 leading-tight animate-scale-in"
+        class="text-5xl sm:text-6xl lg:text-7xl font-black mb-8 leading-tight scroll-fade-up"
       >
         <span
           class="block mb-3 text-white text-4xl sm:text-5xl lg:text-6xl font-medium"
           >Hi, I'm</span
         >
-        <span class="gradient-text">
+        <span class="text-purple-400">
           {data?.name || "Your Name"}
         </span>
       </h1>
 
       <!-- Animated Subtitle -->
-      <div class="mb-8 animate-slide-up delay-200">
+      <div class="mb-8 scroll-fade-up scroll-fade-up-delay-200">
         <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-200">
           {data?.title || "Full-Stack Developer"}
         </h2>
       </div>
 
       <!-- Description with Glass Effect -->
-      <div class="flex justify-center animate-slide-up delay-300">
+      <div class="flex justify-center scroll-fade-up scroll-fade-up-delay-300">
         <p
           class="text-lg sm:text-xl text-gray-400 mb-14 max-w-2xl leading-relaxed"
         >
@@ -164,22 +162,22 @@
 
       <!-- Feature Tags -->
       <div
-        class="flex flex-wrap justify-center gap-4 mb-12 animate-slide-up delay-400"
+        class="flex flex-wrap justify-center gap-4 mb-12 scroll-fade-up scroll-fade-up-delay-400"
       >
         <div
-          class="glass-light px-5 py-2.5 rounded-full inline-flex items-center gap-2 hover:scale-105 transition-transform duration-300"
+          class="glass-light px-5 py-2.5 rounded-full inline-flex items-center gap-2 hover-scale-glow transition-all duration-300 hover-border-glow"
         >
           <Code2 size={18} class="text-purple-400" />
           <span class="text-sm font-medium text-gray-300">Clean Code</span>
         </div>
         <div
-          class="glass-light px-5 py-2.5 rounded-full inline-flex items-center gap-2 hover:scale-105 transition-transform duration-300"
+          class="glass-light px-5 py-2.5 rounded-full inline-flex items-center gap-2 hover-scale-glow transition-all duration-300 hover-border-glow"
         >
           <Sparkles size={18} class="text-pink-400" />
           <span class="text-sm font-medium text-gray-300">Modern UI/UX</span>
         </div>
         <div
-          class="glass-light px-5 py-2.5 rounded-full inline-flex items-center gap-2 hover:scale-105 transition-transform duration-300"
+          class="glass-light px-5 py-2.5 rounded-full inline-flex items-center gap-2 hover-scale-glow transition-all duration-300 hover-border-glow"
         >
           <Rocket size={18} class="text-blue-400" />
           <span class="text-sm font-medium text-gray-300">Fast Performance</span
@@ -189,15 +187,13 @@
 
       <!-- CTA Buttons with Premium Effects -->
       <div
-        class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 animate-slide-up delay-500"
+        class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 scroll-fade-up scroll-fade-up-delay-500"
       >
         <button
           on:click={scrollToAbout}
-          class="group relative px-8 py-3.5 rounded-xl font-semibold text-white overflow-hidden hover:scale-105 transition-all duration-300"
+          class="group relative px-8 py-3.5 rounded-xl font-semibold text-white overflow-hidden hover-scale-glow transition-all duration-300 btn-border-glow"
         >
-          <div
-            class="absolute inset-0 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-[length:200%_100%] animate-gradient"
-          ></div>
+          <div class="absolute inset-0 glass-strong"></div>
           <span class="relative z-10 flex items-center gap-2">
             View My Work
             <ChevronDown
@@ -210,12 +206,9 @@
         <a
           href={data?.resume?.url || "/resume.pdf"}
           download
-          class="group relative px-8 py-3.5 rounded-xl font-semibold text-white overflow-hidden hover:scale-105 transition-all duration-300"
+          class="group relative px-8 py-3.5 rounded-xl font-semibold text-white overflow-hidden hover-scale-glow transition-all duration-300 btn-border-glow"
         >
           <div class="absolute inset-0 glass-strong"></div>
-          <div
-            class="absolute inset-0 border-2 border-white/20 rounded-xl"
-          ></div>
           <span class="relative z-10 flex items-center gap-2">
             <Download
               size={18}
@@ -227,17 +220,16 @@
       </div>
 
       <!-- Social Links with Hover Effects -->
-      <div class="flex justify-center gap-4 animate-slide-up delay-600">
+      <div
+        class="flex justify-center gap-4 scroll-fade-up scroll-fade-up-delay-600"
+      >
         <a
           href={socialLinks.github}
           target="_blank"
           rel="noopener noreferrer"
-          class="group relative w-12 h-12 rounded-xl glass-light flex items-center justify-center hover:scale-110 transition-all duration-300 overflow-hidden"
+          class="group relative w-12 h-12 rounded-xl glass-light flex items-center justify-center hover-scale-glow transition-all duration-300 overflow-hidden hover-border-glow"
           aria-label="GitHub"
         >
-          <div
-            class="absolute inset-0 bg-gradient-to-r from-purple-600/30 to-pink-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          ></div>
           <Github
             size={20}
             class="relative z-10 text-gray-400 group-hover:text-white transition-colors"
@@ -248,12 +240,9 @@
           href={socialLinks.linkedin}
           target="_blank"
           rel="noopener noreferrer"
-          class="group relative w-12 h-12 rounded-xl glass-light flex items-center justify-center hover:scale-110 transition-all duration-300 overflow-hidden"
+          class="group relative w-12 h-12 rounded-xl glass-light flex items-center justify-center hover-scale-glow transition-all duration-300 overflow-hidden hover-border-glow"
           aria-label="LinkedIn"
         >
-          <div
-            class="absolute inset-0 bg-gradient-to-r from-blue-600/30 to-purple-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          ></div>
           <Linkedin
             size={20}
             class="relative z-10 text-gray-400 group-hover:text-white transition-colors"
@@ -262,12 +251,9 @@
 
         <a
           href={socialLinks.email}
-          class="group relative w-12 h-12 rounded-xl glass-light flex items-center justify-center hover:scale-110 transition-all duration-300 overflow-hidden"
+          class="group relative w-12 h-12 rounded-xl glass-light flex items-center justify-center hover-scale-glow transition-all duration-300 overflow-hidden hover-border-glow"
           aria-label="Email"
         >
-          <div
-            class="absolute inset-0 bg-gradient-to-r from-pink-600/30 to-orange-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          ></div>
           <Mail
             size={20}
             class="relative z-10 text-gray-400 group-hover:text-white transition-colors"
@@ -279,7 +265,7 @@
 
   <!-- Scroll Indicator with Animation -->
   <div
-    class="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-20 animate-bounce-in delay-700"
+    class="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-20 scroll-fade-up scroll-fade-up-delay-700"
   >
     <button
       on:click={scrollToAbout}

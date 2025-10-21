@@ -68,9 +68,7 @@
   class="relative py-16 px-4 sm:px-6 lg:px-8 overflow-hidden border-t border-white/5"
 >
   <!-- Background Effects -->
-  <div
-    class="absolute inset-0 bg-gradient-to-b from-slate-950 to-slate-900"
-  ></div>
+  <div class="absolute inset-0 bg-slate-950"></div>
   <div
     class="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl animate-float"
   ></div>
@@ -86,15 +84,12 @@
         <a href="/" class="group inline-flex items-center gap-3 mb-6">
           <div class="relative">
             <div
-              class="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-50 group-hover:opacity-100 transition-opacity"
-            ></div>
-            <div
-              class="relative w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center"
+              class="relative w-12 h-12 rounded-lg bg-purple-500/20 flex items-center justify-center hover-border-glow"
             >
-              <span class="text-white font-black text-2xl">P</span>
+              <span class="text-purple-400 font-black text-2xl">P</span>
             </div>
           </div>
-          <span class="text-2xl font-black gradient-text">Portfolio</span>
+          <span class="text-2xl font-black text-purple-400">Portfolio</span>
         </a>
         <p class="text-gray-400 leading-relaxed mb-6 max-w-md">
           Building exceptional digital experiences with modern technologies.
@@ -112,7 +107,7 @@
               aria-label={social.name}
             >
               <div
-                class="absolute inset-0 rounded-xl bg-gradient-to-r {social.gradient} opacity-0 group-hover:opacity-30 transition-opacity"
+                class="absolute inset-0 rounded-xl bg-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity"
               ></div>
               <svelte:component
                 this={social.icon}
@@ -135,7 +130,7 @@
                 class="group inline-flex items-center text-gray-400 hover:text-white transition-colors duration-300"
               >
                 <span
-                  class="w-0 h-0.5 bg-gradient-to-r from-purple-500 to-pink-500 group-hover:w-4 transition-all duration-300 mr-0 group-hover:mr-2"
+                  class="w-0 h-0.5 bg-purple-500 group-hover:w-4 transition-all duration-300 mr-0 group-hover:mr-2"
                 ></span>
                 {link.name}
               </a>
@@ -179,8 +174,8 @@
       <div class="flex flex-col md:flex-row justify-between items-center gap-4">
         <p class="text-gray-400 text-sm text-center md:text-left">
           © {currentYear}
-          <span class="gradient-text font-semibold">Your Name</span>. All rights
-          reserved. Built with <Heart
+          <span class="text-purple-400 font-semibold">Your Name</span>. All
+          rights reserved. Built with <Heart
             size={14}
             class="inline text-pink-500 animate-pulse"
           /> using
@@ -194,7 +189,7 @@
           class="group relative px-6 py-3 rounded-full glass-light hover:scale-105 transition-all duration-300 flex items-center gap-2"
         >
           <div
-            class="absolute inset-0 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-20 transition-opacity"
+            class="absolute inset-0 rounded-full bg-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity"
           ></div>
           <span
             class="relative z-10 text-sm font-medium text-gray-300 group-hover:text-white transition-colors"

@@ -10,16 +10,12 @@
   --color-secondary: 236 72 153;
   --color-accent: 59 130 246;
   --color-success: 34 197 94;
-  --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-  --gradient-mesh: radial-gradient(at 40% 20%, hsla(280,100%,70%,0.3) 0px, transparent 50%),
-                   radial-gradient(at 80% 0%, hsla(190,100%,70%,0.3) 0px, transparent 50%),
-                   radial-gradient(at 0% 50%, hsla(340,100%,70%,0.3) 0px, transparent 50%);
   --shadow-elevation-low: 0 2px 8px -2px rgba(0, 0, 0, 0.1);
   --shadow-elevation-medium: 0 8px 24px -4px rgba(0, 0, 0, 0.2);
   --shadow-elevation-high: 0 16px 48px -8px rgba(0, 0, 0, 0.3);
   --shadow-glow: 0 0 40px rgba(168, 85, 247, 0.4);
+  --border-glow: 0 0 20px rgba(168, 85, 247, 0.3);
+  --border-glow-hover: 0 0 30px rgba(168, 85, 247, 0.6);
 }
 
 /* Custom Scrollbar - Ultra Sleek */
@@ -34,21 +30,16 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, 
-    rgba(168, 85, 247, 0.8) 0%, 
-    rgba(236, 72, 153, 0.8) 100%
-  );
+  background: rgba(168, 85, 247, 0.8);
   border-radius: 10px;
   border: 2px solid rgba(15, 23, 42, 0.5);
   transition: all 0.3s ease;
+  box-shadow: var(--border-glow);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, 
-    rgba(168, 85, 247, 1) 0%, 
-    rgba(236, 72, 153, 1) 100%
-  );
-  box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+  background: rgba(168, 85, 247, 1);
+  box-shadow: var(--border-glow-hover);
 }
 
 /* Smooth scrolling */
@@ -102,13 +93,13 @@ body {
   }
 }
 
-/* Gradient Animation - Mesmerizing */
-@keyframes gradient-shift {
+/* Border Glow Animation - Elegant */
+@keyframes border-glow-pulse {
   0%, 100% {
-    background-position: 0% 50%;
+    box-shadow: var(--border-glow);
   }
   50% {
-    background-position: 100% 50%;
+    box-shadow: var(--border-glow-hover);
   }
 }
 
@@ -219,9 +210,8 @@ body {
   animation: glow-pulse 3s ease-in-out infinite;
 }
 
-.animate-gradient {
-  background-size: 200% 200%;
-  animation: gradient-shift 5s ease infinite;
+.animate-border-glow {
+  animation: border-glow-pulse 3s ease-in-out infinite;
 }
 
 .animate-shimmer {
@@ -293,34 +283,34 @@ body {
 }
 
 /* =============================================
-   💎 GRADIENT UTILITIES
+   💎 HOVER EFFECT UTILITIES
    ============================================= */
 
-.gradient-purple-pink {
-  background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+.hover-border-glow {
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  transition: all 0.3s ease;
 }
 
-.gradient-blue-purple {
-  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+.hover-border-glow:hover {
+  border-color: rgba(168, 85, 247, 0.8);
+  box-shadow: var(--border-glow-hover);
 }
 
-.gradient-pink-orange {
-  background: linear-gradient(135deg, #ec4899 0%, #f97316 100%);
+.hover-glow-shadow {
+  transition: box-shadow 0.3s ease;
 }
 
-.gradient-mesh-1 {
-  background: radial-gradient(at 0% 0%, hsla(253,100%,70%,0.3) 0px, transparent 50%),
-              radial-gradient(at 50% 0%, hsla(225,100%,70%,0.3) 0px, transparent 50%),
-              radial-gradient(at 100% 0%, hsla(340,100%,70%,0.3) 0px, transparent 50%);
+.hover-glow-shadow:hover {
+  box-shadow: var(--border-glow-hover);
 }
 
-.gradient-text {
-  background: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #3b82f6 100%);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: gradient-shift 5s ease infinite;
+.hover-scale-glow {
+  transition: all 0.3s ease;
+}
+
+.hover-scale-glow:hover {
+  transform: scale(1.05);
+  box-shadow: var(--border-glow-hover);
 }
 
 /* =============================================
@@ -339,22 +329,13 @@ body {
 .card-glow {
   position: relative;
   overflow: hidden;
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  transition: all 0.3s ease;
 }
 
-.card-glow::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  background: linear-gradient(135deg, #a855f7, #ec4899, #3b82f6);
-  border-radius: inherit;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  z-index: -1;
-  filter: blur(10px);
-}
-
-.card-glow:hover::before {
-  opacity: 0.7;
+.card-glow:hover {
+  border-color: rgba(168, 85, 247, 0.6);
+  box-shadow: var(--border-glow-hover);
 }
 
 .card-shine {
@@ -398,29 +379,26 @@ body {
 .btn-glow {
   position: relative;
   overflow: hidden;
-  box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
-  transition: box-shadow 0.3s ease;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  box-shadow: var(--border-glow);
+  transition: all 0.3s ease;
 }
 
 .btn-glow:hover {
-  box-shadow: 0 0 40px rgba(168, 85, 247, 0.6),
-              0 0 60px rgba(236, 72, 153, 0.4);
+  border-color: rgba(168, 85, 247, 0.8);
+  box-shadow: var(--border-glow-hover);
 }
 
-.btn-gradient-border {
+.btn-border-glow {
   position: relative;
   background: transparent;
-  border: 2px solid transparent;
-  background-clip: padding-box;
+  border: 2px solid rgba(168, 85, 247, 0.3);
+  transition: all 0.3s ease;
 }
 
-.btn-gradient-border::before {
-  content: '';
-  position: absolute;
-  inset: -2px;
-  background: linear-gradient(135deg, #a855f7, #ec4899);
-  border-radius: inherit;
-  z-index: -1;
+.btn-border-glow:hover {
+  border-color: rgba(168, 85, 247, 0.8);
+  box-shadow: var(--border-glow-hover);
 }
 
 /* =============================================
@@ -479,8 +457,51 @@ body {
 }
 
 /* =============================================
-   🎭 TEXT EFFECTS
+   🎭 SCROLL ANIMATIONS - SMOOTH FADE SLIDE UP
    ============================================= */
+
+.scroll-fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.scroll-fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-fade-up-delay-100 {
+  transition-delay: 100ms;
+}
+
+.scroll-fade-up-delay-200 {
+  transition-delay: 200ms;
+}
+
+.scroll-fade-up-delay-300 {
+  transition-delay: 300ms;
+}
+
+.scroll-fade-up-delay-400 {
+  transition-delay: 400ms;
+}
+
+.scroll-fade-up-delay-500 {
+  transition-delay: 500ms;
+}
+
+.scroll-fade-up-delay-600 {
+  transition-delay: 600ms;
+}
+
+.scroll-fade-up-delay-700 {
+  transition-delay: 700ms;
+}
+
+.scroll-fade-up-delay-800 {
+  transition-delay: 800ms;
+}
 
 .text-shadow-glow {
   text-shadow: 0 0 20px rgba(168, 85, 247, 0.5),

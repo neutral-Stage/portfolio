@@ -112,16 +112,16 @@
   class="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden"
 >
   <!-- Background -->
-  <div class="absolute inset-0 gradient-mesh-1"></div>
+  <div class="absolute inset-0 bg-slate-950/50"></div>
   <div
     class="absolute bottom-0 left-1/3 w-96 h-96 bg-pink-500/20 rounded-full blur-3xl animate-float"
   ></div>
 
   <div class="relative z-10 max-w-7xl mx-auto">
     <!-- Section Header -->
-    <div class="text-center mb-20 animate-scale-in">
+    <div class="text-center mb-20 scroll-fade-up">
       <div
-        class="inline-flex items-center gap-3 px-6 py-3 glass-light rounded-full mb-6"
+        class="inline-flex items-center gap-3 px-6 py-3 glass-light rounded-full mb-6 hover-border-glow"
       >
         <MessageSquare size={20} class="text-purple-400" />
         <span
@@ -130,7 +130,7 @@
         >
       </div>
       <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">
-        <span class="gradient-text"> Let's Start a Conversation </span>
+        <span class="text-purple-400"> Let's Start a Conversation </span>
       </h2>
       <p class="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
         Have a project in mind? Let's build something amazing together
@@ -139,22 +139,22 @@
 
     <div class="grid lg:grid-cols-2 gap-12 items-start">
       <!-- Contact Info Section -->
-      <div class="space-y-8 animate-fade-slide-right">
+      <div class="space-y-8 scroll-fade-up scroll-fade-up-delay-200">
         <!-- Contact Cards -->
         <div class="space-y-6">
           {#each contactInfo as info, index}
             <a
               href={info.href}
-              class="card-shine card-glow glass p-6 rounded-2xl flex items-center gap-6 group hover:scale-[1.02] transition-all duration-300 animate-slide-up delay-{index *
-                100} relative overflow-hidden"
+              class="card-shine card-glow glass p-6 rounded-2xl flex items-center gap-6 group hover-scale-glow transition-all duration-300 scroll-fade-up scroll-fade-up-delay-{index *
+                100} relative overflow-hidden hover-border-glow"
             >
               <div
-                class="w-16 h-16 rounded-2xl bg-gradient-to-br {info.gradient} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform relative z-10"
+                class="w-16 h-16 rounded-2xl bg-purple-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform relative z-10 hover-border-glow"
               >
                 <svelte:component
                   this={info.icon}
                   size={28}
-                  class="text-white"
+                  class="text-purple-400"
                 />
               </div>
               <div class="relative z-10">
@@ -167,16 +167,13 @@
                   {info.value}
                 </p>
               </div>
-              <div
-                class="absolute inset-0 bg-gradient-to-r {info.gradient} opacity-0 group-hover:opacity-10 transition-opacity"
-              ></div>
             </a>
           {/each}
         </div>
 
         <!-- Social Links -->
         <div
-          class="card-glow glass-strong p-8 rounded-3xl animate-slide-up delay-400"
+          class="card-glow glass-strong p-8 rounded-3xl scroll-fade-up scroll-fade-up-delay-400 hover-border-glow"
         >
           <h3
             class="text-2xl font-black text-white mb-6 flex items-center gap-3"
@@ -190,12 +187,9 @@
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="group relative w-16 h-16 rounded-2xl glass-light flex items-center justify-center hover:scale-110 transition-all duration-300 overflow-hidden"
+                class="group relative w-16 h-16 rounded-2xl glass-light flex items-center justify-center hover-scale-glow transition-all duration-300 overflow-hidden hover-border-glow"
                 title={social.label}
               >
-                <div
-                  class="absolute inset-0 rounded-2xl bg-gradient-to-br {social.gradient} opacity-0 group-hover:opacity-30 transition-opacity"
-                ></div>
                 <svelte:component
                   this={social.icon}
                   size={28}
@@ -208,7 +202,7 @@
 
         <!-- Additional Info Card -->
         <div
-          class="card-shine glass-light p-8 rounded-3xl animate-slide-up delay-500"
+          class="card-shine glass-light p-8 rounded-3xl scroll-fade-up scroll-fade-up-delay-500 hover-border-glow"
         >
           <h3 class="text-xl font-black text-white mb-4">Why Work With Me?</h3>
           <ul class="space-y-3 text-gray-300">
@@ -245,8 +239,10 @@
       </div>
 
       <!-- Contact Form -->
-      <div class="animate-scale-in delay-200">
-        <div class="card-glow glass-strong p-8 md:p-10 rounded-3xl">
+      <div class="scroll-fade-up scroll-fade-up-delay-200">
+        <div
+          class="card-glow glass-strong p-8 md:p-10 rounded-3xl hover-border-glow"
+        >
           <h3
             class="text-3xl font-black text-white mb-8 flex items-center gap-3"
           >
@@ -255,7 +251,7 @@
           </h3>
 
           {#if isSubmitted}
-            <div class="text-center py-16 animate-bounce-in">
+            <div class="text-center py-16 scroll-fade-up">
               <CheckCircle size={64} class="text-green-400 mx-auto mb-6" />
               <h4 class="text-2xl font-bold text-white mb-3">Message Sent!</h4>
               <p class="text-gray-400">
@@ -340,7 +336,7 @@
               <button
                 type="submit"
                 disabled={isSubmitting}
-                class="w-full py-4 rounded-xl font-bold text-white bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-[length:200%_100%] animate-gradient hover:scale-[1.02] transition-all duration-300 btn-glow disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+                class="w-full py-4 rounded-xl font-bold text-white glass-strong hover-scale-glow transition-all duration-300 btn-border-glow disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
               >
                 {#if isSubmitting}
                   <div
@@ -359,10 +355,12 @@
     </div>
 
     <!-- Bottom Section -->
-    <div class="mt-20 text-center animate-slide-up delay-700">
-      <div class="glass-light p-8 rounded-3xl inline-block max-w-2xl">
+    <div class="mt-20 text-center scroll-fade-up scroll-fade-up-delay-700">
+      <div
+        class="glass-light p-8 rounded-3xl inline-block max-w-2xl hover-border-glow"
+      >
         <p class="text-gray-300 text-lg mb-4">
-          <span class="font-bold gradient-text">Open to opportunities!</span>
+          <span class="font-bold text-purple-400">Open to opportunities!</span>
         </p>
         <p class="text-gray-400">
           I'm currently available for freelance projects and full-time

@@ -92,7 +92,7 @@
   class="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden"
 >
   <!-- Background Elements -->
-  <div class="absolute inset-0 gradient-mesh-1 opacity-20"></div>
+  <div class="absolute inset-0 bg-slate-950/50"></div>
   <div
     class="absolute top-1/4 right-0 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"
     style="animation: float 10s ease-in-out infinite;"
@@ -100,9 +100,9 @@
 
   <div class="relative z-10 max-w-7xl mx-auto">
     <!-- Section Header -->
-    <div class="text-center mb-20 animate-scale-in">
+    <div class="text-center mb-20 scroll-fade-up">
       <div
-        class="inline-flex items-center gap-3 px-6 py-3 glass-light rounded-full mb-6"
+        class="inline-flex items-center gap-3 px-6 py-3 glass-light rounded-full mb-6 hover-border-glow"
       >
         <User size={20} class="text-purple-400" />
         <span
@@ -111,7 +111,7 @@
         >
       </div>
       <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">
-        <span class="gradient-text"> Professional Background </span>
+        <span class="text-purple-400"> Professional Background </span>
       </h2>
       <p class="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
         Delivering enterprise-grade solutions with expertise in modern web
@@ -122,10 +122,10 @@
     <!-- Main Content Grid -->
     <div class="grid lg:grid-cols-[1fr_400px] gap-8 mb-16 items-start">
       <!-- Left Column: Description -->
-      <div class="space-y-6 animate-fade-slide-right">
+      <div class="space-y-6 scroll-fade-up scroll-fade-up-delay-200">
         <!-- Main Description Card -->
         <div
-          class="card-glow glass p-8 rounded-2xl hover:scale-[1.01] transition-transform duration-300"
+          class="card-glow glass p-8 rounded-2xl hover-scale-glow transition-transform duration-300 hover-border-glow"
         >
           <p class="text-gray-300 leading-relaxed mb-4">
             A seasoned full-stack developer with 3+ years of professional
@@ -155,19 +155,19 @@
             <div
               role="button"
               tabindex="0"
-              class="card-shine glass-light p-6 rounded-xl hover:scale-[1.02] transition-all duration-300 animate-slide-up delay-{index *
-                100}"
+              class="card-shine glass-light p-6 rounded-xl hover-scale-glow transition-all duration-300 scroll-fade-up scroll-fade-up-delay-{index *
+                100} hover-border-glow"
               on:mouseenter={() => (activeCard = index)}
               on:mouseleave={() => (activeCard = -1)}
               on:keydown={() => {}}
             >
               <div
-                class="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mb-4"
+                class="w-12 h-12 rounded-lg bg-purple-500/20 flex items-center justify-center mb-4 hover-border-glow"
               >
                 <svelte:component
                   this={highlight.icon}
                   size={24}
-                  class="text-white"
+                  class="text-purple-400"
                 />
               </div>
               <h4 class="text-base font-bold text-white mb-2">
@@ -182,21 +182,21 @@
       </div>
 
       <!-- Right Column: Profile & Status -->
-      <div class="space-y-6 animate-scale-in delay-300">
+      <div class="space-y-6 scroll-fade-up scroll-fade-up-delay-300">
         <!-- Professional Profile Image -->
         <div class="relative group">
           <div class="w-full aspect-square relative">
-            <!-- Gradient Background -->
+            <!-- Background Glow -->
             <div
-              class="absolute inset-0 rounded-2xl bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-blue-500/20 blur-2xl"
+              class="absolute inset-0 rounded-2xl bg-purple-500/10 blur-2xl"
             ></div>
 
             <!-- Main Profile Container -->
             <div
-              class="relative rounded-2xl glass-strong border border-white/10 overflow-hidden group-hover:border-purple-500/50 transition-all duration-500"
+              class="relative rounded-2xl glass-strong border border-white/10 overflow-hidden group-hover:border-purple-500/50 transition-all duration-500 hover-border-glow"
             >
               <div
-                class="aspect-square flex items-center justify-center bg-gradient-to-br from-purple-600/10 to-pink-600/10"
+                class="aspect-square flex items-center justify-center bg-purple-600/10"
               >
                 <User
                   size={140}
@@ -206,7 +206,7 @@
 
               <!-- Status Badge Overlay -->
               <div
-                class="absolute top-4 right-4 glass px-3 py-1.5 rounded-full border border-green-500/30"
+                class="absolute top-4 right-4 glass px-3 py-1.5 rounded-full border border-green-500/30 hover-border-glow"
               >
                 <div class="flex items-center gap-2">
                   <div
@@ -265,19 +265,23 @@
 
     <!-- Stats Grid - Full Width Below -->
     <div
-      class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12 animate-slide-up delay-500"
+      class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12 scroll-fade-up scroll-fade-up-delay-500"
     >
       {#each stats as stat, index}
         <div
-          class="card-3d card-glow glass p-6 rounded-2xl text-center hover:scale-105 transition-all duration-300 animate-bounce-in delay-{index *
-            100}"
+          class="card-3d card-glow glass p-6 rounded-2xl text-center hover-scale-glow transition-all duration-300 scroll-fade-up scroll-fade-up-delay-{index *
+            100} hover-border-glow"
         >
           <div
-            class="mb-4 inline-flex p-3 rounded-xl bg-gradient-to-br {stat.color}"
+            class="mb-4 inline-flex p-3 rounded-xl bg-purple-500/20 hover-border-glow"
           >
-            <svelte:component this={stat.icon} size={28} class="text-white" />
+            <svelte:component
+              this={stat.icon}
+              size={28}
+              class="text-purple-400"
+            />
           </div>
-          <div class="text-3xl font-black text-white mb-2 gradient-text">
+          <div class="text-3xl font-black text-purple-400 mb-2">
             {stat.value}
           </div>
           <div class="text-sm text-gray-400 font-medium">{stat.label}</div>
@@ -286,9 +290,9 @@
     </div>
 
     <!-- Bottom CTA -->
-    <div class="text-center animate-slide-up delay-600">
+    <div class="text-center scroll-fade-up scroll-fade-up-delay-600">
       <div
-        class="card-shine glass-strong p-8 rounded-2xl inline-block max-w-2xl border border-purple-500/20"
+        class="card-shine glass-strong p-8 rounded-2xl inline-block max-w-2xl border border-purple-500/20 hover-border-glow"
       >
         <h3 class="text-2xl font-black text-white mb-3">
           Ready to Collaborate?
@@ -298,7 +302,7 @@
         </p>
         <a
           href="#contact"
-          class="inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-white bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-[length:200%_100%] animate-gradient hover:scale-105 transition-all duration-300 btn-glow"
+          class="inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-white glass-strong hover-scale-glow transition-all duration-300 btn-border-glow"
         >
           <Mail size={20} />
           Schedule Consultation

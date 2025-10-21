@@ -115,9 +115,7 @@
   class="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden"
 >
   <!-- Background -->
-  <div
-    class="absolute inset-0 bg-gradient-to-b from-slate-900/50 to-transparent"
-  ></div>
+  <div class="absolute inset-0 bg-slate-900/50"></div>
   <div
     class="absolute bottom-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-float"
     style="animation-delay: 1s;"
@@ -125,9 +123,9 @@
 
   <div class="relative z-10 max-w-7xl mx-auto">
     <!-- Section Header -->
-    <div class="text-center mb-20 animate-scale-in">
+    <div class="text-center mb-20 scroll-fade-up">
       <div
-        class="inline-flex items-center gap-3 px-6 py-3 glass-light rounded-full mb-6"
+        class="inline-flex items-center gap-3 px-6 py-3 glass-light rounded-full mb-6 hover-border-glow"
       >
         <Sparkles size={20} class="text-purple-400" />
         <span
@@ -136,7 +134,7 @@
         >
       </div>
       <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">
-        <span class="gradient-text"> What I Bring to the Table </span>
+        <span class="text-purple-400"> What I Bring to the Table </span>
       </h2>
       <p class="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
         A comprehensive toolkit of modern technologies and frameworks
@@ -145,20 +143,17 @@
 
     <!-- Category Tabs -->
     <div
-      class="flex flex-wrap justify-center gap-3 mb-16 animate-slide-up delay-200"
+      class="flex flex-wrap justify-center gap-3 mb-16 scroll-fade-up scroll-fade-up-delay-200"
     >
       {#each skillCategories as category, index}
         <button
           on:click={() => (selectedCategory = index)}
-          class="group relative px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
+          class="group relative px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover-scale-glow hover-border-glow"
           class:text-white={selectedCategory === index}
           class:text-gray-400={selectedCategory !== index}
         >
           {#if selectedCategory === index}
             <div class="absolute inset-0 glass-strong rounded-xl"></div>
-            <div
-              class="absolute inset-0 bg-gradient-to-r {category.color} opacity-20 rounded-xl"
-            ></div>
           {/if}
           <span
             class="relative z-10 flex items-center gap-2 transition-colors"
@@ -175,9 +170,6 @@
             <div
               class="absolute inset-0 glass-light opacity-0 group-hover:opacity-100 rounded-xl transition-opacity"
             ></div>
-            <div
-              class="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20 opacity-0 group-hover:opacity-100 rounded-xl transition-opacity"
-            ></div>
           {/if}
         </button>
       {/each}
@@ -187,17 +179,19 @@
     <div class="max-w-5xl mx-auto">
       {#each skillCategories as category, catIndex}
         {#if selectedCategory === catIndex}
-          <div class="animate-scale-in">
+          <div class="scroll-fade-up">
             <!-- Category Header Card -->
-            <div class="card-glow glass-strong p-8 rounded-3xl mb-8">
+            <div
+              class="card-glow glass-strong p-8 rounded-3xl mb-8 hover-border-glow"
+            >
               <div class="flex items-center gap-6 mb-2">
                 <div
-                  class="w-16 h-16 rounded-2xl bg-gradient-to-br {category.color} flex items-center justify-center"
+                  class="w-16 h-16 rounded-2xl bg-purple-500/20 flex items-center justify-center hover-border-glow"
                 >
                   <svelte:component
                     this={category.icon}
                     size={32}
-                    class="text-white"
+                    class="text-purple-400"
                   />
                 </div>
                 <div>
@@ -215,8 +209,8 @@
             <div class="grid md:grid-cols-2 gap-6">
               {#each category.skills as skill, skillIndex}
                 <div
-                  class="card-3d card-shine glass p-6 rounded-2xl group hover:scale-[1.02] transition-all duration-300 animate-slide-up delay-{skillIndex *
-                    100}"
+                  class="card-3d card-shine glass p-6 rounded-2xl group hover-scale-glow transition-all duration-300 scroll-fade-up scroll-fade-up-delay-{skillIndex *
+                    100} hover-border-glow"
                 >
                   <div class="flex justify-between items-start mb-4">
                     <div>
@@ -246,7 +240,7 @@
                           cy="32"
                           r="28"
                           fill="none"
-                          stroke="url(#gradient-{catIndex}-{skillIndex})"
+                          stroke="rgb(168, 85, 247)"
                           stroke-width="6"
                           stroke-linecap="round"
                           stroke-dasharray="175.93"
@@ -255,32 +249,12 @@
                           class="transition-all duration-1000 ease-out"
                           style="transition-delay: {skillIndex * 100}ms;"
                         />
-                        <defs>
-                          <linearGradient
-                            id="gradient-{catIndex}-{skillIndex}"
-                            x1="0%"
-                            y1="0%"
-                            x2="100%"
-                            y2="100%"
-                          >
-                            <stop
-                              offset="0%"
-                              class="text-purple-500"
-                              stop-color="currentColor"
-                            />
-                            <stop
-                              offset="100%"
-                              class="text-pink-500"
-                              stop-color="currentColor"
-                            />
-                          </linearGradient>
-                        </defs>
                       </svg>
                       <!-- Percentage Text -->
                       <div
                         class="absolute inset-0 flex items-center justify-center"
                       >
-                        <span class="text-sm font-black gradient-text"
+                        <span class="text-sm font-black text-purple-400"
                           >{skill.level}%</span
                         >
                       </div>
@@ -293,7 +267,7 @@
                       class="w-full h-2 bg-slate-700/50 rounded-full overflow-hidden"
                     >
                       <div
-                        class="h-full bg-gradient-to-r {category.color} rounded-full transition-all duration-1000 ease-out"
+                        class="h-full bg-purple-500 rounded-full transition-all duration-1000 ease-out"
                         style="width: {isVisible
                           ? skill.level
                           : 0}%; transition-delay: {skillIndex * 100}ms;"
@@ -309,22 +283,19 @@
     </div>
 
     <!-- Additional Technologies Cloud -->
-    <div class="mt-24 text-center animate-slide-up delay-400">
+    <div class="mt-24 text-center scroll-fade-up scroll-fade-up-delay-400">
       <h3 class="text-3xl font-black text-white mb-4">
-        <span class="gradient-text">Additional Technologies</span>
+        <span class="text-purple-400">Additional Technologies</span>
       </h3>
       <p class="text-gray-400 mb-12">And many more tools in my arsenal</p>
 
       <div class="flex flex-wrap justify-center gap-3 max-w-6xl mx-auto">
         {#each ["Tailwind CSS", "Styled Components", "GraphQL", "Redis", "Elasticsearch", "Jest", "Cypress", "Storybook", "Webpack", "Babel", "ESLint", "Prettier", "Sass", "WebGL", "Three.js", "D3.js", "Chart.js", "Socket.io", "Express.js", "FastAPI", "Prisma", "TypeORM", "JWT", "OAuth", "Stripe", "Firebase", "Supabase", "Vercel", "Netlify", "Heroku", "DigitalOcean"] as tech, index}
           <span
-            class="group relative glass-light px-5 py-2.5 rounded-full text-sm font-semibold text-gray-300 hover:text-white hover:scale-110 transition-all duration-300 cursor-default animate-bounce-in delay-{index *
-              30} overflow-hidden"
+            class="group relative glass-light px-5 py-2.5 rounded-full text-sm font-semibold text-gray-300 hover:text-white hover-scale-glow transition-all duration-300 cursor-default scroll-fade-up scroll-fade-up-delay-{index *
+              30} overflow-hidden hover-border-glow"
           >
             <span class="relative z-10">{tech}</span>
-            <div
-              class="absolute inset-0 bg-gradient-to-r from-purple-600/30 to-pink-600/30 opacity-0 group-hover:opacity-100 transition-opacity"
-            ></div>
           </span>
         {/each}
       </div>

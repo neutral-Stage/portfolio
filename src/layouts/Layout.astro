@@ -92,7 +92,7 @@ const ogImage = new URL(image, Astro.site);
   <body class="min-h-screen bg-slate-950 text-white antialiased font-sans">
     <!-- Background Pattern -->
     <div class="fixed inset-0 z-0 pointer-events-none">
-      <div class="absolute inset-0 bg-gradient-to-br from-slate-950 via-purple-950/20 to-slate-950"></div>
+      <div class="absolute inset-0 bg-slate-950"></div>
       <div class="absolute inset-0 opacity-30" style="background-image: radial-gradient(circle at 1px 1px, rgba(168, 85, 247, 0.15) 1px, transparent 0); background-size: 40px 40px;"></div>
     </div>
 
@@ -202,21 +202,21 @@ const ogImage = new URL(image, Astro.site);
       // Intersection Observer for scroll animations
       const observerOptions = {
         threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
+        rootMargin: '0px 0px -50px 0px'
       };
 
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('animate-in');
+            entry.target.classList.add('visible');
             observer.unobserve(entry.target);
           }
         });
       }, observerOptions);
 
-      // Observe elements with data-animate attribute
+      // Observe elements with scroll-fade-up class
       document.addEventListener('DOMContentLoaded', () => {
-        const animatedElements = document.querySelectorAll('[data-animate]');
+        const animatedElements = document.querySelectorAll('.scroll-fade-up');
         animatedElements.forEach(el => observer.observe(el));
       });
     </script>

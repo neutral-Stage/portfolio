@@ -148,18 +148,16 @@
   class="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden"
 >
   <!-- Background Elements -->
-  <div
-    class="absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/5 to-transparent"
-  ></div>
+  <div class="absolute inset-0 bg-slate-950/50"></div>
   <div
     class="absolute top-1/2 left-0 w-96 h-96 bg-pink-500/10 rounded-full blur-3xl animate-float"
   ></div>
 
   <div class="relative z-10 max-w-7xl mx-auto">
     <!-- Section Header -->
-    <div class="text-center mb-20 animate-scale-in">
+    <div class="text-center mb-20 scroll-fade-up">
       <div
-        class="inline-flex items-center gap-3 px-6 py-3 glass-light rounded-full mb-6"
+        class="inline-flex items-center gap-3 px-6 py-3 glass-light rounded-full mb-6 hover-border-glow"
       >
         <Star size={20} class="text-purple-400" />
         <span
@@ -168,7 +166,7 @@
         >
       </div>
       <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">
-        <span class="gradient-text"> Featured Projects </span>
+        <span class="text-purple-400"> Featured Projects </span>
       </h2>
       <p class="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
         A showcase of my recent work that demonstrates creativity and technical
@@ -178,20 +176,17 @@
 
     <!-- Category Filter -->
     <div
-      class="flex flex-wrap justify-center gap-3 mb-16 animate-slide-up delay-200"
+      class="flex flex-wrap justify-center gap-3 mb-16 scroll-fade-up scroll-fade-up-delay-200"
     >
       {#each categories as category}
         <button
           on:click={() => (selectedCategory = category.name)}
-          class="group relative px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105"
+          class="group relative px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover-scale-glow hover-border-glow"
           class:text-white={selectedCategory === category.name}
           class:text-gray-400={selectedCategory !== category.name}
         >
           {#if selectedCategory === category.name}
             <div class="absolute inset-0 glass-strong rounded-xl"></div>
-            <div
-              class="absolute inset-0 bg-gradient-to-r from-purple-600/30 to-pink-600/30 rounded-xl"
-            ></div>
           {/if}
           <span
             class="relative z-10 flex items-center gap-2 transition-colors"
@@ -208,9 +203,6 @@
             <div
               class="absolute inset-0 glass-light opacity-0 group-hover:opacity-100 rounded-xl transition-opacity"
             ></div>
-            <div
-              class="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20 opacity-0 group-hover:opacity-100 rounded-xl transition-opacity"
-            ></div>
           {/if}
         </button>
       {/each}
@@ -220,20 +212,18 @@
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
       {#each filteredProjects as project, index}
         <div
-          class="card-3d card-glow glass rounded-2xl overflow-hidden group animate-scale-in delay-{index *
+          class="card-3d card-glow glass rounded-2xl overflow-hidden group scroll-fade-up scroll-fade-up-delay-{index *
             100}"
         >
           <!-- Project Image/Icon Area -->
-          <div
-            class="relative h-56 bg-gradient-to-br {project.gradient} overflow-hidden"
-          >
+          <div class="relative h-56 bg-slate-800 overflow-hidden">
             <div
               class="absolute inset-0 flex items-center justify-center opacity-40"
             >
               <svelte:component
                 this={getCategoryIcon(project.category)}
                 size={80}
-                class="text-white"
+                class="text-purple-400"
               />
             </div>
 
@@ -247,7 +237,7 @@
             {#if project.featured}
               <div class="absolute top-4 right-4">
                 <div
-                  class="glass px-4 py-2 rounded-full inline-flex items-center gap-2"
+                  class="glass px-4 py-2 rounded-full inline-flex items-center gap-2 hover-border-glow"
                 >
                   <Star size={14} class="text-yellow-400 fill-yellow-400" />
                   <span class="text-xs font-bold text-white">Featured</span>
@@ -263,7 +253,7 @@
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="w-12 h-12 rounded-xl glass-strong flex items-center justify-center hover:scale-110 transition-transform duration-300 group/link"
+                class="w-12 h-12 rounded-xl glass-strong flex items-center justify-center hover-scale-glow transition-transform duration-300 group/link hover-border-glow"
               >
                 <ExternalLink
                   size={20}
@@ -274,7 +264,7 @@
                 href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="w-12 h-12 rounded-xl glass-strong flex items-center justify-center hover:scale-110 transition-transform duration-300 group/link"
+                class="w-12 h-12 rounded-xl glass-strong flex items-center justify-center hover-scale-glow transition-transform duration-300 group/link hover-border-glow"
               >
                 <Github
                   size={20}
@@ -321,7 +311,7 @@
 
             <!-- Title -->
             <h3
-              class="text-xl font-black text-white group-hover:gradient-text transition-all duration-300"
+              class="text-xl font-black text-white group-hover:text-purple-400 transition-all duration-300"
             >
               {project.title}
             </h3>
@@ -335,26 +325,23 @@
             <div class="flex flex-wrap gap-2 pt-2">
               {#each project.technologies as tech}
                 <span
-                  class="group relative glass-light px-3 py-1 rounded-lg text-xs font-semibold text-gray-300 hover:text-white hover:scale-105 transition-all duration-300 overflow-hidden"
+                  class="group relative glass-light px-3 py-1 rounded-lg text-xs font-semibold text-gray-300 hover:text-white hover-scale-glow transition-all duration-300 overflow-hidden hover-border-glow"
                 >
                   <span class="relative z-10">{tech}</span>
-                  <div
-                    class="absolute inset-0 bg-gradient-to-r {project.gradient} opacity-0 group-hover:opacity-30 transition-opacity"
-                  ></div>
                 </span>
               {/each}
             </div>
           </div>
 
-          <!-- Bottom Gradient Line -->
-          <div class="h-1 bg-gradient-to-r {project.gradient}"></div>
+          <!-- Bottom Border Line -->
+          <div class="h-1 bg-purple-500/30"></div>
         </div>
       {/each}
     </div>
 
     <!-- View More Section -->
-    <div class="text-center animate-slide-up delay-600">
-      <div class="glass-light p-8 rounded-3xl inline-block">
+    <div class="text-center scroll-fade-up scroll-fade-up-delay-600">
+      <div class="glass-light p-8 rounded-3xl inline-block hover-border-glow">
         <p class="text-gray-300 mb-6 text-lg max-w-md">
           Want to see more? Check out my GitHub for additional projects and
           contributions!
@@ -363,7 +350,7 @@
           href="https://github.com/yourusername"
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-3 px-8 py-4 rounded-full font-bold text-white bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-[length:200%_100%] animate-gradient hover:scale-105 transition-all duration-300 btn-glow"
+          class="inline-flex items-center gap-3 px-8 py-4 rounded-full font-bold text-white glass-strong hover-scale-glow transition-all duration-300 btn-border-glow"
         >
           <Github size={24} />
           Explore More on GitHub
