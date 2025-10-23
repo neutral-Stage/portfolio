@@ -1,181 +1,312 @@
-import { defineType } from 'sanity'
+import { defineType } from "sanity";
 
 export default defineType({
-  name: 'siteSettings',
-  title: 'Site Settings',
-  type: 'document',
+  name: "siteSettings",
+  title: "Site Settings",
+  type: "document",
   fields: [
     {
-      name: 'siteName',
-      title: 'Site Name',
-      type: 'string',
-      validation: (Rule: any) => Rule.required()
+      name: "siteName",
+      title: "Site Name",
+      type: "string",
+      validation: (Rule: any) => Rule.required(),
     },
     {
-      name: 'siteDescription',
-      title: 'Site Description',
-      type: 'text',
+      name: "siteDescription",
+      title: "Site Description",
+      type: "text",
       rows: 3,
-      validation: (Rule: any) => Rule.required()
+      validation: (Rule: any) => Rule.required(),
     },
     {
-      name: 'siteUrl',
-      title: 'Site URL',
-      type: 'url',
-      validation: (Rule: any) => Rule.required()
+      name: "siteUrl",
+      title: "Site URL",
+      type: "url",
+      validation: (Rule: any) => Rule.required(),
     },
     {
-      name: 'logo',
-      title: 'Site Logo',
-      type: 'image',
+      name: "logo",
+      title: "Site Logo",
+      type: "image",
       options: {
-        hotspot: true
-      }
+        hotspot: true,
+      },
     },
     {
-      name: 'favicon',
-      title: 'Favicon',
-      type: 'image'
+      name: "favicon",
+      title: "Favicon",
+      type: "image",
     },
     {
-      name: 'ogImage',
-      title: 'Default Open Graph Image',
-      type: 'image',
-      description: 'Default image for social media sharing',
+      name: "ogImage",
+      title: "Default Open Graph Image",
+      type: "image",
+      description: "Default image for social media sharing",
       options: {
-        hotspot: true
-      }
+        hotspot: true,
+      },
     },
     {
-      name: 'analytics',
-      title: 'Analytics',
-      type: 'object',
+      name: "analytics",
+      title: "Analytics",
+      type: "object",
       fields: [
         {
-          name: 'googleAnalyticsId',
-          title: 'Google Analytics ID',
-          type: 'string',
-          description: 'GA4 Measurement ID (e.g., G-XXXXXXXXXX)'
+          name: "googleAnalyticsId",
+          title: "Google Analytics ID",
+          type: "string",
+          description: "GA4 Measurement ID (e.g., G-XXXXXXXXXX)",
         },
         {
-          name: 'googleTagManagerId',
-          title: 'Google Tag Manager ID',
-          type: 'string',
-          description: 'GTM ID (e.g., GTM-XXXXXXX)'
+          name: "googleTagManagerId",
+          title: "Google Tag Manager ID",
+          type: "string",
+          description: "GTM ID (e.g., GTM-XXXXXXX)",
         },
         {
-          name: 'facebookPixelId',
-          title: 'Facebook Pixel ID',
-          type: 'string'
-        }
-      ]
+          name: "facebookPixelId",
+          title: "Facebook Pixel ID",
+          type: "string",
+        },
+      ],
     },
     {
-      name: 'seo',
-      title: 'Default SEO Settings',
-      type: 'seo'
+      name: "seo",
+      title: "Default SEO Settings",
+      type: "seo",
     },
     {
-      name: 'socialLinks',
-      title: 'Social Media Links',
-      type: 'object',
+      name: "socialLinks",
+      title: "Social Media Links",
+      type: "object",
       fields: [
         {
-          name: 'github',
-          title: 'GitHub',
-          type: 'url'
+          name: "github",
+          title: "GitHub",
+          type: "url",
         },
         {
-          name: 'linkedin',
-          title: 'LinkedIn',
-          type: 'url'
+          name: "linkedin",
+          title: "LinkedIn",
+          type: "url",
         },
         {
-          name: 'twitter',
-          title: 'Twitter',
-          type: 'url'
+          name: "twitter",
+          title: "Twitter",
+          type: "url",
         },
         {
-          name: 'instagram',
-          title: 'Instagram',
-          type: 'url'
+          name: "instagram",
+          title: "Instagram",
+          type: "url",
         },
         {
-          name: 'youtube',
-          title: 'YouTube',
-          type: 'url'
+          name: "youtube",
+          title: "YouTube",
+          type: "url",
         },
         {
-          name: 'dribbble',
-          title: 'Dribbble',
-          type: 'url'
+          name: "dribbble",
+          title: "Dribbble",
+          type: "url",
         },
         {
-          name: 'behance',
-          title: 'Behance',
-          type: 'url'
-        }
-      ]
+          name: "behance",
+          title: "Behance",
+          type: "url",
+        },
+      ],
     },
     {
-      name: 'contact',
-      title: 'Contact Information',
-      type: 'object',
+      name: "contact",
+      title: "Contact Information",
+      type: "object",
       fields: [
         {
-          name: 'email',
-          title: 'Email',
-          type: 'email',
-          validation: (Rule: any) => Rule.required()
+          name: "email",
+          title: "Email",
+          type: "email",
+          validation: (Rule: any) => Rule.required(),
         },
         {
-          name: 'phone',
-          title: 'Phone',
-          type: 'string'
+          name: "phone",
+          title: "Phone",
+          type: "string",
         },
         {
-          name: 'location',
-          title: 'Location',
-          type: 'string'
+          name: "location",
+          title: "Location",
+          type: "string",
         },
         {
-          name: 'timezone',
-          title: 'Timezone',
-          type: 'string',
-          description: 'e.g., PST, EST, GMT'
-        }
-      ]
+          name: "timezone",
+          title: "Timezone",
+          type: "string",
+          description: "e.g., PST, EST, GMT",
+        },
+      ],
     },
     {
-      name: 'features',
-      title: 'Site Features',
-      type: 'object',
+      name: "features",
+      title: "Site Features",
+      type: "object",
       fields: [
         {
-          name: 'enableBlog',
-          title: 'Enable Blog',
-          type: 'boolean',
-          initialValue: true
+          name: "enableBlog",
+          title: "Enable Blog",
+          type: "boolean",
+          initialValue: true,
         },
         {
-          name: 'enableProjects',
-          title: 'Enable Projects',
-          type: 'boolean',
-          initialValue: true
+          name: "enableProjects",
+          title: "Enable Projects",
+          type: "boolean",
+          initialValue: true,
         },
         {
-          name: 'enableGitHubStats',
-          title: 'Enable GitHub Stats',
-          type: 'boolean',
-          initialValue: true
-        }
-      ]
-    }
+          name: "enableGitHubStats",
+          title: "Enable GitHub Stats",
+          type: "boolean",
+          initialValue: true,
+        },
+      ],
+    },
+    {
+      name: "navigation",
+      title: "Navigation Items",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            {
+              name: "name",
+              title: "Name",
+              type: "string",
+              validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: "href",
+              title: "Link",
+              type: "string",
+              validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: "icon",
+              title: "Icon",
+              type: "string",
+            },
+            {
+              name: "order",
+              title: "Order",
+              type: "number",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: "footer",
+      title: "Footer Settings",
+      type: "object",
+      fields: [
+        {
+          name: "navigationLinks",
+          title: "Navigation Links",
+          type: "array",
+          of: [
+            {
+              type: "object",
+              fields: [
+                {
+                  name: "name",
+                  title: "Name",
+                  type: "string",
+                  validation: (Rule: any) => Rule.required(),
+                },
+                {
+                  name: "href",
+                  title: "Link",
+                  type: "string",
+                  validation: (Rule: any) => Rule.required(),
+                },
+              ],
+            },
+          ],
+        },
+        {
+          name: "copyright",
+          title: "Copyright Text",
+          type: "text",
+          rows: 2,
+        },
+        {
+          name: "brandDescription",
+          title: "Brand Description",
+          type: "text",
+          rows: 3,
+        },
+      ],
+    },
+    {
+      name: "contactBenefits",
+      title: "Contact Benefits",
+      type: "array",
+      of: [
+        {
+          type: "object",
+          fields: [
+            {
+              name: "text",
+              title: "Benefit Text",
+              type: "text",
+              validation: (Rule: any) => Rule.required(),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      name: "contactForm",
+      title: "Contact Form Settings",
+      type: "object",
+      fields: [
+        {
+          name: "title",
+          title: "Form Title",
+          type: "string",
+        },
+        {
+          name: "description",
+          title: "Form Description",
+          type: "text",
+          rows: 2,
+        },
+        {
+          name: "submitButtonText",
+          title: "Submit Button Text",
+          type: "string",
+          initialValue: "Send Message",
+        },
+        {
+          name: "successMessage",
+          title: "Success Message",
+          type: "text",
+          rows: 2,
+        },
+        {
+          name: "errorMessage",
+          title: "Error Message",
+          type: "text",
+          rows: 2,
+        },
+      ],
+    },
   ],
   preview: {
     select: {
-      title: 'siteName',
-      subtitle: 'siteDescription'
-    }
-  }
-})
+      title: "siteName",
+      subtitle: "siteDescription",
+    },
+  },
+});

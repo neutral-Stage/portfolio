@@ -67,12 +67,103 @@ const fallbackData = {
       ctaText: "Get In Touch",
       ctaLink: "#contact",
     },
+    stats: [
+      { label: "Projects Delivered", value: "50+", icon: "Rocket" },
+      { label: "Years Experience", value: "3+", icon: "Award" },
+      { label: "Technologies", value: "20+", icon: "Code" },
+      { label: "Satisfied Clients", value: "25+", icon: "Users" }
+    ],
+    highlights: [
+      { title: "Results-Driven", description: "Delivering measurable business outcomes and ROI through technology solutions" },
+      { title: "Client-Focused", description: "Building long-term partnerships through exceptional service and communication" },
+      { title: "Best Practices", description: "Adherence to industry standards, clean code, and scalable architecture" }
+    ],
+    professionalStatus: {
+      status: "available",
+      message: "Open to opportunities",
+      types: ["Freelance", "Contract", "Full-Time"]
+    },
+    resumeHighlights: [
+      { icon: "Briefcase", title: "3+ Years Experience", description: "Full-stack development across various industries" },
+      { icon: "Award", title: "50+ Projects", description: "Successfully delivered projects for clients worldwide" },
+      { icon: "GraduationCap", title: "Computer Science", description: "Bachelor's degree with focus on software engineering" },
+      { icon: "Globe", title: "Remote Expert", description: "Proven track record working with global teams" }
+    ],
+    resumeFormats: [
+      { name: "PDF Format", icon: "FileText", color: "text-red-400" },
+      { name: "Word Document", icon: "FileText", color: "text-blue-400" },
+      { name: "Plain Text", icon: "FileText", color: "text-green-400" }
+    ]
   },
   siteSettings: siteSettings || {
     siteName: "Your Portfolio",
     siteDescription:
       "Professional portfolio showcasing projects, skills, and achievements",
     siteUrl: "https://yourportfolio.com",
+    navigation: [
+      { name: "Home", href: "#home", icon: "Home" },
+      { name: "About", href: "#about", icon: "User" },
+      { name: "Skills", href: "#skills", icon: "Code" },
+      { name: "Projects", href: "/projects", icon: "Briefcase" },
+      { name: "Blog", href: "/blog", icon: "BookOpen" },
+      { name: "Experience", href: "#experience", icon: "Briefcase" },
+      { name: "Contact", href: "#contact", icon: "Mail" }
+    ],
+    footer: {
+      navigationLinks: [
+        { name: "Home", href: "#home" },
+        { name: "About", href: "#about" },
+        { name: "Skills", href: "#skills" },
+        { name: "Projects", href: "/projects" },
+        { name: "Experience", href: "#experience" },
+        { name: "Contact", href: "#contact" }
+      ],
+      copyright: `© ${new Date().getFullYear()} Your Name. All rights reserved. Built with <3 using Astro & Svelte`,
+      brandDescription: "Building exceptional digital experiences with modern technologies. Passionate about creating innovative solutions that make a difference."
+    },
+    contact: {
+      email: "your.email@example.com",
+      phone: "+1 (555) 123-4567",
+      location: "San Francisco, CA"
+    },
+    socialLinks: [
+      { platform: "github", url: "https://github.com/yourusername" },
+      { platform: "linkedin", url: "https://linkedin.com/in/yourprofile" },
+      { platform: "twitter", url: "https://twitter.com/yourusername" },
+      { platform: "instagram", url: "https://instagram.com/yourusername" }
+    ],
+    contactBenefits: [
+      "Fast response time (usually within 24 hours)",
+      "Clear communication throughout the project",
+      "Flexible and adaptable to your needs",
+      "Commitment to quality and deadlines"
+    ],
+    contactForm: {
+      title: "Send Me a Message",
+      description: "Have a project in mind? Let's build something amazing together",
+      submitButtonText: "Send Message",
+      successMessage: "Thank you for reaching out. I'll get back to you soon!",
+      errorMessage: "Something went wrong. Please try again."
+    }
+  },
+  contactInfo: contactInfo || {
+    email: "your.email@example.com",
+    phone: "+1 (555) 123-4567",
+    location: "San Francisco, CA",
+    socialLinks: [
+      { platform: "github", url: "https://github.com/yourusername" },
+      { platform: "linkedin", url: "https://linkedin.com/in/yourprofile" },
+      { platform: "twitter", url: "https://twitter.com/yourusername" },
+      { platform: "instagram", url: "https://instagram.com/yourusername" }
+    ],
+    availability: {
+      status: "available",
+      message: "Open to opportunities"
+    },
+    resumeDownload: {
+      url: "/resume.pdf",
+      enabled: true
+    }
   },
 };
 ---
@@ -84,7 +175,7 @@ const fallbackData = {
     fallbackData.siteSettings.siteDescription}
   image={personalInfo?.seo?.ogImage || personalInfo?.profileImage}
 >
-  <Navigation client:load />
+  <Navigation client:load data={siteSettings || fallbackData.siteSettings} />
   <main>
     <Hero client:load data={personalInfo || fallbackData.personalInfo} />
     <About client:visible data={personalInfo || fallbackData.personalInfo} />
@@ -93,7 +184,7 @@ const fallbackData = {
     <RemoteReady client:visible data={remoteWorkInfo || {}} />
     <GitHubActivity client:visible data={githubStats || {}} />
     <Experience client:visible data={experiences || []} />
-    <Contact client:visible data={contactInfo || {}} />
+    <Contact client:visible data={contactInfo || fallbackData.contactInfo} />
   </main>
-  <Footer client:visible />
+  <Footer client:visible data={siteSettings || fallbackData.siteSettings} />
 </Layout>

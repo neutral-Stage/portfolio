@@ -10,6 +10,8 @@
     Sparkles,
   } from "lucide-svelte";
 
+  export let data: any[] = [];
+
   let skillsRef: HTMLElement;
   let isVisible = false;
   let selectedCategory = 0;
@@ -33,80 +35,80 @@
     return () => observer.disconnect();
   });
 
-  const skillCategories = [
-    {
-      title: "Frontend Development",
-      icon: Code,
-      color: "from-purple-500 to-pink-500",
-      skills: [
-        { name: "JavaScript/TypeScript", level: 95 },
-        { name: "React/Next.js", level: 90 },
-        { name: "Svelte/SvelteKit", level: 85 },
-        { name: "Vue.js", level: 80 },
-        { name: "HTML5/CSS3", level: 95 },
-      ],
-    },
-    {
-      title: "UI/UX Design",
-      icon: Palette,
-      color: "from-pink-500 to-rose-500",
-      skills: [
-        { name: "Figma", level: 90 },
-        { name: "Adobe XD", level: 85 },
-        { name: "Sketch", level: 80 },
-        { name: "Prototyping", level: 88 },
-        { name: "User Research", level: 75 },
-      ],
-    },
-    {
-      title: "Backend Development",
-      icon: Database,
-      color: "from-blue-500 to-cyan-500",
-      skills: [
-        { name: "Node.js", level: 90 },
-        { name: "Python/Django", level: 85 },
-        { name: "PostgreSQL", level: 80 },
-        { name: "MongoDB", level: 75 },
-        { name: "REST APIs", level: 92 },
-      ],
-    },
-    {
-      title: "DevOps & Cloud",
-      icon: Cloud,
-      color: "from-cyan-500 to-blue-500",
-      skills: [
-        { name: "AWS", level: 80 },
-        { name: "Docker", level: 85 },
-        { name: "Kubernetes", level: 70 },
-        { name: "CI/CD", level: 88 },
-        { name: "Linux", level: 82 },
-      ],
-    },
-    {
-      title: "Mobile Development",
-      icon: Smartphone,
-      color: "from-orange-500 to-yellow-500",
-      skills: [
-        { name: "React Native", level: 85 },
-        { name: "Flutter", level: 75 },
-        { name: "iOS Development", level: 70 },
-        { name: "Android Development", level: 70 },
-        { name: "PWA", level: 90 },
-      ],
-    },
-    {
-      title: "Tools & Others",
-      icon: Globe,
-      color: "from-green-500 to-emerald-500",
-      skills: [
-        { name: "Git/GitHub", level: 95 },
-        { name: "Webpack/Vite", level: 85 },
-        { name: "Testing (Jest)", level: 80 },
-        { name: "Agile/Scrum", level: 88 },
-        { name: "Project Management", level: 82 },
-      ],
-    },
-  ];
+  // Helper function to get icon based on category
+  const getCategoryIcon = (category: string) => {
+    switch (category) {
+      case "frontend":
+        return Code;
+      case "design":
+        return Palette;
+      case "backend":
+        return Database;
+      case "devops":
+        return Cloud;
+      case "mobile":
+        return Smartphone;
+      case "tools":
+        return Globe;
+      default:
+        return Code;
+    }
+  };
+
+  // Helper function to get color gradient based on category
+  const getCategoryColor = (category: string) => {
+    switch (category) {
+      case "frontend":
+        return "from-purple-500 to-pink-500";
+      case "design":
+        return "from-pink-500 to-rose-500";
+      case "backend":
+        return "from-blue-500 to-cyan-500";
+      case "devops":
+        return "from-cyan-500 to-blue-500";
+      case "mobile":
+        return "from-orange-500 to-yellow-500";
+      case "tools":
+        return "from-green-500 to-emerald-500";
+      default:
+        return "from-purple-500 to-pink-500";
+    }
+  };
+
+  // Helper function to format category title
+  const formatCategoryTitle = (category: string) => {
+    switch (category) {
+      case "frontend":
+        return "Frontend Development";
+      case "design":
+        return "UI/UX Design";
+      case "backend":
+        return "Backend Development";
+      case "devops":
+        return "DevOps & Cloud";
+      case "mobile":
+        return "Mobile Development";
+      case "tools":
+        return "Tools & Others";
+      default:
+        return category.charAt(0).toUpperCase() + category.slice(1);
+    }
+  };
+
+  // Group skills by category
+  $: skillCategories = Array.from(new Set(data.map(skill => skill.category)))
+    .map(category => ({
+      title: formatCategoryTitle(category),
+      icon: getCategoryIcon(category),
+      color: getCategoryColor(category),
+      skills: data.filter(skill => skill.category === category)
+        .map(skill => ({
+          name: skill.name,
+          level: skill.level,
+          description: skill.description,
+          yearsOfExperience: skill.yearsOfExperience
+        }))
+    }));
 </script>
 
 <section
@@ -218,6 +220,11 @@
                         {skill.name}
                       </h4>
                       <p class="text-sm text-gray-400">Proficiency Level</p>
+                      {#if skill.yearsOfExperience}
+                        <p class="text-xs text-gray-500 mt-1">
+                          {skill.yearsOfExperience} {skill.yearsOfExperience === 1 ? 'year' : 'years'} experience
+                        </p>
+                      {/if}
                     </div>
                     <div class="relative w-16 h-16">
                       <!-- Circular Progress -->
@@ -260,6 +267,13 @@
                       </div>
                     </div>
                   </div>
+
+                  <!-- Skill Description -->
+                  {#if skill.description}
+                    <p class="text-gray-400 text-sm mb-4 leading-relaxed">
+                      {skill.description}
+                    </p>
+                  {/if}
 
                   <!-- Progress Bar (Alternative View) -->
                   <div class="space-y-2">

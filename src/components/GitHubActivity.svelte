@@ -13,6 +13,8 @@
     Activity,
   } from "lucide-svelte";
 
+  export let data: any = {};
+
   let githubRef: HTMLElement;
   let isVisible = false;
 
@@ -35,94 +37,59 @@
     return () => observer.disconnect();
   });
 
-  const stats = {
-    followers: 150,
-    following: 200,
-    repositories: 45,
-    stars: 320,
-    contributions: 1250,
-    languages: ["JavaScript", "TypeScript", "Python", "Go", "Rust"],
-    streak: 45,
+  // Helper function to get gradient based on index
+  const getGradient = (index: number) => {
+    const gradients = [
+      "from-purple-500 to-pink-500",
+      "from-blue-500 to-cyan-500",
+      "from-green-500 to-emerald-500",
+      "from-orange-500 to-yellow-500",
+    ];
+    return gradients[index % gradients.length];
   };
 
-  const recentRepos = [
-    {
-      name: "portfolio-website",
-      description:
-        "Modern portfolio website built with Astro, Svelte, and Sanity CMS",
-      language: "TypeScript",
-      stars: 12,
-      forks: 3,
-      updated: "2 days ago",
-      url: "https://github.com/username/portfolio-website",
-      gradient: "from-purple-500 to-pink-500",
-    },
-    {
-      name: "ecommerce-platform",
-      description:
-        "Full-stack e-commerce solution with microservices architecture",
-      language: "JavaScript",
-      stars: 28,
-      forks: 8,
-      updated: "1 week ago",
-      url: "https://github.com/username/ecommerce-platform",
-      gradient: "from-blue-500 to-cyan-500",
-    },
-    {
-      name: "ai-chat-app",
-      description: "AI-powered chat application with OpenAI integration",
-      language: "Python",
-      stars: 45,
-      forks: 12,
-      updated: "3 days ago",
-      url: "https://github.com/username/ai-chat-app",
-      gradient: "from-green-500 to-emerald-500",
-    },
-    {
-      name: "task-manager",
-      description:
-        "Collaborative task management application with real-time updates",
-      language: "TypeScript",
-      stars: 19,
-      forks: 5,
-      updated: "5 days ago",
-      url: "https://github.com/username/task-manager",
-      gradient: "from-orange-500 to-yellow-500",
-    },
-  ];
+  // Process recent repos with gradients
+  $: processedRepos = (data.recentRepos || []).map((repo, index) => ({
+    ...repo,
+    gradient: getGradient(index),
+  }));
 
-  const quickStats = [
+  // Quick stats from data
+  $: quickStats = [
     {
       icon: Users,
       label: "Followers",
-      value: stats.followers,
+      value: data.followers || 0,
       gradient: "from-purple-500 to-pink-500",
     },
     {
       icon: Code,
       label: "Repositories",
-      value: stats.repositories,
+      value: data.repositories || 0,
       gradient: "from-blue-500 to-cyan-500",
     },
     {
       icon: Star,
       label: "Total Stars",
-      value: stats.stars,
+      value: data.stars || 0,
       gradient: "from-yellow-500 to-orange-500",
     },
     {
       icon: GitCommit,
       label: "Contributions",
-      value: stats.contributions,
+      value: data.contributions || 0,
       gradient: "from-green-500 to-emerald-500",
     },
     {
       icon: Flame,
       label: "Day Streak",
-      value: stats.streak,
+      value: data.streak || 0,
       gradient: "from-orange-500 to-red-500",
     },
   ];
+
+  // Get GitHub profile URL
+  $: githubProfileUrl = data.profileUrl || "https://github.com/yourusername";
 </script>
 
 <section
@@ -195,7 +162,7 @@
           Recent Repositories
         </h3>
         <a
-          href="https://github.com/yourusername"
+          href={githubProfileUrl}
           target="_blank"
           rel="noopener noreferrer"
           class="relative inline-flex items-center gap-2 px-6 py-3 glass-light rounded-xl hover:scale-105 transition-all duration-300 group overflow-hidden"
@@ -215,7 +182,7 @@
       </div>
 
       <div class="grid md:grid-cols-2 gap-6">
-        {#each recentRepos as repo, index}
+        {#each processedRepos as repo, index}
           <a
             href={repo.url}
             target="_blank"
@@ -240,26 +207,30 @@
 
             <!-- Language & Stats -->
             <div class="flex flex-wrap items-center gap-4 text-sm">
-              <div
-                class="inline-flex items-center gap-2 px-3 py-1.5 glass-light rounded-lg"
-              >
+              {#if repo.language}
                 <div
-                  class="w-3 h-3 rounded-full bg-gradient-to-r {repo.gradient}"
-                ></div>
-                <span class="text-gray-300 font-medium">{repo.language}</span>
-              </div>
+                  class="inline-flex items-center gap-2 px-3 py-1.5 glass-light rounded-lg"
+                >
+                  <div
+                    class="w-3 h-3 rounded-full bg-gradient-to-r {repo.gradient}"
+                  ></div>
+                  <span class="text-gray-300 font-medium">{repo.language}</span>
+                </div>
+              {/if}
               <div class="flex items-center gap-2 text-gray-400">
                 <Star size={16} class="text-yellow-400" />
-                <span>{repo.stars}</span>
+                <span>{repo.stars || 0}</span>
               </div>
               <div class="flex items-center gap-2 text-gray-400">
                 <GitFork size={16} class="text-blue-400" />
-                <span>{repo.forks}</span>
+                <span>{repo.forks || 0}</span>
               </div>
-              <div class="flex items-center gap-2 text-gray-400 ml-auto">
-                <Calendar size={16} />
-                <span>{repo.updated}</span>
-              </div>
+              {#if repo.updated}
+                <div class="flex items-center gap-2 text-gray-400 ml-auto">
+                  <Calendar size={16} />
+                  <span>{repo.updated}</span>
+                </div>
+              {/if}
             </div>
 
             <!-- Bottom Gradient Line -->
@@ -282,7 +253,7 @@
           Top Languages
         </h3>
         <div class="flex flex-wrap gap-3">
-          {#each stats.languages as language, index}
+          {#each (data.languages || []) as language, index}
             <span
               class="group relative glass-light px-5 py-2.5 rounded-full text-sm font-semibold text-purple-300 hover:text-white hover:scale-110 transition-all duration-300 cursor-default animate-bounce-in delay-{(index +
                 4) *
@@ -318,7 +289,7 @@
         </div>
 
         <div class="relative text-5xl font-black gradient-text mb-2">
-          {stats.streak}
+          {data.streak || 0}
         </div>
         <p class="relative text-gray-200 text-lg font-semibold mb-2">
           Day Contribution Streak
@@ -339,7 +310,7 @@
           opportunities
         </p>
         <a
-          href="https://github.com/yourusername"
+          href={githubProfileUrl}
           target="_blank"
           rel="noopener noreferrer"
           class="inline-flex items-center gap-3 px-8 py-4 rounded-full font-bold text-white bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-[length:200%_100%] animate-gradient hover:scale-105 transition-all duration-300 btn-glow"

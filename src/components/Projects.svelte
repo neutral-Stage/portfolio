@@ -12,8 +12,11 @@
     Zap,
   } from "lucide-svelte";
 
+  export let data: any[] = [];
+
   let projectsRef: HTMLElement;
   let isVisible = false;
+  let selectedCategory = "All";
 
   onMount(() => {
     const observer = new IntersectionObserver(
@@ -34,111 +37,73 @@
     return () => observer.disconnect();
   });
 
-  const projects = [
-    {
-      title: "E-Commerce Platform",
-      description:
-        "A full-stack e-commerce solution with real-time inventory, secure payments, and admin dashboard. Features include product management, order tracking, and customer analytics.",
-      image: "/projects/ecommerce.jpg",
-      technologies: ["Next.js", "TypeScript", "Stripe", "PostgreSQL", "Prisma"],
-      category: "Full-Stack",
-      liveUrl: "https://ecommerce-demo.com",
-      githubUrl: "https://github.com/username/ecommerce",
-      featured: true,
-      gradient: "from-purple-500 to-pink-500",
-    },
-    {
-      title: "Task Management App",
-      description:
-        "Collaborative task management with real-time updates, team collaboration, and project tracking. Built for productivity and seamless workflow.",
-      image: "/projects/taskmanager.jpg",
-      technologies: ["React", "Node.js", "Socket.io", "MongoDB", "Express"],
-      category: "Web App",
-      liveUrl: "https://taskmanager-demo.com",
-      githubUrl: "https://github.com/username/taskmanager",
-      featured: true,
-      gradient: "from-blue-500 to-cyan-500",
-    },
-    {
-      title: "Weather Dashboard",
-      description:
-        "Responsive weather application with location-based forecasts, interactive maps, and detailed analytics. Real-time data visualization.",
-      image: "/projects/weather.jpg",
-      technologies: ["Svelte", "OpenWeather API", "Chart.js", "PWA"],
-      category: "Frontend",
-      liveUrl: "https://weather-demo.com",
-      githubUrl: "https://github.com/username/weather",
-      featured: false,
-      gradient: "from-cyan-500 to-blue-500",
-    },
-    {
-      title: "AI Chat Application",
-      description:
-        "Intelligent chat powered by OpenAI GPT with conversation history, file uploads, and voice interactions. Natural language processing at its best.",
-      image: "/projects/aichat.jpg",
-      technologies: ["React", "OpenAI API", "WebSocket", "Node.js", "Redis"],
-      category: "AI/ML",
-      liveUrl: "https://aichat-demo.com",
-      githubUrl: "https://github.com/username/aichat",
-      featured: true,
-      gradient: "from-pink-500 to-rose-500",
-    },
-    {
-      title: "Portfolio Website",
-      description:
-        "Modern, responsive portfolio with smooth animations, dark mode, and CMS integration. Showcasing creativity and technical excellence.",
-      image: "/projects/portfolio.jpg",
-      technologies: ["Astro", "Svelte", "Tailwind CSS", "Sanity CMS"],
-      category: "Frontend",
-      liveUrl: "https://portfolio-demo.com",
-      githubUrl: "https://github.com/username/portfolio",
-      featured: false,
-      gradient: "from-orange-500 to-yellow-500",
-    },
-    {
-      title: "Social Media Analytics",
-      description:
-        "Comprehensive analytics dashboard with data visualization and automated reporting. Transform data into actionable insights.",
-      image: "/projects/analytics.jpg",
-      technologies: ["Vue.js", "D3.js", "Python", "FastAPI", "PostgreSQL"],
-      category: "Data Visualization",
-      liveUrl: "https://analytics-demo.com",
-      githubUrl: "https://github.com/username/analytics",
-      featured: false,
-      gradient: "from-green-500 to-emerald-500",
-    },
-  ];
+  // Helper function to get gradient based on index
+  const getGradient = (index: number) => {
+    const gradients = [
+      "from-purple-500 to-pink-500",
+      "from-blue-500 to-cyan-500",
+      "from-cyan-500 to-blue-500",
+      "from-pink-500 to-rose-500",
+      "from-orange-500 to-yellow-500",
+      "from-green-500 to-emerald-500",
+    ];
+    return gradients[index % gradients.length];
+  };
 
-  const categories = [
+  // Process projects data
+  $: processedProjects = data.map((project, index) => ({
+    ...project,
+    gradient: getGradient(index),
+  }));
+
+  // Get unique categories from projects
+  $: categories = [
     { name: "All", icon: Sparkles },
-    { name: "Full-Stack", icon: Code },
-    { name: "Frontend", icon: Palette },
-    { name: "Web App", icon: Database },
-    { name: "AI/ML", icon: Zap },
-    { name: "Data Visualization", icon: Database },
+    ...Array.from(new Set(processedProjects.map(p => p.category)))
+      .map(category => {
+        let icon = Code;
+        switch (category) {
+          case "full-stack":
+            icon = Code;
+            break;
+          case "frontend":
+            icon = Palette;
+            break;
+          case "web-app":
+            icon = Database;
+            break;
+          case "ai-ml":
+            icon = Zap;
+            break;
+          case "data-viz":
+            icon = Database;
+            break;
+          case "backend":
+            icon = Database;
+            break;
+          case "mobile":
+            icon = Zap;
+            break;
+        }
+        return {
+          name: category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()),
+          icon,
+          originalValue: category
+        };
+      })
   ];
-  let selectedCategory = "All";
 
   $: filteredProjects =
     selectedCategory === "All"
-      ? projects
-      : projects.filter((project) => project.category === selectedCategory);
+      ? processedProjects
+      : processedProjects.filter((project) => {
+          const category = categories.find(c => c.name === selectedCategory);
+          return category && 'originalValue' in category ? category.originalValue === project.category : false;
+        });
 
   const getCategoryIcon = (category: string) => {
-    switch (category) {
-      case "Full-Stack":
-        return Code;
-      case "Frontend":
-        return Palette;
-      case "Web App":
-        return Database;
-      case "AI/ML":
-        return Zap;
-      case "Data Visualization":
-        return Database;
-      default:
-        return Code;
-    }
+    const found = categories.find(c => c.name === category);
+    return found ? found.icon : Code;
   };
 </script>
 
@@ -212,20 +177,28 @@
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
       {#each filteredProjects as project, index}
         <div
-          class="card-3d card-glow glass rounded-2xl overflow-hidden group scroll-fade-up scroll-fade-up-delay-{index *
+          class="card-3d card-glow glass rounded-2xl group scroll-fade-up scroll-fade-up-delay-{index *
             100}"
         >
           <!-- Project Image/Icon Area -->
           <div class="relative h-56 bg-slate-800 overflow-hidden">
-            <div
-              class="absolute inset-0 flex items-center justify-center opacity-40"
-            >
-              <svelte:component
-                this={getCategoryIcon(project.category)}
-                size={80}
-                class="text-purple-400"
+            {#if project.image}
+              <img
+                src={project.image}
+                alt={project.title}
+                class="absolute inset-0 w-full h-full object-cover opacity-60"
               />
-            </div>
+            {:else}
+              <div
+                class="absolute inset-0 flex items-center justify-center opacity-40"
+              >
+                <svelte:component
+                  this={getCategoryIcon(project.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()))}
+                  size={80}
+                  class="text-purple-400"
+                />
+              </div>
+            {/if}
 
             <!-- Pattern Overlay -->
             <div
@@ -249,28 +222,32 @@
             <div
               class="absolute inset-0 bg-black/70 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-4"
             >
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="w-12 h-12 rounded-xl glass-strong flex items-center justify-center hover-scale-glow transition-transform duration-300 group/link hover-border-glow"
-              >
-                <ExternalLink
-                  size={20}
-                  class="text-white group-hover/link:scale-110 transition-transform"
-                />
-              </a>
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="w-12 h-12 rounded-xl glass-strong flex items-center justify-center hover-scale-glow transition-transform duration-300 group/link hover-border-glow"
-              >
-                <Github
-                  size={20}
-                  class="text-white group-hover/link:scale-110 transition-transform"
-                />
-              </a>
+              {#if project.liveUrl}
+                <a
+                  href={project.liveUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="w-12 h-12 rounded-xl glass-strong flex items-center justify-center hover-scale-glow transition-transform duration-300 group/link hover-border-glow"
+                >
+                  <ExternalLink
+                    size={20}
+                    class="text-white group-hover/link:scale-110 transition-transform"
+                  />
+                </a>
+              {/if}
+              {#if project.githubUrl}
+                <a
+                  href={project.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="w-12 h-12 rounded-xl glass-strong flex items-center justify-center hover-scale-glow transition-transform duration-300 group/link hover-border-glow"
+                >
+                  <Github
+                    size={20}
+                    class="text-white group-hover/link:scale-110 transition-transform"
+                  />
+                </a>
+              {/if}
             </div>
           </div>
 
@@ -282,30 +259,34 @@
                 class="inline-flex items-center gap-2 text-purple-400 text-sm font-semibold"
               >
                 <svelte:component
-                  this={getCategoryIcon(project.category)}
+                  this={getCategoryIcon(project.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase()))}
                   size={14}
                 />
-                {project.category}
+                {project.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
               </span>
               <div class="flex gap-2">
-                <a
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-gray-400 hover:text-purple-400 transition-colors"
-                  title="View Live"
-                >
-                  <Eye size={16} />
-                </a>
-                <a
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-gray-400 hover:text-purple-400 transition-colors"
-                  title="View Code"
-                >
-                  <Github size={16} />
-                </a>
+                {#if project.liveUrl}
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-gray-400 hover:text-purple-400 transition-colors"
+                    title="View Live"
+                  >
+                    <Eye size={16} />
+                  </a>
+                {/if}
+                {#if project.githubUrl}
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-gray-400 hover:text-purple-400 transition-colors"
+                    title="View Code"
+                  >
+                    <Github size={16} />
+                  </a>
+                {/if}
               </div>
             </div>
 

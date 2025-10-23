@@ -13,6 +13,8 @@
     Headphones,
   } from "lucide-svelte";
 
+  export let data: any = {};
+
   let remoteRef: HTMLElement;
   let isVisible = false;
 
@@ -35,59 +37,58 @@
     return () => observer.disconnect();
   });
 
-  const timezones = [
-    { zone: "PST (UTC-8)", time: "9:00 AM - 5:00 PM", flag: "🇺🇸" },
-    { zone: "EST (UTC-5)", time: "12:00 PM - 8:00 PM", flag: "🇺🇸" },
-    { zone: "GMT (UTC+0)", time: "5:00 PM - 1:00 AM", flag: "🇬🇧" },
-    { zone: "CET (UTC+1)", time: "6:00 PM - 2:00 AM", flag: "🇪🇺" },
-  ];
+  // Helper function to get icon from string name
+  const getIcon = (iconName: string) => {
+    switch (iconName) {
+      case "Video":
+        return Video;
+      case "MessageCircle":
+        return MessageCircle;
+      case "Calendar":
+        return Calendar;
+      case "Wifi":
+        return Wifi;
+      case "Shield":
+        return Shield;
+      case "Award":
+        return Award;
+      case "Zap":
+        return Zap;
+      case "Headphones":
+        return Headphones;
+      default:
+        return Zap;
+    }
+  };
 
-  const remoteSkills = [
-    {
-      icon: Video,
-      title: "Video Communication",
-      description: "Expert in Zoom, Teams, Google Meet with professional setup",
-      level: 95,
-      gradient: "from-purple-500 to-pink-500",
-    },
-    {
-      icon: MessageCircle,
-      title: "Async Communication",
-      description: "Slack, Discord, Notion, Linear for seamless collaboration",
-      level: 90,
-      gradient: "from-blue-500 to-cyan-500",
-    },
-    {
-      icon: Calendar,
-      title: "Time Management",
-      description: "Calendar blocking, Pomodoro technique, deadline management",
-      level: 92,
-      gradient: "from-green-500 to-emerald-500",
-    },
-    {
-      icon: Wifi,
-      title: "Technical Setup",
-      description: "Reliable internet, backup systems, professional workspace",
-      level: 98,
-      gradient: "from-orange-500 to-yellow-500",
-    },
-    {
-      icon: Shield,
-      title: "Security Awareness",
-      description: "VPN, 2FA, secure file sharing, data protection protocols",
-      level: 88,
-      gradient: "from-pink-500 to-rose-500",
-    },
-    {
-      icon: Award,
-      title: "Self-Motivation",
-      description: "Independent work, proactive communication, goal-oriented",
-      level: 95,
-      gradient: "from-cyan-500 to-blue-500",
-    },
-  ];
+  // Helper function to get gradient based on index
+  const getGradient = (index: number) => {
+    const gradients = [
+      "from-purple-500 to-pink-500",
+      "from-blue-500 to-cyan-500",
+      "from-green-500 to-emerald-500",
+      "from-orange-500 to-yellow-500",
+      "from-pink-500 to-rose-500",
+      "from-cyan-500 to-blue-500",
+    ];
+    return gradients[index % gradients.length];
+  };
 
-  const tools = [
+  // Process timezones data
+  $: timezones = (data.timezones || []).map((tz, index) => ({
+    ...tz,
+    flag: ["🇺🇸", "🇬🇧", "🇪🇺", "🇯🇵", "🇦🇺"][index % 5] // Default flags
+  }));
+
+  // Process remote skills data
+  $: remoteSkills = (data.remoteSkills || []).map((skill, index) => ({
+    ...skill,
+    icon: getIcon(skill.icon) || Zap,
+    gradient: getGradient(index),
+  }));
+
+  // Tools from data or fallback
+  $: tools = data.tools || [
     "Slack",
     "Discord",
     "Microsoft Teams",
@@ -105,6 +106,9 @@
     "1Password",
     "NordVPN",
   ];
+
+  // Remote stats
+  $: remoteStats = data.stats || {};
 </script>
 
 <section

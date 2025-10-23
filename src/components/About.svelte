@@ -14,6 +14,8 @@
     Briefcase,
   } from "lucide-svelte";
 
+  export let data: any = {};
+
   let aboutRef: HTMLElement;
   let isVisible = false;
   let activeCard = -1;
@@ -37,53 +39,64 @@
     return () => observer.disconnect();
   });
 
-  const stats = [
-    {
-      icon: Rocket,
-      label: "Projects Delivered",
-      value: "50+",
-      color: "from-purple-500 to-pink-500",
-    },
-    {
-      icon: Award,
-      label: "Years Experience",
-      value: "3+",
-      color: "from-blue-500 to-cyan-500",
-    },
-    {
-      icon: Code,
-      label: "Technologies",
-      value: "20+",
-      color: "from-orange-500 to-yellow-500",
-    },
-    {
-      icon: Users,
-      label: "Satisfied Clients",
-      value: "25+",
-      color: "from-pink-500 to-rose-500",
-    },
-  ];
+  // Helper function to get icon from string name
+  const getIcon = (iconName: string) => {
+    switch (iconName) {
+      case "Rocket":
+        return Rocket;
+      case "Award":
+        return Award;
+      case "Code":
+        return Code;
+      case "Users":
+        return Users;
+      case "CheckCircle":
+        return CheckCircle;
+      case "Briefcase":
+        return Briefcase;
+      case "Star":
+        return Star;
+      case "Target":
+        return Target;
+      case "Zap":
+        return Zap;
+      default:
+        return Rocket;
+    }
+  };
 
-  const highlights = [
-    {
-      icon: CheckCircle,
-      title: "Results-Driven",
-      description:
-        "Delivering measurable business outcomes and ROI through technology solutions",
-    },
-    {
-      icon: Briefcase,
-      title: "Client-Focused",
-      description:
-        "Building long-term partnerships through exceptional service and communication",
-    },
-    {
-      icon: Star,
-      title: "Best Practices",
-      description:
-        "Adherence to industry standards, clean code, and scalable architecture",
-    },
-  ];
+  // Helper function to get gradient based on index
+  const getGradient = (index: number) => {
+    const gradients = [
+      "from-purple-500 to-pink-500",
+      "from-blue-500 to-cyan-500",
+      "from-orange-500 to-yellow-500",
+      "from-pink-500 to-rose-500",
+    ];
+    return gradients[index % gradients.length];
+  };
+
+  // Process stats from data
+  $: stats = (data.stats || []).map((stat, index) => ({
+    icon: getIcon(stat.icon) || Rocket,
+    label: stat.label,
+    value: stat.value,
+    color: getGradient(index),
+  }));
+
+  // Process highlights from data
+  $: highlights = (data.highlights || []).map((highlight, index) => ({
+    icon: CheckCircle, // Default icon for highlights
+    title: highlight.title,
+    description: highlight.description,
+  }));
+
+  // Professional status from data
+  $: professionalStatus = data.professionalStatus || {
+    status: "available",
+    message: "Open to opportunities",
+    types: ["Freelance", "Contract", "Full-Time"]
+  };
 </script>
 
 <section
@@ -193,7 +206,7 @@
 
             <!-- Main Profile Container -->
             <div
-              class="relative rounded-2xl glass-strong border border-white/10 overflow-hidden group-hover:border-purple-500/50 transition-all duration-500 hover-border-glow"
+              class="relative rounded-2xl glass-strong border border-white/10 group-hover:border-purple-500/50 transition-all duration-500 hover-border-glow"
             >
               <div
                 class="aspect-square flex items-center justify-center bg-purple-600/10"
@@ -212,7 +225,7 @@
                   <div
                     class="w-2 h-2 rounded-full bg-green-400 animate-pulse"
                   ></div>
-                  <span class="text-xs font-bold text-white">Available</span>
+                  <span class="text-xs font-bold text-white">{professionalStatus.status}</span>
                 </div>
               </div>
 
@@ -238,24 +251,16 @@
             </div>
             <div>
               <h3 class="text-base font-black text-white mb-2">
-                Open to Opportunities
+                {professionalStatus.message || "Open to Opportunities"}
               </h3>
               <div class="flex flex-wrap gap-2">
-                <span
-                  class="text-xs px-2.5 py-1 rounded-full bg-green-500/20 text-green-400 border border-green-500/30"
-                >
-                  Freelance
-                </span>
-                <span
-                  class="text-xs px-2.5 py-1 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30"
-                >
-                  Contract
-                </span>
-                <span
-                  class="text-xs px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-400 border border-purple-500/30"
-                >
-                  Full-Time
-                </span>
+                {#each (professionalStatus.types || []) as type}
+                  <span
+                    class="text-xs px-2.5 py-1 rounded-full bg-green-500/20 text-green-400 border border-green-500/30"
+                  >
+                    {type}
+                  </span>
+                {/each}
               </div>
             </div>
           </div>

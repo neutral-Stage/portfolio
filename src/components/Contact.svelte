@@ -13,6 +13,8 @@
     Sparkles,
   } from "lucide-svelte";
 
+  export let data: any = {};
+
   let contactRef: HTMLElement;
   let isVisible = false;
   let formData = {
@@ -43,50 +45,72 @@
     return () => observer.disconnect();
   });
 
-  const contactInfo = [
+  // Contact form settings from data
+  $: contactForm = data.contactForm || {
+    title: "Send Me a Message",
+    description: "Have a project in mind? Let's build something amazing together",
+    submitButtonText: "Send Message",
+    successMessage: "Thank you for reaching out. I'll get back to you soon!",
+    errorMessage: "Something went wrong. Please try again."
+  };
+
+  // Contact benefits from data
+  $: contactBenefits = data.contactBenefits || [
+    "Fast response time (usually within 24 hours)",
+    "Clear communication throughout the project",
+    "Flexible and adaptable to your needs",
+    "Commitment to quality and deadlines"
+  ];
+
+  // Contact information from data
+  $: contactInfo = [
     {
       icon: Mail,
       label: "Email",
-      value: "your.email@example.com",
-      href: "mailto:your.email@example.com",
+      value: data.contact?.email || "your.email@example.com",
+      href: `mailto:${data.contact?.email || "your.email@example.com"}`,
       gradient: "from-purple-500 to-pink-500",
     },
     {
       icon: Phone,
       label: "Phone",
-      value: "+1 (555) 123-4567",
-      href: "tel:+15551234567",
+      value: data.contact?.phone || "+1 (555) 123-4567",
+      href: `tel:${data.contact?.phone || "+15551234567"}`,
       gradient: "from-blue-500 to-cyan-500",
     },
     {
       icon: MapPin,
       label: "Location",
-      value: "San Francisco, CA",
+      value: data.contact?.location || "San Francisco, CA",
       href: "#",
       gradient: "from-green-500 to-emerald-500",
     },
   ];
 
-  const socialLinks = [
-    {
-      icon: Github,
-      label: "GitHub",
-      href: "https://github.com/yourusername",
+  // Social links from data
+  $: socialLinks = (data.socialLinks || []).map(link => {
+    let icon;
+    switch (link.platform) {
+      case "github":
+        icon = Github;
+        break;
+      case "linkedin":
+        icon = Linkedin;
+        break;
+      case "twitter":
+        icon = Twitter;
+        break;
+      default:
+        icon = Github;
+    }
+    
+    return {
+      icon,
+      label: link.platform.charAt(0).toUpperCase() + link.platform.slice(1),
+      href: link.url,
       gradient: "from-gray-500 to-gray-700",
-    },
-    {
-      icon: Linkedin,
-      label: "LinkedIn",
-      href: "https://linkedin.com/in/yourprofile",
-      gradient: "from-blue-500 to-blue-700",
-    },
-    {
-      icon: Twitter,
-      label: "Twitter",
-      href: "https://twitter.com/yourusername",
-      gradient: "from-sky-400 to-blue-500",
-    },
-  ];
+    };
+  });
 
   const handleSubmit = async (e: Event) => {
     e.preventDefault();
@@ -146,7 +170,7 @@
             <a
               href={info.href}
               class="card-shine card-glow glass p-6 rounded-2xl flex items-center gap-6 group hover-scale-glow transition-all duration-300 scroll-fade-up scroll-fade-up-delay-{index *
-                100} relative overflow-hidden hover-border-glow"
+                100} relative hover-border-glow"
             >
               <div
                 class="w-16 h-16 rounded-2xl bg-purple-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform relative z-10 hover-border-glow"
@@ -187,7 +211,7 @@
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="group relative w-16 h-16 rounded-2xl glass-light flex items-center justify-center hover-scale-glow transition-all duration-300 overflow-hidden hover-border-glow"
+                class="group relative w-16 h-16 rounded-2xl glass-light flex items-center justify-center hover-scale-glow transition-all duration-300 hover-border-glow"
                 title={social.label}
               >
                 <svelte:component
@@ -206,34 +230,15 @@
         >
           <h3 class="text-xl font-black text-white mb-4">Why Work With Me?</h3>
           <ul class="space-y-3 text-gray-300">
-            <li class="flex items-start gap-3">
-              <CheckCircle
-                size={20}
-                class="text-purple-400 flex-shrink-0 mt-0.5"
-              />
-              <span>Fast response time (usually within 24 hours)</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <CheckCircle
-                size={20}
-                class="text-purple-400 flex-shrink-0 mt-0.5"
-              />
-              <span>Clear communication throughout the project</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <CheckCircle
-                size={20}
-                class="text-purple-400 flex-shrink-0 mt-0.5"
-              />
-              <span>Flexible and adaptable to your needs</span>
-            </li>
-            <li class="flex items-start gap-3">
-              <CheckCircle
-                size={20}
-                class="text-purple-400 flex-shrink-0 mt-0.5"
-              />
-              <span>Commitment to quality and deadlines</span>
-            </li>
+            {#each contactBenefits as benefit}
+              <li class="flex items-start gap-3">
+                <CheckCircle
+                  size={20}
+                  class="text-purple-400 flex-shrink-0 mt-0.5"
+                />
+                <span>{typeof benefit === 'string' ? benefit : benefit.text}</span>
+              </li>
+            {/each}
           </ul>
         </div>
       </div>
@@ -247,7 +252,7 @@
             class="text-3xl font-black text-white mb-8 flex items-center gap-3"
           >
             <Send size={28} class="text-purple-400" />
-            Send Me a Message
+            {contactForm.title}
           </h3>
 
           {#if isSubmitted}
@@ -255,7 +260,7 @@
               <CheckCircle size={64} class="text-green-400 mx-auto mb-6" />
               <h4 class="text-2xl font-bold text-white mb-3">Message Sent!</h4>
               <p class="text-gray-400">
-                Thank you for reaching out. I'll get back to you soon!
+                {contactForm.successMessage}
               </p>
             </div>
           {:else}
@@ -345,7 +350,7 @@
                   Sending...
                 {:else}
                   <Send size={20} />
-                  Send Message
+                  {contactForm.submitButtonText}
                 {/if}
               </button>
             </form>

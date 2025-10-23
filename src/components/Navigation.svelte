@@ -14,6 +14,8 @@
   } from "lucide-svelte";
   import { lenisStore, scrollToElement } from "../lib/lenis";
 
+  export let data: any = {};
+
   let isMenuOpen = false;
   let isScrolled = false;
   let lenis: any = null;
@@ -25,15 +27,42 @@
     icon: any;
   };
 
-  const navItems: NavItem[] = [
-    { name: "Home", href: "#home", icon: Home },
-    { name: "About", href: "#about", icon: User },
-    { name: "Skills", href: "#skills", icon: Code },
-    { name: "Projects", href: "/projects", icon: Briefcase },
-    { name: "Blog", href: "/blog", icon: BookOpen },
-    { name: "Experience", href: "#experience", icon: Briefcase },
-    { name: "Contact", href: "#contact", icon: Mail },
-  ];
+  // Helper function to get icon from string name
+  const getIcon = (iconName: string) => {
+    switch (iconName) {
+      case "Home":
+        return Home;
+      case "User":
+        return User;
+      case "Code":
+        return Code;
+      case "Briefcase":
+        return Briefcase;
+      case "BookOpen":
+        return BookOpen;
+      case "MapPin":
+        return MapPin;
+      case "Github":
+        return Github;
+      case "Mail":
+        return Mail;
+      default:
+        return Home;
+    }
+  };
+
+  // Navigation items from data or fallback
+  $: navItems = (data.navigation || [
+    { name: "Home", href: "#home", icon: "Home" },
+    { name: "About", href: "#about", icon: "User" },
+    { name: "Skills", href: "#skills", icon: "Code" },
+    { name: "Projects", href: "/projects", icon: "Briefcase" },
+    { name: "Experience", href: "#experience", icon: "Briefcase" },
+    { name: "Contact", href: "#contact", icon: "Mail" },
+  ]).map(item => ({
+    ...item,
+    icon: getIcon(item.icon)
+  }));
 
   onMount(() => {
     const handleScroll = () => {

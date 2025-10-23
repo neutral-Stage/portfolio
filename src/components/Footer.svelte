@@ -9,6 +9,8 @@
   } from "lucide-svelte";
   import { lenisStore } from "../lib/lenis";
 
+  export let data: any = {};
+
   let lenis: any = null;
 
   // Subscribe to Lenis store
@@ -26,8 +28,12 @@
 
   const currentYear = new Date().getFullYear();
 
-  const footerLinks = {
-    navigation: [
+  // Footer settings from data
+  $: footerSettings = data?.footer || {
+    brandName: "Portfolio",
+    brandDescription: "Building exceptional digital experiences with modern technologies. Passionate about creating innovative solutions that make a difference.",
+    copyrightText: "© {year} {name}. All rights reserved. Built with {heart} using Astro & Svelte",
+    navigationLinks: [
       { name: "Home", href: "#home" },
       { name: "About", href: "#about" },
       { name: "Skills", href: "#skills" },
@@ -35,33 +41,70 @@
       { name: "Experience", href: "#experience" },
       { name: "Contact", href: "#contact" },
     ],
-    social: [
-      {
-        name: "GitHub",
-        href: "https://github.com/yourusername",
-        icon: Github,
-        gradient: "from-purple-600 to-pink-600",
-      },
-      {
-        name: "LinkedIn",
-        href: "https://linkedin.com/in/yourprofile",
-        icon: Linkedin,
-        gradient: "from-blue-600 to-cyan-600",
-      },
-      {
-        name: "Twitter",
-        href: "https://twitter.com/yourusername",
-        icon: Twitter,
-        gradient: "from-sky-500 to-blue-600",
-      },
-      {
-        name: "Email",
-        href: "mailto:your.email@example.com",
-        icon: Mail,
-        gradient: "from-pink-600 to-orange-600",
-      },
-    ],
+    contactInfo: {
+      email: data?.contact?.email || "your.email@example.com",
+      phone: data?.contact?.phone || "+1 (555) 123-4567",
+      status: "Available for freelance opportunities"
+    }
   };
+
+
+  // Social links from data
+  $: socialLinks = (data.socialLinks || []).map(link => {
+    let icon;
+    switch (link.platform) {
+      case "github":
+        icon = Github;
+        break;
+      case "linkedin":
+        icon = Linkedin;
+        break;
+      case "twitter":
+        icon = Twitter;
+        break;
+      case "mail":
+      case "email":
+        icon = Mail;
+        break;
+      default:
+        icon = Github;
+    }
+    
+    return {
+      name: link.platform.charAt(0).toUpperCase() + link.platform.slice(1),
+      href: link.url,
+      icon,
+      gradient: "from-purple-600 to-pink-600",
+    };
+  });
+
+  // Fallback social links if none provided
+  $: processedSocialLinks = socialLinks.length > 0 ? socialLinks : [
+    {
+      name: "GitHub",
+      href: "https://github.com/yourusername",
+      icon: Github,
+      gradient: "from-purple-600 to-pink-600",
+    },
+    {
+      name: "LinkedIn",
+      href: "https://linkedin.com/in/yourprofile",
+      icon: Linkedin,
+      gradient: "from-blue-600 to-cyan-600",
+    },
+    {
+      name: "Twitter",
+      href: "https://twitter.com/yourusername",
+      icon: Twitter,
+      gradient: "from-sky-500 to-blue-600",
+    },
+    {
+      name: "Email",
+      href: "mailto:your.email@example.com",
+      icon: Mail,
+      gradient: "from-pink-600 to-orange-600",
+    },
+  ];
 </script>
 
 <footer
@@ -89,16 +132,15 @@
               <span class="text-purple-400 font-black text-2xl">P</span>
             </div>
           </div>
-          <span class="text-2xl font-black text-purple-400">Portfolio</span>
+          <span class="text-2xl font-black text-purple-400">{footerSettings?.brandName || "Portfolio"}</span>
         </a>
         <p class="text-gray-400 leading-relaxed mb-6 max-w-md">
-          Building exceptional digital experiences with modern technologies.
-          Passionate about creating innovative solutions that make a difference.
+          {footerSettings?.brandDescription || "Building exceptional digital experiences with modern technologies."}
         </p>
 
         <!-- Social Links -->
         <div class="flex gap-3">
-          {#each footerLinks.social as social}
+          {#each processedSocialLinks as social}
             <a
               href={social.href}
               target="_blank"
@@ -123,7 +165,7 @@
       <div>
         <h3 class="text-lg font-bold text-white mb-6">Quick Links</h3>
         <ul class="space-y-3">
-          {#each footerLinks.navigation as link}
+          {#each footerSettings?.navigationLinks || [] as link}
             <li>
               <a
                 href={link.href}
@@ -143,28 +185,34 @@
       <div>
         <h3 class="text-lg font-bold text-white mb-6">Get in Touch</h3>
         <ul class="space-y-4 text-gray-400 text-sm">
-          <li>
-            <a
-              href="mailto:your.email@example.com"
-              class="hover:text-white transition-colors duration-300"
-            >
-              your.email@example.com
-            </a>
-          </li>
-          <li>
-            <a
-              href="tel:+15551234567"
-              class="hover:text-white transition-colors duration-300"
-            >
-              +1 (555) 123-4567
-            </a>
-          </li>
-          <li class="flex items-start gap-2">
-            <span
-              class="inline-block w-2 h-2 rounded-full bg-green-400 mt-1.5 animate-pulse"
-            ></span>
-            <span>Available for freelance opportunities</span>
-          </li>
+          {#if footerSettings?.contactInfo?.email}
+            <li>
+              <a
+                href="mailto:{footerSettings.contactInfo.email}"
+                class="hover:text-white transition-colors duration-300"
+              >
+                {footerSettings.contactInfo.email}
+              </a>
+            </li>
+          {/if}
+          {#if footerSettings?.contactInfo?.phone}
+            <li>
+              <a
+                href="tel:{footerSettings.contactInfo.phone}"
+                class="hover:text-white transition-colors duration-300"
+              >
+                {footerSettings.contactInfo.phone}
+              </a>
+            </li>
+          {/if}
+          {#if footerSettings?.contactInfo?.status}
+            <li class="flex items-start gap-2">
+              <span
+                class="inline-block w-2 h-2 rounded-full bg-green-400 mt-1.5 animate-pulse"
+              ></span>
+              <span>{footerSettings.contactInfo.status}</span>
+            </li>
+          {/if}
         </ul>
       </div>
     </div>
@@ -174,7 +222,7 @@
       <div class="flex flex-col md:flex-row justify-between items-center gap-4">
         <p class="text-gray-400 text-sm text-center md:text-left">
           © {currentYear}
-          <span class="text-purple-400 font-semibold">Your Name</span>. All
+          <span class="text-purple-400 font-semibold">{data?.name || "Your Name"}</span>. All
           rights reserved. Built with <Heart
             size={14}
             class="inline text-pink-500 animate-pulse"

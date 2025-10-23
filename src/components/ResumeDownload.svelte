@@ -9,6 +9,8 @@
     Globe,
   } from "lucide-svelte";
 
+  export let data: any = {};
+
   let resumeRef: HTMLElement;
   let isVisible = false;
 
@@ -31,34 +33,41 @@
     return () => observer.disconnect();
   });
 
-  const resumeHighlights = [
-    {
-      icon: Briefcase,
-      title: "3+ Years Experience",
-      description: "Full-stack development across various industries",
-    },
-    {
-      icon: Award,
-      title: "50+ Projects",
-      description: "Successfully delivered projects for clients worldwide",
-    },
-    {
-      icon: GraduationCap,
-      title: "Computer Science",
-      description: "Bachelor's degree with focus on software engineering",
-    },
-    {
-      icon: Globe,
-      title: "Remote Expert",
-      description: "Proven track record working with global teams",
-    },
+  // Helper function to get icon from string name
+  const getIcon = (iconName: string) => {
+    switch (iconName) {
+      case "Briefcase":
+        return Briefcase;
+      case "Award":
+        return Award;
+      case "GraduationCap":
+        return GraduationCap;
+      case "Globe":
+        return Globe;
+      default:
+        return Award;
+    }
+  };
+
+  // Process resume highlights from data
+  $: resumeHighlights = (data.resumeHighlights || []).map((highlight) => ({
+    icon: getIcon(highlight.icon) || Award,
+    title: highlight.title,
+    description: highlight.description,
+  }));
+
+  // Process resume formats from data
+  $: resumeFormats = data.resumeFormats || [
+    { name: "PDF Format", icon: "FileText", color: "text-red-400" },
+    { name: "Word Document", icon: "FileText", color: "text-blue-400" },
+    { name: "Plain Text", icon: "FileText", color: "text-green-400" }
   ];
 
   const downloadResume = () => {
     // In a real implementation, this would download the actual resume PDF
     const link = document.createElement("a");
-    link.href = "/resume.pdf";
-    link.download = "Your-Name-Resume.pdf";
+    link.href = data?.resume?.url || "/resume.pdf";
+    link.download = `${data?.name || "Your-Name"}-Resume.pdf`;
     link.click();
   };
 </script>
@@ -181,45 +190,22 @@
             Available Formats
           </h4>
           <div class="space-y-3">
-            <div
-              class="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg"
-            >
-              <div class="flex items-center">
-                <FileText size={20} class="text-red-400 mr-3" />
-                <span class="text-gray-300">PDF Format</span>
-              </div>
-              <button
-                class="text-purple-400 hover:text-purple-300 text-sm font-medium"
+            {#each resumeFormats as format}
+              <div
+                class="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg"
               >
-                Download
-              </button>
-            </div>
-            <div
-              class="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg"
-            >
-              <div class="flex items-center">
-                <FileText size={20} class="text-blue-400 mr-3" />
-                <span class="text-gray-300">Word Document</span>
+                <div class="flex items-center">
+                  <FileText size={20} class={format.color || "text-red-400"} style="margin-right: 0.75rem" />
+                  <span class="text-gray-300">{format.name}</span>
+                </div>
+                <button
+                  class="text-purple-400 hover:text-purple-300 text-sm font-medium"
+                  on:click={downloadResume}
+                >
+                  Download
+                </button>
               </div>
-              <button
-                class="text-purple-400 hover:text-purple-300 text-sm font-medium"
-              >
-                Download
-              </button>
-            </div>
-            <div
-              class="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg"
-            >
-              <div class="flex items-center">
-                <FileText size={20} class="text-green-400 mr-3" />
-                <span class="text-gray-300">Plain Text</span>
-              </div>
-              <button
-                class="text-purple-400 hover:text-purple-300 text-sm font-medium"
-              >
-                Download
-              </button>
-            </div>
+            {/each}
           </div>
         </div>
 
@@ -229,10 +215,12 @@
         >
           <h4 class="text-lg font-semibold text-white mb-4">Quick Contact</h4>
           <div class="space-y-2 text-sm">
-            <div class="text-gray-300">📧 your.email@example.com</div>
-            <div class="text-gray-300">📱 +1 (555) 123-4567</div>
-            <div class="text-gray-300">🌍 San Francisco, CA</div>
-            <div class="text-gray-300">💼 Available for remote work</div>
+            <div class="text-gray-300">📧 {data?.contact?.email || "your.email@example.com"}</div>
+            {#if data?.contact?.phone}
+              <div class="text-gray-300">📱 {data.contact.phone}</div>
+            {/if}
+            <div class="text-gray-300">🌍 {data?.contact?.location || "San Francisco, CA"}</div>
+            <div class="text-gray-300">💼 {data?.availability?.message || "Available for remote work"}</div>
           </div>
         </div>
       </div>

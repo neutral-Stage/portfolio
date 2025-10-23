@@ -10,6 +10,7 @@
     Code2,
     Rocket,
   } from "lucide-svelte";
+  import { createAnimatedWords } from "../lib/animatedText";
 
   export let data: any = {};
 
@@ -20,15 +21,30 @@
   let cursorX = 0;
   let cursorY = 0;
 
+  // Throttle function for mouse tracking
+  const throttle = (func: Function, limit: number) => {
+    let inThrottle: boolean;
+    return function(this: any, ...args: any[]) {
+      if (!inThrottle) {
+        func.apply(this, args);
+        inThrottle = true;
+        setTimeout(() => inThrottle = false, limit);
+      }
+    };
+  };
+
   onMount(() => {
     isVisible = true; // Hero is always visible on load
 
-    // Smooth cursor follow (only on desktop)
-    if (window.innerWidth >= 1024) {
-      const handleMouseMove = (e: MouseEvent) => {
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Smooth cursor follow (only on desktop and if motion is not reduced)
+    if (window.innerWidth >= 1024 && !prefersReducedMotion) {
+      const handleMouseMove = throttle((e: MouseEvent) => {
         mouseX = e.clientX;
         mouseY = e.clientY;
-      };
+      }, 16); // ~60fps throttling
 
       window.addEventListener("mousemove", handleMouseMove, { passive: true });
 
@@ -68,6 +84,16 @@
     linkedin: "https://linkedin.com/in/yourprofile",
     email: "mailto:your.email@example.com",
   };
+
+  // Feature tags from data or fallback
+  $: featureTags = data?.featureTags || [
+    { icon: "Code2", text: "Clean Code", color: "text-purple-400" },
+    { icon: "Sparkles", text: "Modern UI/UX", color: "text-pink-400" },
+    { icon: "Rocket", text: "Fast Performance", color: "text-blue-400" }
+  ];
+
+  // Create animated words for the headline
+  $: animatedHeadline = createAnimatedWords(heroContent.headline);
 </script>
 
 <section
@@ -81,15 +107,15 @@
   <!-- Animated Glow Orbs -->
   <div class="absolute inset-0 overflow-hidden">
     <div
-      class="absolute w-[600px] h-[600px] rounded-full opacity-20 blur-3xl animate-float"
+      class="absolute w-[600px] h-[600px] rounded-full opacity-20 blur-2xl animate-float"
       style="background: radial-gradient(circle, rgba(168,85,247,0.3) 0%, transparent 70%); top: -10%; left: -10%;"
     ></div>
     <div
-      class="absolute w-[500px] h-[500px] rounded-full opacity-20 blur-3xl animate-float"
+      class="absolute w-[500px] h-[500px] rounded-full opacity-20 blur-2xl animate-float"
       style="background: radial-gradient(circle, rgba(236,72,153,0.3) 0%, transparent 70%); bottom: -10%; right: -10%; animation-delay: 2s;"
     ></div>
     <div
-      class="absolute w-[400px] h-[400px] rounded-full opacity-15 blur-3xl animate-float"
+      class="absolute w-[400px] h-[400px] rounded-full opacity-15 blur-2xl animate-float"
       style="background: radial-gradient(circle, rgba(59,130,246,0.3) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: 4s;"
     ></div>
   </div>
@@ -138,9 +164,11 @@
           class="block mb-3 text-white text-4xl sm:text-5xl lg:text-6xl font-medium"
           >Hi, I'm</span
         >
-        <span class="text-purple-400">
-          {data?.name || "Your Name"}
-        </span>
+        <div class="text-purple-400 words-pull-up">
+          {#each animatedHeadline as word, index}
+            <span class={word.class}>{word.text}</span>
+          {/each}
+        </div>
       </h1>
 
       <!-- Animated Subtitle -->
@@ -164,25 +192,22 @@
       <div
         class="flex flex-wrap justify-center gap-4 mb-12 scroll-fade-up scroll-fade-up-delay-400"
       >
-        <div
-          class="glass-light px-5 py-2.5 rounded-full inline-flex items-center gap-2 hover-scale-glow transition-all duration-300 hover-border-glow"
-        >
-          <Code2 size={18} class="text-purple-400" />
-          <span class="text-sm font-medium text-gray-300">Clean Code</span>
-        </div>
-        <div
-          class="glass-light px-5 py-2.5 rounded-full inline-flex items-center gap-2 hover-scale-glow transition-all duration-300 hover-border-glow"
-        >
-          <Sparkles size={18} class="text-pink-400" />
-          <span class="text-sm font-medium text-gray-300">Modern UI/UX</span>
-        </div>
-        <div
-          class="glass-light px-5 py-2.5 rounded-full inline-flex items-center gap-2 hover-scale-glow transition-all duration-300 hover-border-glow"
-        >
-          <Rocket size={18} class="text-blue-400" />
-          <span class="text-sm font-medium text-gray-300">Fast Performance</span
+        {#each featureTags as tag}
+          <div
+            class="glass-light px-5 py-2.5 rounded-full inline-flex items-center gap-2 hover-scale-glow transition-all duration-300 hover-border-glow"
           >
-        </div>
+            {#if tag.icon === "Code2"}
+              <Code2 size={18} class={tag.color || "text-purple-400"} />
+            {:else if tag.icon === "Sparkles"}
+              <Sparkles size={18} class={tag.color || "text-pink-400"} />
+            {:else if tag.icon === "Rocket"}
+              <Rocket size={18} class={tag.color || "text-blue-400"} />
+            {:else}
+              <Sparkles size={18} class={tag.color || "text-purple-400"} />
+            {/if}
+            <span class="text-sm font-medium text-gray-300">{tag.text}</span>
+          </div>
+        {/each}
       </div>
 
       <!-- CTA Buttons with Premium Effects -->
@@ -191,7 +216,7 @@
       >
         <button
           on:click={scrollToAbout}
-          class="group relative px-8 py-3.5 rounded-xl font-semibold text-white overflow-hidden hover-scale-glow transition-all duration-300 btn-border-glow"
+          class="group relative px-8 py-3.5 rounded-full font-semibold text-white overflow-hidden hover-scale-glow transition-all duration-300 btn-border-glow"
         >
           <div class="absolute inset-0 glass-strong"></div>
           <span class="relative z-10 flex items-center gap-2">
@@ -206,7 +231,7 @@
         <a
           href={data?.resume?.url || "/resume.pdf"}
           download
-          class="group relative px-8 py-3.5 rounded-xl font-semibold text-white overflow-hidden hover-scale-glow transition-all duration-300 btn-border-glow"
+          class="group relative px-8 py-3.5 rounded-full font-semibold text-white overflow-hidden hover-scale-glow transition-all duration-300 btn-border-glow"
         >
           <div class="absolute inset-0 glass-strong"></div>
           <span class="relative z-10 flex items-center gap-2">
@@ -227,7 +252,7 @@
           href={socialLinks.github}
           target="_blank"
           rel="noopener noreferrer"
-          class="group relative w-12 h-12 rounded-xl glass-light flex items-center justify-center hover-scale-glow transition-all duration-300 overflow-hidden hover-border-glow"
+          class="group relative w-12 h-12 rounded-full glass-light flex items-center justify-center hover-scale-glow transition-all duration-300 overflow-hidden hover-border-glow"
           aria-label="GitHub"
         >
           <Github
@@ -240,7 +265,7 @@
           href={socialLinks.linkedin}
           target="_blank"
           rel="noopener noreferrer"
-          class="group relative w-12 h-12 rounded-xl glass-light flex items-center justify-center hover-scale-glow transition-all duration-300 overflow-hidden hover-border-glow"
+          class="group relative w-12 h-12 rounded-full glass-light flex items-center justify-center hover-scale-glow transition-all duration-300 overflow-hidden hover-border-glow"
           aria-label="LinkedIn"
         >
           <Linkedin
@@ -251,7 +276,7 @@
 
         <a
           href={socialLinks.email}
-          class="group relative w-12 h-12 rounded-xl glass-light flex items-center justify-center hover-scale-glow transition-all duration-300 overflow-hidden hover-border-glow"
+          class="group relative w-12 h-12 rounded-full glass-light flex items-center justify-center hover-scale-glow transition-all duration-300 overflow-hidden hover-border-glow"
           aria-label="Email"
         >
           <Mail

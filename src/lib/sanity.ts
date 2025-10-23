@@ -1,17 +1,17 @@
-import { createClient } from '@sanity/client'
-import imageUrlBuilder from '@sanity/image-url'
+import { createClient } from "@sanity/client";
+import imageUrlBuilder from "@sanity/image-url";
 
 export const client = createClient({
-  projectId: '2390vy3a', // Replace with your Sanity project ID
-  dataset: 'production',
+  projectId: "2390vy3a", // Replace with your Sanity project ID
+  dataset: "production",
   useCdn: true, // Set to false if you want fresh data
-  apiVersion: '2023-05-03', // Use current date (YYYY-MM-DD) to target the latest API version
+  apiVersion: "2023-05-03", // Use current date (YYYY-MM-DD) to target the latest API version
   token: process.env.SANITY_API_TOKEN,
-})
+});
 
-const builder = imageUrlBuilder(client)
+const builder = imageUrlBuilder(client);
 
-export const urlFor = (source: any) => builder.image(source)
+export const urlFor = (source: any) => builder.image(source);
 
 // Helper function to get all projects
 export async function getProjects() {
@@ -31,9 +31,9 @@ export async function getProjects() {
     startDate,
     endDate,
     status
-  }`
-  
-  return await client.fetch(query)
+  }`;
+
+  return await client.fetch(query);
 }
 
 // Helper function to get featured projects
@@ -48,9 +48,9 @@ export async function getFeaturedProjects() {
     category,
     liveUrl,
     githubUrl
-  }`
-  
-  return await client.fetch(query)
+  }`;
+
+  return await client.fetch(query);
 }
 
 // Helper function to get all experiences
@@ -69,9 +69,9 @@ export async function getExperiences() {
     technologies,
     companyUrl,
     logo
-  }`
-  
-  return await client.fetch(query)
+  }`;
+
+  return await client.fetch(query);
 }
 
 // Helper function to get all skills
@@ -85,9 +85,9 @@ export async function getSkills() {
     color,
     yearsOfExperience,
     description
-  }`
-  
-  return await client.fetch(query)
+  }`;
+
+  return await client.fetch(query);
 }
 
 // Helper function to get personal information
@@ -102,10 +102,15 @@ export async function getPersonalInfo() {
     contact,
     socialLinks,
     availability,
-    stats
-  }`
-  
-  return await client.fetch(query)
+    stats,
+    heroContent,
+    highlights,
+    professionalStatus,
+    resumeHighlights,
+    resumeFormats
+  }`;
+
+  return await client.fetch(query);
 }
 
 // Helper function to get blog posts
@@ -123,9 +128,9 @@ export async function getBlogPosts() {
     featured,
     readingTime,
     seo
-  }`
-  
-  return await client.fetch(query)
+  }`;
+
+  return await client.fetch(query);
 }
 
 // Helper function to get featured blog posts
@@ -140,11 +145,10 @@ export async function getFeaturedBlogPosts() {
     category,
     publishedAt,
     readingTime
-  }`
-  
-  return await client.fetch(query)
-}
+  }`;
 
+  return await client.fetch(query);
+}
 
 // Helper function to get GitHub stats
 export async function getGitHubStats() {
@@ -158,9 +162,9 @@ export async function getGitHubStats() {
     languages,
     streak,
     recentRepos
-  }`
-  
-  return await client.fetch(query)
+  }`;
+
+  return await client.fetch(query);
 }
 
 // Helper function to get remote work info
@@ -172,9 +176,9 @@ export async function getRemoteWorkInfo() {
     tools,
     stats,
     availability
-  }`
-  
-  return await client.fetch(query)
+  }`;
+
+  return await client.fetch(query);
 }
 
 // Helper function to get contact info
@@ -187,9 +191,9 @@ export async function getContactInfo() {
     socialLinks,
     availability,
     resumeDownload
-  }`
-  
-  return await client.fetch(query)
+  }`;
+
+  return await client.fetch(query);
 }
 
 // Helper function to get site settings
@@ -202,8 +206,14 @@ export async function getSiteSettings() {
     ogImage,
     favicon,
     analytics,
-    seo
-  }`
-  
-  return await client.fetch(query)
+    seo,
+    socialLinks,
+    navigation,
+    footer,
+    contact,
+    contactBenefits,
+    contactForm
+  }`;
+
+  return await client.fetch(query);
 }

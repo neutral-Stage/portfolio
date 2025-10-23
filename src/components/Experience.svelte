@@ -11,6 +11,8 @@
     Code,
   } from "lucide-svelte";
 
+  export let data: any[] = [];
+
   let experienceRef: HTMLElement;
   let isVisible = false;
 
@@ -33,101 +35,32 @@
     return () => observer.disconnect();
   });
 
-  const experiences = [
-    {
-      title: "Senior Full-Stack Developer",
-      company: "TechCorp Solutions",
-      location: "San Francisco, CA",
-      period: "2022 - Present",
-      type: "Full-time",
-      description:
-        "Leading development of scalable web applications and mentoring junior developers. Implemented microservices architecture resulting in 40% performance improvement.",
-      achievements: [
-        "Led a team of 5 developers in building a customer management platform",
-        "Reduced application load time by 40% through optimization",
-        "Implemented CI/CD pipeline reducing deployment time by 60%",
-        "Mentored 3 junior developers and conducted code reviews",
-      ],
-      technologies: [
-        "React",
-        "Node.js",
-        "AWS",
-        "Docker",
-        "Kubernetes",
-        "PostgreSQL",
-      ],
-      current: true,
-      gradient: "from-purple-500 to-pink-500",
-    },
-    {
-      title: "Full-Stack Developer",
-      company: "StartupXYZ",
-      location: "Remote",
-      period: "2021 - 2022",
-      type: "Full-time",
-      description:
-        "Developed and maintained multiple web applications using modern JavaScript frameworks. Collaborated with cross-functional teams to deliver high-quality products.",
-      achievements: [
-        "Built responsive e-commerce platform serving 10,000+ users",
-        "Integrated payment processing with Stripe and PayPal",
-        "Implemented real-time chat functionality using WebSockets",
-        "Optimized database queries improving response time by 30%",
-      ],
-      technologies: [
-        "Vue.js",
-        "Express.js",
-        "MongoDB",
-        "Redis",
-        "Stripe",
-        "WebSocket",
-      ],
-      current: false,
-      gradient: "from-blue-500 to-cyan-500",
-    },
-    {
-      title: "Frontend Developer",
-      company: "Digital Agency Pro",
-      location: "New York, NY",
-      period: "2020 - 2021",
-      type: "Full-time",
-      description:
-        "Created engaging user interfaces and interactive web experiences for various clients. Focused on responsive design and user experience optimization.",
-      achievements: [
-        "Developed 15+ client websites with modern UI/UX",
-        "Implemented accessibility features meeting WCAG 2.1 standards",
-        "Created reusable component library used across projects",
-        "Improved client website performance scores by 25%",
-      ],
-      technologies: ["React", "TypeScript", "Sass", "Webpack", "Jest", "Figma"],
-      current: false,
-      gradient: "from-green-500 to-emerald-500",
-    },
-    {
-      title: "Junior Web Developer",
-      company: "WebDev Studio",
-      location: "Remote",
-      period: "2019 - 2020",
-      type: "Full-time",
-      description:
-        "Started my professional journey building responsive websites and learning industry best practices. Worked with senior developers to deliver quality projects.",
-      achievements: [
-        "Developed 10+ responsive landing pages",
-        "Learned and applied modern frontend frameworks",
-        "Contributed to team code reviews and discussions",
-        "Maintained and updated existing client websites",
-      ],
-      technologies: [
-        "HTML/CSS",
-        "JavaScript",
-        "jQuery",
-        "Bootstrap",
-        "Git",
-        "PHP",
-      ],
-      current: false,
-      gradient: "from-orange-500 to-yellow-500",
-    },
-  ];
+  // Helper function to format date
+  const formatDate = (dateString: string) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", { year: "numeric", month: "short" });
+  };
+
+  // Helper function to get gradient based on index
+  const getGradient = (index: number) => {
+    const gradients = [
+      "from-purple-500 to-pink-500",
+      "from-blue-500 to-cyan-500",
+      "from-green-500 to-emerald-500",
+      "from-orange-500 to-yellow-500",
+    ];
+    return gradients[index % gradients.length];
+  };
+
+  // Process experience data
+  $: processedExperiences = data.map((exp, index) => ({
+    ...exp,
+    period: exp.current
+      ? `${formatDate(exp.startDate)} - Present`
+      : `${formatDate(exp.startDate)} - ${formatDate(exp.endDate)}`,
+    gradient: getGradient(index),
+  }));
 </script>
 
 <section
@@ -171,7 +104,7 @@
 
       <!-- Experience Items -->
       <div class="space-y-16">
-        {#each experiences as experience, index}
+        {#each processedExperiences as experience, index}
           <div
             class="relative scroll-fade-up scroll-fade-up-delay-{index * 200}"
             class:md:flex-row-reverse={index % 2 === 0}
