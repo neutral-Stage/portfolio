@@ -71,26 +71,55 @@
     }
   };
 
-  // Fallback data if Sanity data is not available
-  const heroContent = data?.heroContent || {
-    headline: "Building the Future, One Line of Code at a Time",
-    subheadline: "Full-Stack Developer specializing in modern web technologies",
-    ctaText: "Get In Touch",
-    ctaLink: "#contact",
-  };
+  // Comprehensive fallback data if Sanity data is not available
+  $: heroContent = (() => {
+    if (!data?.heroContent) {
+      return {
+        headline: "Building the Future, One Line of Code at a Time",
+        subheadline: "Full-Stack Developer specializing in modern web technologies",
+        ctaText: "Get In Touch",
+        ctaLink: "#contact",
+      };
+    }
+    return {
+      headline: data.heroContent.headline || "Building the Future, One Line of Code at a Time",
+      subheadline: data.heroContent.subheadline || "Full-Stack Developer specializing in modern web technologies",
+      ctaText: data.heroContent.ctaText || "Get In Touch",
+      ctaLink: data.heroContent.ctaLink || "#contact",
+    };
+  })();
 
-  const socialLinks = data?.socialLinks || {
-    github: "https://github.com/yourusername",
-    linkedin: "https://linkedin.com/in/yourprofile",
-    email: "mailto:your.email@example.com",
-  };
+  $: socialLinks = (() => {
+    if (!data?.socialLinks) {
+      return {
+        github: "https://github.com/yourusername",
+        linkedin: "https://linkedin.com/in/yourprofile",
+        email: "mailto:your.email@example.com",
+      };
+    }
+    return {
+      github: data.socialLinks.github || "https://github.com/yourusername",
+      linkedin: data.socialLinks.linkedin || "https://linkedin.com/in/yourprofile",
+      email: data.socialLinks.email || "mailto:your.email@example.com",
+    };
+  })();
 
-  // Feature tags from data or fallback
-  $: featureTags = data?.featureTags || [
-    { icon: "Code2", text: "Clean Code", color: "text-purple-400" },
-    { icon: "Sparkles", text: "Modern UI/UX", color: "text-pink-400" },
-    { icon: "Rocket", text: "Fast Performance", color: "text-blue-400" }
-  ];
+  // Feature tags from data or comprehensive fallback
+  $: featureTags = (() => {
+    if (!data?.featureTags || !Array.isArray(data.featureTags) || data.featureTags.length === 0) {
+      return [
+        { icon: "Code2", text: "Clean Code", color: "text-purple-400" },
+        { icon: "Sparkles", text: "Modern UI/UX", color: "text-pink-400" },
+        { icon: "Rocket", text: "Fast Performance", color: "text-blue-400" }
+      ];
+    }
+
+    return data.featureTags.map(tag => ({
+      icon: tag.icon || "Code2",
+      text: tag.text || "Feature",
+      color: tag.color || "text-purple-400"
+    }));
+  })();
 
 </script>
 

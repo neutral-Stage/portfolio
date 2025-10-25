@@ -96,20 +96,122 @@
     }
   };
 
-  // Group skills by category
-  $: skillCategories = Array.isArray(data) ? Array.from(new Set(data.map(skill => skill.category)))
-    .map(category => ({
-      title: formatCategoryTitle(category),
-      icon: getCategoryIcon(category),
-      color: getCategoryColor(category),
-      skills: data.filter(skill => skill.category === category)
-        .map(skill => ({
-          name: skill.name,
-          level: skill.level,
-          description: skill.description,
-          yearsOfExperience: skill.yearsOfExperience
-        }))
-    })) : [];
+  // Group skills by category with comprehensive fallbacks
+  $: skillCategories = (() => {
+    if (!Array.isArray(data) || data.length === 0) {
+      // Default fallback skills organized by category
+      return [
+        {
+          title: "Frontend Development",
+          icon: getCategoryIcon("frontend"),
+          color: getCategoryColor("frontend"),
+          skills: [
+            {
+              name: "React",
+              level: 95,
+              description: "Expert in React with hooks, context, and modern patterns",
+              yearsOfExperience: 3
+            },
+            {
+              name: "TypeScript",
+              level: 90,
+              description: "Strong typing and advanced TypeScript features",
+              yearsOfExperience: 2
+            },
+            {
+              name: "Next.js",
+              level: 85,
+              description: "Full-stack React framework with SSR and API routes",
+              yearsOfExperience: 2
+            },
+            {
+              name: "Tailwind CSS",
+              level: 95,
+              description: "Utility-first CSS framework for rapid UI development",
+              yearsOfExperience: 3
+            }
+          ]
+        },
+        {
+          title: "Backend Development",
+          icon: getCategoryIcon("backend"),
+          color: getCategoryColor("backend"),
+          skills: [
+            {
+              name: "Node.js",
+              level: 90,
+              description: "Server-side JavaScript runtime environment",
+              yearsOfExperience: 3
+            },
+            {
+              name: "Express.js",
+              level: 85,
+              description: "Minimalist web framework for Node.js",
+              yearsOfExperience: 2
+            },
+            {
+              name: "PostgreSQL",
+              level: 80,
+              description: "Advanced SQL database with complex queries",
+              yearsOfExperience: 2
+            },
+            {
+              name: "MongoDB",
+              level: 75,
+              description: "NoSQL database for flexible data storage",
+              yearsOfExperience: 2
+            }
+          ]
+        },
+        {
+          title: "DevOps & Cloud",
+          icon: getCategoryIcon("devops"),
+          color: getCategoryColor("devops"),
+          skills: [
+            {
+              name: "AWS",
+              level: 75,
+              description: "Cloud infrastructure and deployment services",
+              yearsOfExperience: 2
+            },
+            {
+              name: "Docker",
+              level: 80,
+              description: "Containerization platform for applications",
+              yearsOfExperience: 2
+            },
+            {
+              name: "Git",
+              level: 95,
+              description: "Version control and collaboration workflows",
+              yearsOfExperience: 4
+            },
+            {
+              name: "CI/CD",
+              level: 70,
+              description: "Continuous integration and deployment pipelines",
+              yearsOfExperience: 1
+            }
+          ]
+        }
+      ];
+    }
+
+    // Process actual data from Sanity
+    return Array.from(new Set(data.map(skill => skill.category)))
+      .map(category => ({
+        title: formatCategoryTitle(category),
+        icon: getCategoryIcon(category),
+        color: getCategoryColor(category),
+        skills: data.filter(skill => skill.category === category)
+          .map(skill => ({
+            name: skill.name || "Unknown Skill",
+            level: skill.level || 50,
+            description: skill.description || "No description available",
+            yearsOfExperience: skill.yearsOfExperience || 0
+          }))
+      }));
+  })();
 </script>
 
 <section

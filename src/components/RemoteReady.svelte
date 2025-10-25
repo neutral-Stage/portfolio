@@ -75,41 +75,110 @@
     return gradients[index % gradients.length];
   };
 
-  // Process timezones data
-  $: timezones = Array.isArray(data.timezones) ? data.timezones.map((tz, index) => ({
-    ...tz,
-    flag: ["🇺🇸", "🇬🇧", "🇪🇺", "🇯🇵", "🇦🇺"][index % 5] // Default flags
-  })) : [];
+  // Process timezones data with comprehensive fallbacks
+  $: timezones = (() => {
+    if (!Array.isArray(data.timezones) || data.timezones.length === 0) {
+      return [
+        { zone: "PST (UTC-8)", time: "9:00 AM - 5:00 PM", flag: "🇺🇸" },
+        { zone: "EST (UTC-5)", time: "12:00 PM - 8:00 PM", flag: "🇺🇸" },
+        { zone: "GMT (UTC+0)", time: "5:00 PM - 1:00 AM", flag: "🇬🇧" },
+        { zone: "CET (UTC+1)", time: "6:00 PM - 2:00 AM", flag: "🇪🇺" },
+        { zone: "JST (UTC+9)", time: "2:00 AM - 10:00 AM", flag: "🇯🇵" },
+        { zone: "AEST (UTC+10)", time: "3:00 AM - 11:00 AM", flag: "🇦🇺" }
+      ];
+    }
 
-  // Process remote skills data
-  $: remoteSkills = Array.isArray(data.remoteSkills) ? data.remoteSkills.map((skill, index) => ({
-    ...skill,
-    icon: getIcon(skill.icon) || Zap,
-    gradient: getGradient(index),
-  })) : [];
+    return data.timezones.map((tz, index) => ({
+      ...tz,
+      zone: tz.zone || "Unknown Timezone",
+      time: tz.time || "Flexible",
+      flag: tz.flag || ["🇺🇸", "🇬🇧", "🇪🇺", "🇯🇵", "🇦🇺"][index % 5]
+    }));
+  })();
 
-  // Tools from data or fallback
-  $: tools = data.tools || [
-    "Slack",
-    "Discord",
-    "Microsoft Teams",
-    "Zoom",
-    "Google Meet",
-    "Notion",
-    "Linear",
-    "Jira",
-    "Trello",
-    "Asana",
-    "GitHub",
-    "GitLab",
-    "Figma",
-    "Miro",
-    "1Password",
-    "NordVPN",
-  ];
+  // Process remote skills data with comprehensive fallbacks
+  $: remoteSkills = (() => {
+    if (!Array.isArray(data.remoteSkills) || data.remoteSkills.length === 0) {
+      return [
+        {
+          icon: "Video",
+          title: "Video Conferencing",
+          description: "Expert in Zoom, Teams, and Google Meet for virtual meetings",
+          level: 95
+        },
+        {
+          icon: "MessageCircle",
+          title: "Team Communication",
+          description: "Proficient in Slack, Discord, and Microsoft Teams",
+          level: 90
+        },
+        {
+          icon: "Calendar",
+          title: "Time Management",
+          description: "Effective at managing schedules across time zones",
+          level: 85
+        },
+        {
+          icon: "Wifi",
+          title: "Remote Setup",
+          description: "Optimized home office with reliable internet and tools",
+          level: 90
+        },
+        {
+          icon: "Shield",
+          title: "Security Practices",
+          description: "Strong focus on data security and privacy protocols",
+          level: 80
+        },
+        {
+          icon: "Headphones",
+          title: "Collaboration Tools",
+          description: "Experienced with project management and documentation tools",
+          level: 85
+        }
+      ];
+    }
 
-  // Remote stats
-  $: remoteStats = data.stats || {};
+    return data.remoteSkills.map((skill, index) => ({
+      ...skill,
+      icon: skill.icon || "Zap",
+      title: skill.title || "Remote Skill",
+      description: skill.description || "No description available",
+      level: skill.level || 50,
+      gradient: getGradient(index),
+    }));
+  })();
+
+  // Tools from data or comprehensive fallback
+  $: tools = (() => {
+    if (!data.tools || !Array.isArray(data.tools) || data.tools.length === 0) {
+      return [
+        "Slack", "Discord", "Microsoft Teams", "Zoom", "Google Meet",
+        "Notion", "Linear", "Jira", "Trello", "Asana",
+        "GitHub", "GitLab", "Figma", "Miro", "1Password", "NordVPN"
+      ];
+    }
+    return data.tools;
+  })();
+
+  // Remote stats with fallbacks
+  $: remoteStats = (() => {
+    if (!data.stats) {
+      return {
+        yearsRemote: 3,
+        projectsCompleted: 25,
+        meetingsAttended: 500,
+        timezonesWorked: 6
+      };
+    }
+    return {
+      yearsRemote: data.stats.yearsRemote || 0,
+      projectsCompleted: data.stats.projectsCompleted || 0,
+      meetingsAttended: data.stats.meetingsAttended || 0,
+      timezonesWorked: data.stats.timezonesWorked || 0,
+      ...data.stats
+    };
+  })();
 </script>
 
 <section
@@ -215,7 +284,7 @@
                     class="w-10 h-10 rounded-lg bg-gradient-to-br {skill.gradient} flex items-center justify-center"
                   >
                     <svelte:component
-                      this={skill.icon}
+                      this={getIcon(skill.icon)}
                       size={20}
                       class="text-white"
                     />
@@ -251,7 +320,7 @@
             class="mb-4 inline-flex p-3 rounded-xl bg-gradient-to-br {skill.gradient}"
           >
             <svelte:component
-              this={skill.icon}
+              this={getIcon(skill.icon)}
               size={28}
               class="text-white group-hover:scale-110 transition-transform"
             />

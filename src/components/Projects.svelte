@@ -51,11 +51,86 @@
     return gradients[index % gradients.length];
   };
 
-  // Process projects data
-  $: processedProjects = Array.isArray(data) ? data.map((project, index) => ({
-    ...project,
-    gradient: getGradient(index),
-  })) : [];
+  // Process projects data with comprehensive fallbacks
+  $: processedProjects = (() => {
+    if (!Array.isArray(data) || data.length === 0) {
+      // Default fallback projects
+      return [
+        {
+          title: "E-Commerce Platform",
+          description: "Full-stack e-commerce solution with React, Node.js, and PostgreSQL. Features include user authentication, payment processing, inventory management, and admin dashboard.",
+          category: "full-stack",
+          technologies: ["React", "Node.js", "PostgreSQL", "Stripe", "Tailwind CSS"],
+          liveUrl: "https://example-ecommerce.com",
+          githubUrl: "https://github.com/yourusername/ecommerce-platform",
+          featured: true,
+          gradient: getGradient(0),
+        },
+        {
+          title: "Task Management App",
+          description: "Modern task management application with real-time collaboration, drag-and-drop functionality, and team workspaces. Built with Next.js and Supabase.",
+          category: "web-app",
+          technologies: ["Next.js", "Supabase", "TypeScript", "Tailwind CSS", "Framer Motion"],
+          liveUrl: "https://example-tasks.com",
+          githubUrl: "https://github.com/yourusername/task-manager",
+          featured: false,
+          gradient: getGradient(1),
+        },
+        {
+          title: "Weather Dashboard",
+          description: "Beautiful weather dashboard with location-based forecasts, interactive maps, and historical data visualization using Chart.js and weather APIs.",
+          category: "frontend",
+          technologies: ["React", "Chart.js", "OpenWeather API", "CSS Modules"],
+          liveUrl: "https://example-weather.com",
+          githubUrl: "https://github.com/yourusername/weather-dashboard",
+          featured: false,
+          gradient: getGradient(2),
+        },
+        {
+          title: "Portfolio Website",
+          description: "Responsive portfolio website showcasing projects, skills, and experience. Features smooth animations, dark mode, and contact forms.",
+          category: "frontend",
+          technologies: ["Astro", "Svelte", "Tailwind CSS", "Framer Motion"],
+          liveUrl: "https://yourportfolio.com",
+          githubUrl: "https://github.com/yourusername/portfolio",
+          featured: true,
+          gradient: getGradient(3),
+        },
+        {
+          title: "API Rate Limiter",
+          description: "Scalable API rate limiting service built with Redis and Node.js. Includes analytics dashboard and configurable rules per endpoint.",
+          category: "backend",
+          technologies: ["Node.js", "Redis", "Express", "Docker", "MongoDB"],
+          githubUrl: "https://github.com/yourusername/api-rate-limiter",
+          featured: false,
+          gradient: getGradient(4),
+        },
+        {
+          title: "Chat Application",
+          description: "Real-time chat application with WebSocket support, file sharing, and group conversations. Built with Socket.io and React.",
+          category: "full-stack",
+          technologies: ["React", "Socket.io", "Node.js", "MongoDB", "Express"],
+          liveUrl: "https://example-chat.com",
+          githubUrl: "https://github.com/yourusername/chat-app",
+          featured: false,
+          gradient: getGradient(5),
+        }
+      ];
+    }
+
+    // Process actual data from Sanity
+    return data.map((project, index) => ({
+      ...project,
+      title: project.title || "Untitled Project",
+      description: project.description || "No description available",
+      category: project.category || "web-app",
+      technologies: Array.isArray(project.technologies) ? project.technologies : [],
+      liveUrl: project.liveUrl || "",
+      githubUrl: project.githubUrl || "",
+      featured: project.featured || false,
+      gradient: getGradient(index),
+    }));
+  })();
 
   // Get unique categories from projects
   $: categories = [
