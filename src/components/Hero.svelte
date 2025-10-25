@@ -175,7 +175,7 @@
       <!-- Animated Subtitle -->
       <div class="mb-8 scroll-fade-up scroll-fade-up-delay-200">
         <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-200">
-          {data?.title || "Full-Stack Developer"}
+          {data?.title || "Full-Stack Web Developer"}
         </h2>
       </div>
 

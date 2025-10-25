@@ -165,9 +165,9 @@
               class="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-50 group-hover:opacity-100 transition-opacity"
             ></div>
             <div
-              class="relative w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center"
+              class="relative w-14 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center"
             >
-              <span class="text-white font-black text-xl">P</span>
+              <span class="text-white font-black text-xl">SAR</span>
             </div>
           </div>
           <span class="text-2xl font-black gradient-text hidden sm:block">

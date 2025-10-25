@@ -222,7 +222,7 @@
       <div class="flex flex-col md:flex-row justify-between items-center gap-4">
         <p class="text-gray-400 text-sm text-center md:text-left">
           © {currentYear}
-          <span class="text-purple-400 font-semibold">{data?.name || "Your Name"}</span>. All
+          <span class="text-purple-400 font-semibold">{data?.name || "Shuvo Anirban Roy"}</span>. All
           rights reserved. Built with <Heart
             size={14}
             class="inline text-pink-500 animate-pulse"
