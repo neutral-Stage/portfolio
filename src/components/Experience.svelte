@@ -10,7 +10,7 @@
     Users,
     Code,
   } from "lucide-svelte";
-  import AnimatedHeadline from "./AnimatedHeadline.svelte";
+  import WordsPullUp from "./WordsPullUp.svelte";
 
   export let data: any[] = [];
 
@@ -88,15 +88,18 @@
           >Career Journey</span
         >
       </div>
-      <AnimatedHeadline
+      <WordsPullUp
         text="Professional Experience"
         className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6"
         staggerDelay={0.1}
         animationDuration={1.0}
       />
-      <p class="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-        A timeline of growth, achievements, and continuous learning
-      </p>
+      <WordsPullUp
+        text="A timeline of growth, achievements, and continuous learning"
+        className="text-xl text-gray-400 max-w-3xl mx-auto"
+        staggerDelay={0.05}
+        animationDuration={0.8}
+      />
     </div>
 
     <!-- Timeline -->
@@ -239,10 +242,12 @@
       <div class="glass-light p-8 rounded-3xl inline-block hover-border-glow">
         <Users size={48} class="text-purple-400 mx-auto mb-4" />
         <h3 class="text-2xl font-black text-white mb-3">Let's Work Together</h3>
-        <p class="text-gray-400 mb-6 max-w-md">
-          I'm always open to discussing new projects, creative ideas, or
-          opportunities to be part of your vision.
-        </p>
+        <WordsPullUp
+          text="I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision."
+          className="text-gray-400 mb-6 max-w-md"
+          staggerDelay={0.03}
+          animationDuration={0.6}
+        />
         <a
           href="#contact"
           class="inline-flex items-center gap-3 px-8 py-4 rounded-full font-bold text-white bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-[length:200%_100%] animate-gradient hover:scale-105 transition-all duration-300 btn-glow"

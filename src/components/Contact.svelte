@@ -12,7 +12,7 @@
     MessageSquare,
     Sparkles,
   } from "lucide-svelte";
-  import AnimatedHeadline from "./AnimatedHeadline.svelte";
+  import WordsPullUp from "./WordsPullUp.svelte";
 
   export let data: any = {};
 
@@ -154,15 +154,18 @@
           >Get In Touch</span
         >
       </div>
-      <AnimatedHeadline
+      <WordsPullUp
         text="Let's Start a Conversation"
         className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6"
         staggerDelay={0.1}
         animationDuration={1.2}
       />
-      <p class="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-        Have a project in mind? Let's build something amazing together
-      </p>
+      <WordsPullUp
+        text="Have a project in mind? Let's build something amazing together"
+        className="text-xl text-gray-400 max-w-3xl mx-auto"
+        staggerDelay={0.05}
+        animationDuration={0.8}
+      />
     </div>
 
     <div class="grid lg:grid-cols-2 gap-12 items-start">
@@ -371,10 +374,12 @@
         <p class="text-gray-300 text-lg mb-4">
           <span class="font-bold text-purple-400">Open to opportunities!</span>
         </p>
-        <p class="text-gray-400">
-          I'm currently available for freelance projects and full-time
-          positions. Let's create something extraordinary together.
-        </p>
+        <WordsPullUp
+          text="I'm currently available for freelance projects and full-time positions. Let's create something extraordinary together."
+          className="text-gray-400"
+          staggerDelay={0.03}
+          animationDuration={0.6}
+        />
       </div>
     </div>
   </div>

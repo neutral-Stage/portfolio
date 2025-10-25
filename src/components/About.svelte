@@ -13,7 +13,7 @@
     Code,
     Briefcase,
   } from "lucide-svelte";
-  import AnimatedHeadline from "./AnimatedHeadline.svelte";
+  import WordsPullUp from "./WordsPullUp.svelte";
 
   export let data: any = {};
 
@@ -124,16 +124,18 @@
           >About Me</span
         >
       </div>
-      <AnimatedHeadline
+      <WordsPullUp
         text="Professional Background"
         className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6"
         staggerDelay={0.1}
         animationDuration={0.8}
       />
-      <p class="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-        Delivering enterprise-grade solutions with expertise in modern web
-        technologies
-      </p>
+      <WordsPullUp
+        text="Delivering enterprise-grade solutions with expertise in modern web technologies"
+        className="text-xl text-gray-400 max-w-3xl mx-auto"
+        staggerDelay={0.05}
+        animationDuration={0.6}
+      />
     </div>
 
     <!-- Main Content Grid -->

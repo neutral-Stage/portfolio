@@ -11,7 +11,7 @@
     Star,
     Zap,
   } from "lucide-svelte";
-  import AnimatedHeadline from "./AnimatedHeadline.svelte";
+  import WordsPullUp from "./WordsPullUp.svelte";
 
   export let data: any[] = [];
 
@@ -131,16 +131,18 @@
           >Portfolio</span
         >
       </div>
-      <AnimatedHeadline
+      <WordsPullUp
         text="Featured Projects"
         className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6"
         staggerDelay={0.1}
         animationDuration={0.9}
       />
-      <p class="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-        A showcase of my recent work that demonstrates creativity and technical
-        excellence
-      </p>
+      <WordsPullUp
+        text="A showcase of my recent work that demonstrates creativity and technical excellence"
+        className="text-xl text-gray-400 max-w-3xl mx-auto"
+        staggerDelay={0.05}
+        animationDuration={0.8}
+      />
     </div>
 
     <!-- Category Filter -->
@@ -327,10 +329,12 @@
     <!-- View More Section -->
     <div class="text-center scroll-fade-up scroll-fade-up-delay-600">
       <div class="glass-light p-8 rounded-3xl inline-block hover-border-glow">
-        <p class="text-gray-300 mb-6 text-lg max-w-md">
-          Want to see more? Check out my GitHub for additional projects and
-          contributions!
-        </p>
+        <WordsPullUp
+          text="Want to see more? Check out my GitHub for additional projects and contributions!"
+          className="text-gray-300 mb-6 text-lg max-w-md"
+          staggerDelay={0.03}
+          animationDuration={0.6}
+        />
         <a
           href="https://github.com/yourusername"
           target="_blank"

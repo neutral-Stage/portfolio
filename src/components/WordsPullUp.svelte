@@ -120,7 +120,6 @@
     transition: all var(--animation-duration, 0.6s) var(--ease, cubic-bezier(0.25, 0.1, 0.25, 1));
     transition-delay: var(--delay, 0s);
     will-change: opacity, transform, filter, text-shadow;
-    margin-right: 0.5rem; /* Equivalent to pr-2 (8px) */
     backface-visibility: hidden;
     perspective: 1000px;
   }

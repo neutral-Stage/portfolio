@@ -12,7 +12,7 @@
     Flame,
     Activity,
   } from "lucide-svelte";
-  import AnimatedHeadline from "./AnimatedHeadline.svelte";
+  import WordsPullUp from "./WordsPullUp.svelte";
 
   export let data: any = {};
 
@@ -119,15 +119,18 @@
           >Open Source</span
         >
       </div>
-      <AnimatedHeadline
+      <WordsPullUp
         text="GitHub Activity"
         className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6"
         staggerDelay={0.1}
         animationDuration={0.6}
       />
-      <p class="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-        Contributing to open source and building in public
-      </p>
+      <WordsPullUp
+        text="Contributing to open source and building in public"
+        className="text-xl text-gray-400 max-w-3xl mx-auto"
+        staggerDelay={0.05}
+        animationDuration={0.8}
+      />
     </div>
 
     <!-- Quick Stats Grid -->
@@ -309,10 +312,12 @@
       <div class="glass-light p-8 rounded-3xl inline-block">
         <Github size={48} class="text-purple-400 mx-auto mb-4" />
         <h3 class="text-2xl font-black text-white mb-3">Let's Collaborate!</h3>
-        <p class="text-gray-400 mb-6 max-w-md">
-          Always interested in exciting open source projects and collaboration
-          opportunities
-        </p>
+        <WordsPullUp
+          text="Always interested in exciting open source projects and collaboration opportunities"
+          className="text-gray-400 mb-6 max-w-md"
+          staggerDelay={0.03}
+          animationDuration={0.6}
+        />
         <a
           href={githubProfileUrl}
           target="_blank"

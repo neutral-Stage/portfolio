@@ -9,7 +9,7 @@
     Globe,
     Sparkles,
   } from "lucide-svelte";
-  import AnimatedHeadline from "./AnimatedHeadline.svelte";
+  import WordsPullUp from "./WordsPullUp.svelte";
 
   export let data: any[] = [];
 
@@ -136,15 +136,18 @@
           >Skills & Expertise</span
         >
       </div>
-      <AnimatedHeadline
+      <WordsPullUp
         text="What I Bring to the Table"
         className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6"
         staggerDelay={0.1}
         animationDuration={1.1}
       />
-      <p class="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-        A comprehensive toolkit of modern technologies and frameworks
-      </p>
+      <WordsPullUp
+        text="A comprehensive toolkit of modern technologies and frameworks"
+        className="text-xl text-gray-400 max-w-3xl mx-auto"
+        staggerDelay={0.05}
+        animationDuration={0.8}
+      />
     </div>
 
     <!-- Category Tabs -->
@@ -305,7 +308,12 @@
       <h3 class="text-3xl font-black text-white mb-4">
         <span class="text-purple-400">Additional Technologies</span>
       </h3>
-      <p class="text-gray-400 mb-12">And many more tools in my arsenal</p>
+      <WordsPullUp
+        text="And many more tools in my arsenal"
+        className="text-gray-400 mb-12"
+        staggerDelay={0.03}
+        animationDuration={0.6}
+      />
 
       <div class="flex flex-wrap justify-center gap-3 max-w-6xl mx-auto">
         {#each ["Tailwind CSS", "Styled Components", "GraphQL", "Redis", "Elasticsearch", "Jest", "Cypress", "Storybook", "Webpack", "Babel", "ESLint", "Prettier", "Sass", "WebGL", "Three.js", "D3.js", "Chart.js", "Socket.io", "Express.js", "FastAPI", "Prisma", "TypeORM", "JWT", "OAuth", "Stripe", "Firebase", "Supabase", "Vercel", "Netlify", "Heroku", "DigitalOcean"] as tech, index}

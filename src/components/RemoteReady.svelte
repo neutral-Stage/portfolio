@@ -12,7 +12,7 @@
     Zap,
     Headphones,
   } from "lucide-svelte";
-  import AnimatedHeadline from "./AnimatedHeadline.svelte";
+  import WordsPullUp from "./WordsPullUp.svelte";
 
   export let data: any = {};
 
@@ -136,16 +136,18 @@
           >Remote Work</span
         >
       </div>
-      <AnimatedHeadline
+      <WordsPullUp
         text="Remote Work Ready"
         className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6"
         staggerDelay={0.1}
         animationDuration={0.7}
       />
-      <p class="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-        Proven experience working remotely with global teams across different
-        time zones
-      </p>
+      <WordsPullUp
+        text="Proven experience working remotely with global teams across different time zones"
+        className="text-xl text-gray-400 max-w-3xl mx-auto"
+        staggerDelay={0.05}
+        animationDuration={0.8}
+      />
     </div>
 
     <div class="grid lg:grid-cols-2 gap-8 mb-16">
@@ -370,11 +372,12 @@
         <h3 class="text-2xl font-black text-white mb-3">
           Ready to Work Remotely
         </h3>
-        <p class="text-gray-400 mb-6">
-          With years of remote work experience, I'm equipped to collaborate
-          effectively with teams across the globe, delivering exceptional
-          results regardless of location.
-        </p>
+        <WordsPullUp
+          text="With years of remote work experience, I'm equipped to collaborate effectively with teams across the globe, delivering exceptional results regardless of location."
+          className="text-gray-400 mb-6"
+          staggerDelay={0.03}
+          animationDuration={0.6}
+        />
         <a
           href="#contact"
           class="inline-flex items-center gap-3 px-8 py-4 rounded-full font-bold text-white bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-[length:200%_100%] animate-gradient hover:scale-105 transition-all duration-300 btn-glow"
