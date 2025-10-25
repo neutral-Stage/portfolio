@@ -89,7 +89,7 @@
   ];
 
   // Social links from data
-  $: socialLinks = (data.socialLinks || []).map(link => {
+  $: socialLinks = Array.isArray(data.socialLinks) ? data.socialLinks.map(link => {
     let icon;
     switch (link.platform) {
       case "github":
@@ -104,14 +104,14 @@
       default:
         icon = Github;
     }
-    
+
     return {
       icon,
       label: link.platform.charAt(0).toUpperCase() + link.platform.slice(1),
       href: link.url,
       gradient: "from-gray-500 to-gray-700",
     };
-  });
+  }) : [];
 
   const handleSubmit = async (e: Event) => {
     e.preventDefault();
@@ -237,7 +237,7 @@
         >
           <h3 class="text-xl font-black text-white mb-4">Why Work With Me?</h3>
           <ul class="space-y-3 text-gray-300">
-            {#each contactBenefits as benefit}
+            {#each Array.isArray(contactBenefits) ? contactBenefits : [] as benefit}
               <li class="flex items-start gap-3">
                 <CheckCircle
                   size={20}

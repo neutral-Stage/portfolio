@@ -76,17 +76,17 @@
   };
 
   // Process timezones data
-  $: timezones = (data.timezones || []).map((tz, index) => ({
+  $: timezones = Array.isArray(data.timezones) ? data.timezones.map((tz, index) => ({
     ...tz,
     flag: ["🇺🇸", "🇬🇧", "🇪🇺", "🇯🇵", "🇦🇺"][index % 5] // Default flags
-  }));
+  })) : [];
 
   // Process remote skills data
-  $: remoteSkills = (data.remoteSkills || []).map((skill, index) => ({
+  $: remoteSkills = Array.isArray(data.remoteSkills) ? data.remoteSkills.map((skill, index) => ({
     ...skill,
     icon: getIcon(skill.icon) || Zap,
     gradient: getGradient(index),
-  }));
+  })) : [];
 
   // Tools from data or fallback
   $: tools = data.tools || [
@@ -171,7 +171,7 @@
           schedule to accommodate team meetings and collaboration needs.
         </p>
         <div class="space-y-3">
-          {#each timezones as tz, index}
+          {#each Array.isArray(timezones) ? timezones : [] as tz, index}
             <div
               class="card-shine glass-light p-4 rounded-xl flex items-center justify-between group hover:scale-[1.02] transition-all animate-slide-up delay-{index *
                 100}"
@@ -207,7 +207,7 @@
           </div>
         </div>
         <div class="space-y-4">
-          {#each remoteSkills.slice(0, 3) as skill, index}
+          {#each Array.isArray(remoteSkills) ? remoteSkills.slice(0, 3) : [] as skill, index}
             <div class="animate-slide-up delay-{(index + 2) * 100}">
               <div class="flex justify-between items-center mb-2">
                 <div class="flex items-center gap-3">
@@ -242,7 +242,7 @@
 
     <!-- Remote Skills Grid -->
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-      {#each remoteSkills as skill, index}
+      {#each Array.isArray(remoteSkills) ? remoteSkills : [] as skill, index}
         <div
           class="card-3d card-glow glass p-6 rounded-2xl group hover:scale-[1.02] transition-all duration-300 animate-bounce-in delay-{index *
             100}"
@@ -350,7 +350,7 @@
         </div>
       </div>
       <div class="flex flex-wrap gap-3">
-        {#each tools as tool, index}
+        {#each Array.isArray(tools) ? tools : [] as tool, index}
           <span
             class="group relative glass-light px-5 py-2.5 rounded-full text-sm font-semibold text-gray-300 hover:text-white hover:scale-110 transition-all duration-300 cursor-default animate-bounce-in delay-{(index +
               6) *

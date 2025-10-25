@@ -182,7 +182,7 @@
       <!-- Description with Glass Effect -->
       <div class="flex justify-center scroll-fade-up scroll-fade-up-delay-300">
         <WordsPullUp
-          text={data?.bio?.[0]?.children?.[0]?.text ||
+          text={heroContent?.subheadline ||
             "Passionate developer creating amazing digital experiences."}
           className="text-lg sm:text-xl text-gray-400 mb-14 max-w-2xl leading-relaxed"
           staggerDelay={0.05}

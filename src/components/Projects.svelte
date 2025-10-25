@@ -52,10 +52,10 @@
   };
 
   // Process projects data
-  $: processedProjects = data.map((project, index) => ({
+  $: processedProjects = Array.isArray(data) ? data.map((project, index) => ({
     ...project,
     gradient: getGradient(index),
-  }));
+  })) : [];
 
   // Get unique categories from projects
   $: categories = [
@@ -310,7 +310,7 @@
 
             <!-- Technologies -->
             <div class="flex flex-wrap gap-2 pt-2">
-              {#each project.technologies as tech}
+              {#each Array.isArray(project.technologies) ? project.technologies : [] as tech}
                 <span
                   class="group relative glass-light px-3 py-1 rounded-lg text-xs font-semibold text-gray-300 hover:text-white hover-scale-glow transition-all duration-300 overflow-hidden hover-border-glow"
                 >

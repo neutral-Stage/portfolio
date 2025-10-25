@@ -97,7 +97,7 @@
   };
 
   // Group skills by category
-  $: skillCategories = Array.from(new Set(data.map(skill => skill.category)))
+  $: skillCategories = Array.isArray(data) ? Array.from(new Set(data.map(skill => skill.category)))
     .map(category => ({
       title: formatCategoryTitle(category),
       icon: getCategoryIcon(category),
@@ -109,7 +109,7 @@
           description: skill.description,
           yearsOfExperience: skill.yearsOfExperience
         }))
-    }));
+    })) : [];
 </script>
 
 <section

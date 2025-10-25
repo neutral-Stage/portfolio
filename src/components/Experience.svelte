@@ -55,13 +55,13 @@
   };
 
   // Process experience data
-  $: processedExperiences = data.map((exp, index) => ({
+  $: processedExperiences = Array.isArray(data) ? data.map((exp, index) => ({
     ...exp,
     period: exp.current
       ? `${formatDate(exp.startDate)} - Present`
       : `${formatDate(exp.startDate)} - ${formatDate(exp.endDate)}`,
     gradient: getGradient(index),
-  }));
+  })) : [];
 </script>
 
 <section
@@ -199,7 +199,7 @@
                     </h4>
                   </div>
                   <ul class="space-y-2">
-                    {#each experience.achievements as achievement}
+                    {#each Array.isArray(experience.achievements) ? experience.achievements : [] as achievement}
                       <li class="flex items-start gap-3 text-sm text-gray-300">
                         <div
                           class="w-1.5 h-1.5 rounded-full bg-purple-500 mt-2 flex-shrink-0"
@@ -221,7 +221,7 @@
                     </h4>
                   </div>
                   <div class="flex flex-wrap gap-2">
-                    {#each experience.technologies as tech}
+                    {#each Array.isArray(experience.technologies) ? experience.technologies : [] as tech}
                       <span
                         class="group relative glass-light px-3 py-1.5 rounded-lg text-xs font-semibold text-gray-300 hover:text-white hover-scale-glow transition-all duration-300 overflow-hidden hover-border-glow"
                       >

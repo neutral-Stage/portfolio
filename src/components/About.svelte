@@ -77,27 +77,170 @@
     return gradients[index % gradients.length];
   };
 
-  // Process stats from data
-  $: stats = (data.stats || []).map((stat, index) => ({
-    icon: getIcon(stat.icon) || Rocket,
-    label: stat.label,
-    value: stat.value,
-    color: getGradient(index),
-  }));
+  // Process stats from data - handle both object and array formats for backward compatibility
+  $: stats = (() => {
+    if (!data || (!data.stats && !data.yearsExperience)) {
+      // Default fallback stats
+      return [
+        {
+          icon: Rocket,
+          label: "Years Experience",
+          value: "3+",
+          color: getGradient(0),
+        },
+        {
+          icon: Code,
+          label: "Projects Completed",
+          value: "50+",
+          color: getGradient(1),
+        },
+        {
+          icon: Users,
+          label: "Happy Clients",
+          value: "25+",
+          color: getGradient(2),
+        },
+        {
+          icon: Target,
+          label: "Countries",
+          value: "10+",
+          color: getGradient(3),
+        }
+      ];
+    }
+
+    // Handle object format from Sanity (new format)
+    if (data.stats && typeof data.stats === 'object' && !Array.isArray(data.stats)) {
+      const statsObj = data.stats;
+      return [
+        {
+          icon: Rocket,
+          label: "Years Experience",
+          value: statsObj.yearsExperience ? `${statsObj.yearsExperience}+` : "3+",
+          color: getGradient(0),
+        },
+        {
+          icon: Code,
+          label: "Projects Completed",
+          value: statsObj.projectsCompleted ? `${statsObj.projectsCompleted}+` : "50+",
+          color: getGradient(1),
+        },
+        {
+          icon: Users,
+          label: "Happy Clients",
+          value: statsObj.happyClients ? `${statsObj.happyClients}+` : "25+",
+          color: getGradient(2),
+        },
+        {
+          icon: Target,
+          label: "Countries",
+          value: statsObj.countriesWorked ? `${statsObj.countriesWorked}+` : "10+",
+          color: getGradient(3),
+        }
+      ];
+    }
+
+    // Handle array format (legacy format)
+    if (Array.isArray(data.stats)) {
+      return data.stats.map((stat, index) => ({
+        icon: getIcon(stat.icon) || Rocket,
+        label: stat.label || "Stat",
+        value: stat.value || "0",
+        color: getGradient(index),
+      }));
+    }
+
+    return [];
+  })();
 
   // Process highlights from data
-  $: highlights = (data.highlights || []).map((highlight, index) => ({
-    icon: CheckCircle, // Default icon for highlights
-    title: highlight.title,
-    description: highlight.description,
-  }));
+  $: highlights = (() => {
+    if (!data || !data.highlights || !Array.isArray(data.highlights) || data.highlights.length === 0) {
+      // Default fallback highlights
+      return [
+        {
+          icon: CheckCircle,
+          title: "Full-Stack Development",
+          description: "Expert in both frontend and backend technologies, delivering complete solutions from conception to deployment.",
+        },
+        {
+          icon: Rocket,
+          title: "Modern Technologies",
+          description: "Proficient in React, Node.js, TypeScript, and cloud platforms like AWS and Vercel.",
+        },
+        {
+          icon: Users,
+          title: "Team Collaboration",
+          description: "Experienced in agile development, code reviews, and cross-functional team coordination.",
+        }
+      ];
+    }
+
+    return data.highlights.map((highlight, index) => ({
+      icon: getIcon(highlight.icon) || CheckCircle,
+      title: highlight.title || "Highlight",
+      description: highlight.description || "No description available",
+    }));
+  })();
 
   // Professional status from data
-  $: professionalStatus = data.professionalStatus || {
-    status: "available",
-    message: "Open to opportunities",
-    types: ["Freelance", "Contract", "Full-Time"]
-  };
+  $: professionalStatus = (() => {
+    if (!data || !data.professionalStatus) {
+      return {
+        status: "available",
+        message: "Open to opportunities",
+        types: ["Freelance", "Contract", "Full-Time"]
+      };
+    }
+
+    const status = data.professionalStatus;
+    return {
+      status: status.available !== false ? "available" : "busy",
+      message: status.statusText || data.availability?.message || "Open to opportunities",
+      types: Array.isArray(status.workTypes) ? status.workTypes : ["Freelance", "Contract", "Full-Time"]
+    };
+  })();
+
+  // Personal information with comprehensive fallbacks
+  $: personalInfo = (() => {
+    if (!data) {
+      return {
+        name: "Your Name",
+        title: "Full Stack Developer",
+        profileImage: null,
+        ctaMessage: "Let's discuss how I can contribute to your next project",
+        bio: []
+      };
+    }
+
+    return {
+      name: data.name || "Your Name",
+      title: data.title || "Full Stack Developer",
+      profileImage: data.profileImage || null,
+      ctaMessage: data.ctaMessage || "Let's discuss how I can contribute to your next project",
+      bio: data.bio || [],
+      ...data
+    };
+  })();
+
+  // Bio content with fallbacks
+  $: bioContent = (() => {
+    if (Array.isArray(personalInfo.bio) && personalInfo.bio.length > 0) {
+      return personalInfo.bio.map(block => {
+        if (block._type === 'block' && Array.isArray(block.children)) {
+          return block.children.map(child => child.text || '').join('');
+        }
+        return '';
+      }).filter(text => text.trim() !== '');
+    }
+
+    // Default bio content
+    return [
+      "A seasoned full-stack developer with 3+ years of professional experience in designing, developing, and deploying scalable web applications. Specialized in delivering high-quality solutions that drive business growth and enhance user engagement.",
+      "My expertise spans modern JavaScript frameworks, cloud infrastructure, and full-stack development. I've successfully led projects from conception to deployment, collaborating with cross-functional teams to deliver solutions that exceed client expectations.",
+      "Committed to staying current with industry trends and best practices, I bring a strategic approach to problem-solving and a track record of delivering projects on time and within budget."
+    ];
+  })();
 </script>
 
 <section
@@ -146,26 +289,11 @@
         <div
           class="card-glow glass p-8 rounded-2xl hover-scale-glow transition-transform duration-300 hover-border-glow"
         >
-          <p class="text-gray-300 leading-relaxed mb-4">
-            A seasoned full-stack developer with 3+ years of professional
-            experience in designing, developing, and deploying scalable web
-            applications. Specialized in delivering high-quality solutions that
-            drive business growth and enhance user engagement.
-          </p>
-
-          <p class="text-gray-300 leading-relaxed mb-4">
-            My expertise spans modern JavaScript frameworks, cloud
-            infrastructure, and full-stack development. I've successfully led
-            projects from conception to deployment, collaborating with
-            cross-functional teams to deliver solutions that exceed client
-            expectations.
-          </p>
-
-          <p class="text-gray-300 leading-relaxed">
-            Committed to staying current with industry trends and best
-            practices, I bring a strategic approach to problem-solving and a
-            track record of delivering projects on time and within budget.
-          </p>
+          {#each bioContent as paragraph, index}
+            <p class="text-gray-300 leading-relaxed {index < bioContent.length - 1 ? 'mb-4' : ''}">
+              {paragraph}
+            </p>
+          {/each}
         </div>
 
         <!-- Highlight Cards Grid -->
@@ -215,13 +343,21 @@
               class="relative rounded-2xl glass-strong border border-white/10 group-hover:border-purple-500/50 transition-all duration-500 hover-border-glow"
             >
               <div
-                class="aspect-square flex items-center justify-center bg-purple-600/10"
+                class="aspect-auto flex items-center justify-center bg-purple-600/10"
               >
-                <User
-                  size={140}
-                  class="text-purple-400/60 group-hover:text-purple-400 transition-colors duration-500"
-                />
-              </div>
+                {#if personalInfo?.profileImage?.url}
+                  <img
+                    src={personalInfo.profileImage.url}
+                    alt={personalInfo.profileImage.alt || personalInfo.name || "Profile Image"}
+                    class="w-full h-full object-cover rounded-2xl"
+                  />
+                {:else}
+                  <User
+                    size={140}
+                    class="text-purple-400/60 group-hover:text-purple-400 transition-colors duration-500"
+                  />
+                {/if}
+            </div>
 
               <!-- Status Badge Overlay -->
               <div
@@ -260,7 +396,7 @@
                 {professionalStatus.message || "Open to Opportunities"}
               </h3>
               <div class="flex flex-wrap gap-2">
-                {#each (professionalStatus.types || []) as type}
+                {#each Array.isArray(professionalStatus.types) ? professionalStatus.types : [] as type}
                   <span
                     class="text-xs px-2.5 py-1 rounded-full bg-green-500/20 text-green-400 border border-green-500/30"
                   >
@@ -309,7 +445,7 @@
           Ready to Collaborate?
         </h3>
         <p class="text-gray-400 mb-6">
-          Let's discuss how I can contribute to your next project
+          {personalInfo.ctaMessage || "Let's discuss how I can contribute to your next project"}
         </p>
         <a
           href="#contact"

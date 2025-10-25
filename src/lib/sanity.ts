@@ -97,7 +97,10 @@ export async function getPersonalInfo() {
     name,
     title,
     bio,
-    profileImage,
+    profileImage{
+      "url": asset->url,
+      "alt": altText
+      },
     resume,
     contact,
     socialLinks,

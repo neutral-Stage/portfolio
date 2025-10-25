@@ -50,10 +50,10 @@
   };
 
   // Process recent repos with gradients
-  $: processedRepos = (data.recentRepos || []).map((repo, index) => ({
+  $: processedRepos = Array.isArray(data.recentRepos) ? data.recentRepos.map((repo, index) => ({
     ...repo,
     gradient: getGradient(index),
-  }));
+  })) : [];
 
   // Quick stats from data
   $: quickStats = [
@@ -260,7 +260,7 @@
           Top Languages
         </h3>
         <div class="flex flex-wrap gap-3">
-          {#each (data.languages || []) as language, index}
+          {#each Array.isArray(data.languages) ? data.languages : [] as language, index}
             <span
               class="group relative glass-light px-5 py-2.5 rounded-full text-sm font-semibold text-purple-300 hover:text-white hover:scale-110 transition-all duration-300 cursor-default animate-bounce-in delay-{(index +
                 4) *
