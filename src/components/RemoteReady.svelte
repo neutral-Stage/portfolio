@@ -12,6 +12,7 @@
     Zap,
     Headphones,
   } from "lucide-svelte";
+  import AnimatedHeadline from "./AnimatedHeadline.svelte";
 
   export let data: any = {};
 
@@ -135,9 +136,12 @@
           >Remote Work</span
         >
       </div>
-      <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">
-        <span class="gradient-text"> Remote Work Ready </span>
-      </h2>
+      <AnimatedHeadline
+        text="Remote Work Ready"
+        className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6"
+        staggerDelay={0.1}
+        animationDuration={0.7}
+      />
       <p class="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
         Proven experience working remotely with global teams across different
         time zones

@@ -11,6 +11,7 @@
     Star,
     Zap,
   } from "lucide-svelte";
+  import AnimatedHeadline from "./AnimatedHeadline.svelte";
 
   export let data: any[] = [];
 
@@ -130,9 +131,12 @@
           >Portfolio</span
         >
       </div>
-      <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">
-        <span class="text-purple-400"> Featured Projects </span>
-      </h2>
+      <AnimatedHeadline
+        text="Featured Projects"
+        className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6"
+        staggerDelay={0.1}
+        animationDuration={0.9}
+      />
       <p class="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
         A showcase of my recent work that demonstrates creativity and technical
         excellence
@@ -331,7 +335,7 @@
           href="https://github.com/yourusername"
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-3 px-8 py-4 rounded-full font-bold text-white glass-strong hover-scale-glow transition-all duration-300 btn-border-glow"
+          class="inline-flex items-center gap-3 px-8 py-4 rounded-full font-bold text-white bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-[length:200%_100%] animate-gradient hover:scale-105 transition-all duration-300 btn-glow"
         >
           <Github size={24} />
           Explore More on GitHub

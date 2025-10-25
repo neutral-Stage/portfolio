@@ -12,6 +12,7 @@
     Flame,
     Activity,
   } from "lucide-svelte";
+  import AnimatedHeadline from "./AnimatedHeadline.svelte";
 
   export let data: any = {};
 
@@ -118,9 +119,12 @@
           >Open Source</span
         >
       </div>
-      <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">
-        <span class="gradient-text"> GitHub Activity </span>
-      </h2>
+      <AnimatedHeadline
+        text="GitHub Activity"
+        className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6"
+        staggerDelay={0.1}
+        animationDuration={0.6}
+      />
       <p class="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
         Contributing to open source and building in public
       </p>

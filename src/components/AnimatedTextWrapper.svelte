@@ -1,5 +1,5 @@
 <script lang="ts">
-  import AnimatedHeadline from './AnimatedHeadline.svelte';
+  import WordsPullUp from './WordsPullUp.svelte';
 
   interface AnimatedTextWrapperProps {
     text: string;
@@ -22,4 +22,12 @@
   }: AnimatedTextWrapperProps = $props();
 </script>
 
-<AnimatedHeadline {text} {className} {wordClassName} {staggerDelay} {animationDuration} {ease} {initialY} />
+<WordsPullUp
+  {text}
+  {className}
+  {wordClassName}
+  {staggerDelay}
+  {animationDuration}
+  {ease}
+  {initialY}
+/>

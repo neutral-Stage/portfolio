@@ -9,6 +9,7 @@
     Globe,
     Sparkles,
   } from "lucide-svelte";
+  import AnimatedHeadline from "./AnimatedHeadline.svelte";
 
   export let data: any[] = [];
 
@@ -135,9 +136,12 @@
           >Skills & Expertise</span
         >
       </div>
-      <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-6">
-        <span class="text-purple-400"> What I Bring to the Table </span>
-      </h2>
+      <AnimatedHeadline
+        text="What I Bring to the Table"
+        className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6"
+        staggerDelay={0.1}
+        animationDuration={1.1}
+      />
       <p class="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
         A comprehensive toolkit of modern technologies and frameworks
       </p>

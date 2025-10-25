@@ -10,7 +10,7 @@
     Code2,
     Rocket,
   } from "lucide-svelte";
-  import { createAnimatedWords } from "../lib/animatedText";
+  import AnimatedHeadline from "./AnimatedHeadline.svelte";
 
   export let data: any = {};
 
@@ -92,8 +92,6 @@
     { icon: "Rocket", text: "Fast Performance", color: "text-blue-400" }
   ];
 
-  // Create animated words for the headline
-  $: animatedHeadline = createAnimatedWords(heroContent.headline);
 </script>
 
 <section
@@ -164,10 +162,13 @@
           class="block mb-3 text-white text-4xl sm:text-5xl lg:text-6xl font-medium"
           >Hi, I'm</span
         >
-        <div class="text-purple-400 words-pull-up">
-          {#each animatedHeadline as word, index}
-            <span class={word.class}>{word.text}</span>
-          {/each}
+        <div class="text-purple-400">
+          <AnimatedHeadline
+            text={heroContent.headline}
+            className="text-purple-400"
+            animationDuration={1.0}
+            staggerDelay={0.1}
+          />
         </div>
       </h1>
 
