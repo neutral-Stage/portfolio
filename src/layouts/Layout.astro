@@ -202,7 +202,7 @@ const ogImage = new URL(image, Astro.site);
       // Intersection Observer for scroll animations with staggered effects
       const observerOptions = {
         threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        rootMargin: '0px 0px 50px 0px'
       };
 
       const observer = new IntersectionObserver((entries) => {
@@ -237,7 +237,7 @@ const ogImage = new URL(image, Astro.site);
         });
       }, {
         threshold: 0.1,
-        rootMargin: '0px 0px -30px 0px'
+        rootMargin: '0px 0px 50px 0px'
       });
 
       // Observe elements when DOM is loaded

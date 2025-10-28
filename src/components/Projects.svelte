@@ -46,7 +46,7 @@
       },
       {
         threshold: 0.15,
-        rootMargin: '0px 0px -30px 0px'
+        rootMargin: '0px 0px 50px 0px'
       }
     );
 
@@ -289,7 +289,7 @@
       {#each filteredProjects as project, index}
         <div
           class="project-card card-3d card-glow glass rounded-2xl group"
-          style="--stagger-delay: {300 + (index * 100)}ms"
+          style="--stagger-delay: {150 + (index * 50)}ms"
         >
           <!-- Project Image/Icon Area -->
           <div class="project-image relative h-56 bg-slate-800 overflow-hidden">

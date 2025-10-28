@@ -170,14 +170,14 @@
 
     <div class="grid lg:grid-cols-2 gap-12 items-start">
       <!-- Contact Info Section -->
-      <div class="space-y-8 scroll-fade-up scroll-fade-up-delay-200">
+      <div class="space-y-8 scroll-fade-up scroll-fade-up-delay-100">
         <!-- Contact Cards -->
         <div class="space-y-6">
           {#each contactInfo as info, index}
             <a
               href={info.href}
               class="card-shine card-glow glass p-6 rounded-2xl flex items-center gap-6 group hover-scale-glow transition-all duration-300 scroll-fade-up scroll-fade-up-delay-{index *
-                100} relative hover-border-glow"
+                50} relative hover-border-glow"
             >
               <div
                 class="w-16 h-16 rounded-2xl bg-purple-500/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform relative z-10 hover-border-glow"
@@ -204,7 +204,7 @@
 
         <!-- Social Links -->
         <div
-          class="card-glow glass-strong p-8 rounded-3xl scroll-fade-up scroll-fade-up-delay-400 hover-border-glow"
+          class="card-glow glass-strong p-8 rounded-3xl scroll-fade-up scroll-fade-up-delay-200 hover-border-glow"
         >
           <h3
             class="text-2xl font-black text-white mb-6 flex items-center gap-3"
@@ -233,7 +233,7 @@
 
         <!-- Additional Info Card -->
         <div
-          class="card-shine glass-light p-8 rounded-3xl scroll-fade-up scroll-fade-up-delay-500 hover-border-glow"
+          class="card-shine glass-light p-8 rounded-3xl scroll-fade-up scroll-fade-up-delay-250 hover-border-glow"
         >
           <h3 class="text-xl font-black text-white mb-4">Why Work With Me?</h3>
           <ul class="space-y-3 text-gray-300">
@@ -251,7 +251,7 @@
       </div>
 
       <!-- Contact Form -->
-      <div class="scroll-fade-up scroll-fade-up-delay-200">
+      <div class="scroll-fade-up scroll-fade-up-delay-100">
         <div
           class="card-glow glass-strong p-8 md:p-10 rounded-3xl hover-border-glow"
         >
@@ -367,7 +367,7 @@
     </div>
 
     <!-- Bottom Section -->
-    <div class="mt-20 text-center scroll-fade-up scroll-fade-up-delay-700">
+    <div class="mt-20 text-center scroll-fade-up scroll-fade-up-delay-350">
       <div
         class="glass-light p-8 rounded-3xl inline-block max-w-2xl hover-border-glow"
       >

@@ -208,7 +208,7 @@
       <div class="space-y-16">
         {#each processedExperiences as experience, index}
           <div
-            class="relative scroll-fade-up scroll-fade-up-delay-{index * 200}"
+            class="relative scroll-fade-up scroll-fade-up-delay-{index * 100}"
             class:md:flex-row-reverse={index % 2 === 0}
             class:md:flex={true}
           >
@@ -333,7 +333,7 @@
     </div>
 
     <!-- Bottom CTA -->
-    <div class="mt-24 text-center scroll-fade-up scroll-fade-up-delay-800">
+    <div class="mt-24 text-center scroll-fade-up scroll-fade-up-delay-400">
       <div class="glass-light p-8 rounded-3xl inline-block hover-border-glow">
         <Users size={48} class="text-purple-400 mx-auto mb-4" />
         <h3 class="text-2xl font-black text-white mb-3">Let's Work Together</h3>

@@ -284,7 +284,7 @@
     <!-- Main Content Grid -->
     <div class="grid lg:grid-cols-[1fr_400px] gap-8 mb-16 items-start">
       <!-- Left Column: Description -->
-      <div class="space-y-6 scroll-fade-up scroll-fade-up-delay-200">
+      <div class="space-y-6 scroll-fade-up scroll-fade-up-delay-100">
         <!-- Main Description Card -->
         <div
           class="card-glow glass p-8 rounded-2xl hover-scale-glow transition-transform duration-300 hover-border-glow"
@@ -303,7 +303,7 @@
               role="button"
               tabindex="0"
               class="card-shine glass-light p-6 rounded-xl hover-scale-glow transition-all duration-300 scroll-fade-up scroll-fade-up-delay-{index *
-                100} hover-border-glow"
+                50} hover-border-glow"
               on:mouseenter={() => (activeCard = index)}
               on:mouseleave={() => (activeCard = -1)}
               on:keydown={() => {}}
@@ -329,7 +329,7 @@
       </div>
 
       <!-- Right Column: Profile & Status -->
-      <div class="space-y-6 scroll-fade-up scroll-fade-up-delay-300">
+      <div class="space-y-6 scroll-fade-up scroll-fade-up-delay-150">
         <!-- Professional Profile Image -->
         <div class="relative group">
           <div class="w-full aspect-square relative">
@@ -412,12 +412,12 @@
 
     <!-- Stats Grid - Full Width Below -->
     <div
-      class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12 scroll-fade-up scroll-fade-up-delay-500"
+      class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12 scroll-fade-up scroll-fade-up-delay-250"
     >
       {#each stats as stat, index}
         <div
           class="card-3d card-glow glass p-6 rounded-2xl text-center hover-scale-glow transition-all duration-300 scroll-fade-up scroll-fade-up-delay-{index *
-            100} hover-border-glow"
+            50} hover-border-glow"
         >
           <div
             class="mb-4 inline-flex p-3 rounded-xl bg-purple-500/20 hover-border-glow"
@@ -437,7 +437,7 @@
     </div>
 
     <!-- Bottom CTA -->
-    <div class="text-center scroll-fade-up scroll-fade-up-delay-600">
+    <div class="text-center scroll-fade-up scroll-fade-up-delay-300">
       <div
         class="card-shine glass-strong p-8 rounded-2xl inline-block max-w-2xl border border-purple-500/20 hover-border-glow"
       >

@@ -254,7 +254,7 @@
 
     <!-- Category Tabs -->
     <div
-      class="flex flex-wrap justify-center gap-3 mb-16 scroll-fade-up scroll-fade-up-delay-200"
+      class="flex flex-wrap justify-center gap-3 mb-16 scroll-fade-up scroll-fade-up-delay-100"
     >
       {#each skillCategories as category, index}
         <button
@@ -321,7 +321,7 @@
               {#each category.skills as skill, skillIndex}
                 <div
                   class="card-3d card-shine glass p-6 rounded-2xl group hover-scale-glow transition-all duration-300 scroll-fade-up scroll-fade-up-delay-{skillIndex *
-                    100} hover-border-glow"
+                    50} hover-border-glow"
                 >
                   <div class="flex justify-between items-start mb-4">
                     <div>
@@ -406,7 +406,7 @@
     </div>
 
     <!-- Additional Technologies Cloud -->
-    <div class="mt-24 text-center scroll-fade-up scroll-fade-up-delay-400">
+    <div class="mt-24 text-center scroll-fade-up scroll-fade-up-delay-200">
       <h3 class="text-3xl font-black text-white mb-4">
         <span class="text-purple-400">Additional Technologies</span>
       </h3>
@@ -421,7 +421,7 @@
         {#each ["Tailwind CSS", "Styled Components", "GraphQL", "Redis", "Elasticsearch", "Jest", "Cypress", "Storybook", "Webpack", "Babel", "ESLint", "Prettier", "Sass", "WebGL", "Three.js", "D3.js", "Chart.js", "Socket.io", "Express.js", "FastAPI", "Prisma", "TypeORM", "JWT", "OAuth", "Stripe", "Firebase", "Supabase", "Vercel", "Netlify", "Heroku", "DigitalOcean"] as tech, index}
           <span
             class="group relative glass-light px-5 py-2.5 rounded-full text-sm font-semibold text-gray-300 hover:text-white hover-scale-glow transition-all duration-300 cursor-default scroll-fade-up scroll-fade-up-delay-{index *
-              30} overflow-hidden hover-border-glow"
+              15} overflow-hidden hover-border-glow"
           >
             <span class="relative z-10">{tech}</span>
           </span>
