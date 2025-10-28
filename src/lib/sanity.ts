@@ -153,36 +153,6 @@ export async function getFeaturedBlogPosts() {
   return await client.fetch(query);
 }
 
-// Helper function to get GitHub stats
-export async function getGitHubStats() {
-  const query = `*[_type == "githubStats"][0] {
-    _id,
-    followers,
-    following,
-    repositories,
-    stars,
-    contributions,
-    languages,
-    streak,
-    recentRepos
-  }`;
-
-  return await client.fetch(query);
-}
-
-// Helper function to get remote work info
-export async function getRemoteWorkInfo() {
-  const query = `*[_type == "remoteWorkInfo"][0] {
-    _id,
-    timezones,
-    remoteSkills,
-    tools,
-    stats,
-    availability
-  }`;
-
-  return await client.fetch(query);
-}
 
 // Helper function to get contact info
 export async function getContactInfo() {

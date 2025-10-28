@@ -197,27 +197,56 @@ const ogImage = new URL(image, Astro.site);
       });
     </script>
 
-    <!-- Scroll Reveal Animations -->
+    <!-- Enhanced Scroll Reveal Animations -->
     <script is:inline>
-      // Intersection Observer for scroll animations
+      // Intersection Observer for scroll animations with staggered effects
       const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
       };
 
       const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry, index) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
+            // Check if element has custom stagger delay
+            const customDelay = entry.target.style.getPropertyValue('--stagger-delay');
+            const delay = customDelay ? parseInt(customDelay) : index * 100;
+
+            setTimeout(() => {
+              entry.target.classList.add('visible');
+            }, delay);
+
             observer.unobserve(entry.target);
           }
         });
       }, observerOptions);
 
-      // Observe elements with scroll-fade-up class
+      // Enhanced card observer for project cards
+      const cardObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+          if (entry.isIntersecting) {
+            const customDelay = entry.target.style.getPropertyValue('--stagger-delay');
+            const delay = customDelay ? parseInt(customDelay) : index * 150;
+
+            setTimeout(() => {
+              entry.target.classList.add('visible');
+            }, delay);
+
+            cardObserver.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -30px 0px'
+      });
+
+      // Observe elements when DOM is loaded
       document.addEventListener('DOMContentLoaded', () => {
         const animatedElements = document.querySelectorAll('.scroll-fade-up');
+        const projectCards = document.querySelectorAll('.project-card');
+
         animatedElements.forEach(el => observer.observe(el));
+        projectCards.forEach(card => cardObserver.observe(card));
       });
     </script>
   </body>

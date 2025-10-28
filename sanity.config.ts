@@ -23,21 +23,13 @@ export default defineConfig({
               .title('Personal Information')
               .id('personalInfo')
               .child(S.document().schemaType('personalInfo').documentId('personalInfo')),
-            S.listItem()
-              .title('GitHub Statistics')
-              .id('githubStats')
-              .child(S.document().schemaType('githubStats').documentId('githubStats')),
-            S.listItem()
-              .title('Remote Work Info')
-              .id('remoteWorkInfo')
-              .child(S.document().schemaType('remoteWorkInfo').documentId('remoteWorkInfo')),
             
             // Divider
             S.divider(),
             
             // Regular documents
             ...S.documentTypeListItems().filter(
-              (listItem) => !['siteSettings', 'personalInfo', 'githubStats', 'remoteWorkInfo'].includes(listItem.getId()!)
+              (listItem) => !['siteSettings', 'personalInfo'].includes(listItem.getId()!)
             ),
           ])
     }),

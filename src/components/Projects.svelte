@@ -20,22 +20,51 @@
   let selectedCategory = "All";
 
   onMount(() => {
-    const observer = new IntersectionObserver(
+    // Single unified observer for all scroll animations
+    const scrollObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            isVisible = true;
+            // Get the stagger delay from CSS custom property or default to 0
+            const staggerDelay = getComputedStyle(entry.target).getPropertyValue('--stagger-delay') || '0ms';
+            const delay = Math.max(0, parseInt(staggerDelay) || 0);
+
+            // Apply animation with appropriate delay
+            if (delay > 0) {
+              setTimeout(() => {
+                entry.target.classList.add('visible');
+              }, delay);
+            } else {
+              // No delay, animate immediately
+              entry.target.classList.add('visible');
+            }
+
+            // Stop observing this element once it's animated
+            scrollObserver.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.1 }
+      {
+        threshold: 0.15,
+        rootMargin: '0px 0px -30px 0px'
+      }
     );
 
     if (projectsRef) {
-      observer.observe(projectsRef);
+      // Set main section as visible for tracking
+      isVisible = true;
+
+      // Observe ALL elements with scroll animation classes
+      const animatedElements = projectsRef.querySelectorAll('.scroll-fade-up, .project-card');
+
+      animatedElements.forEach((element) => {
+        scrollObserver.observe(element);
+      });
     }
 
-    return () => observer.disconnect();
+    return () => {
+      scrollObserver.disconnect();
+    };
   });
 
   // Helper function to get gradient based on index
@@ -196,9 +225,9 @@
 
   <div class="relative z-10 max-w-7xl mx-auto">
     <!-- Section Header -->
-    <div class="text-center mb-20 scroll-fade-up">
+    <div class="text-center mb-16 scroll-fade-up" style="--stagger-delay: 0ms">
       <div
-        class="inline-flex items-center gap-3 px-6 py-3 glass-light rounded-full mb-6 hover-border-glow"
+        class="inline-flex items-center gap-3 px-6 py-3 glass-light rounded-full mb-4 hover-border-glow"
       >
         <Star size={20} class="text-purple-400" />
         <span
@@ -208,7 +237,7 @@
       </div>
       <WordsPullUp
         text="Featured Projects"
-        className="text-4xl sm:text-5xl lg:text-6xl font-black mb-6"
+        className="text-4xl sm:text-5xl lg:text-6xl font-black mb-4"
         staggerDelay={0.1}
         animationDuration={0.9}
       />
@@ -222,12 +251,13 @@
 
     <!-- Category Filter -->
     <div
-      class="flex flex-wrap justify-center gap-3 mb-16 scroll-fade-up scroll-fade-up-delay-200"
+      class="flex flex-wrap justify-center gap-3 mb-12 scroll-fade-up"
+      style="--stagger-delay: 200ms"
     >
       {#each categories as category}
         <button
           on:click={() => (selectedCategory = category.name)}
-          class="group relative px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover-scale-glow hover-border-glow"
+          class="category-filter-btn group relative px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover-scale-glow hover-border-glow"
           class:text-white={selectedCategory === category.name}
           class:text-gray-400={selectedCategory !== category.name}
         >
@@ -255,14 +285,14 @@
     </div>
 
     <!-- Projects Grid -->
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
       {#each filteredProjects as project, index}
         <div
-          class="card-3d card-glow glass rounded-2xl group scroll-fade-up scroll-fade-up-delay-{index *
-            100}"
+          class="project-card card-3d card-glow glass rounded-2xl group"
+          style="--stagger-delay: {300 + (index * 100)}ms"
         >
           <!-- Project Image/Icon Area -->
-          <div class="relative h-56 bg-slate-800 overflow-hidden">
+          <div class="project-image relative h-56 bg-slate-800 overflow-hidden">
             {#if project.image}
               <img
                 src={project.image}
@@ -373,7 +403,7 @@
 
             <!-- Title -->
             <h3
-              class="text-xl font-black text-white group-hover:text-purple-400 transition-all duration-300"
+              class="project-title text-xl font-black text-white transition-all duration-300"
             >
               {project.title}
             </h3>
@@ -387,7 +417,7 @@
             <div class="flex flex-wrap gap-2 pt-2">
               {#each Array.isArray(project.technologies) ? project.technologies : [] as tech}
                 <span
-                  class="group relative glass-light px-3 py-1 rounded-lg text-xs font-semibold text-gray-300 hover:text-white hover-scale-glow transition-all duration-300 overflow-hidden hover-border-glow"
+                  class="tech-tag group relative glass-light px-3 py-1 rounded-lg text-xs font-semibold text-gray-300 hover:text-white hover-scale-glow transition-all duration-300 overflow-hidden hover-border-glow"
                 >
                   <span class="relative z-10">{tech}</span>
                 </span>
@@ -402,7 +432,7 @@
     </div>
 
     <!-- View More Section -->
-    <div class="text-center scroll-fade-up scroll-fade-up-delay-600">
+    <div class="text-center scroll-fade-up" style="--stagger-delay: 800ms">
       <div class="glass-light p-8 rounded-3xl inline-block hover-border-glow">
         <WordsPullUp
           text="Want to see more? Check out my GitHub for additional projects and contributions!"
@@ -431,5 +461,34 @@
     line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  /* Component-specific title animations */
+  .project-title {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .project-card:hover .project-title {
+    color: rgb(168, 85, 247);
+    text-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+  }
+
+  /* Enhanced glass morphism for project cards */
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
+  .project-card:hover::before {
+    opacity: 1;
   }
 </style>
