@@ -83,8 +83,31 @@ const ogImage = new URL(image, Astro.site);
     <!-- Google Fonts - Inter for modern typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    
+    <!-- Preload critical fonts to prevent layout shift -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+
+    <!-- Sanity CDN Preconnect -->
+    <link rel="preconnect" href="https://cdn.sanity.io" />
+
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com data:; connect-src 'self' https://cdn.sanity.io https:; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;" />
+
     <!-- Theme Color -->
     <meta name="theme-color" content="#0f172a" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -190,8 +213,8 @@ const ogImage = new URL(image, Astro.site);
           cursor.style.opacity = '1';
         });
 
-        // Cleanup on page unload
-        window.addEventListener('beforeunload', function() {
+        // Cleanup on page hide (modern alternative to deprecated unload)
+        window.addEventListener('pagehide', function() {
           if (rafId) cancelAnimationFrame(rafId);
         });
       });

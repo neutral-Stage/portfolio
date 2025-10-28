@@ -68,6 +68,17 @@ body {
   animation: gradient 8s ease infinite;
 }
 
+/* Content Visibility - Optimize rendering for below-fold content */
+section:not(#home) {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
+
+/* Contain layout for major sections to prevent reflows */
+section {
+  contain: layout style;
+}
+
 /* =============================================
    ✨ ADVANCED ANIMATIONS
    ============================================= */

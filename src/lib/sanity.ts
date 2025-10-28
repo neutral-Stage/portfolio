@@ -13,6 +13,40 @@ const builder = imageUrlBuilder(client);
 
 export const urlFor = (source: any) => builder.image(source);
 
+// Optimized image URL helper for performance
+export const getOptimizedImageUrl = (
+  imageUrl: string,
+  options: { width?: number; height?: number; quality?: number; format?: string } = {}
+) => {
+  if (!imageUrl) return "";
+
+  const {
+    width = 800,
+    height,
+    quality = 80,
+    format = "webp",
+  } = options;
+
+  // Build optimized URL with parameters
+  let optimizedUrl = imageUrl;
+  const params: string[] = [];
+
+  if (width) params.push(`w=${width}`);
+  if (height) params.push(`h=${height}`);
+  if (quality) params.push(`q=${quality}`);
+  if (format) params.push(`fm=${format}`);
+  params.push('fit=max'); // Maintain aspect ratio
+  params.push('auto=format'); // Auto format selection
+
+  // Add parameters to URL
+  if (params.length > 0) {
+    const separator = imageUrl.includes('?') ? '&' : '?';
+    optimizedUrl = `${imageUrl}${separator}${params.join('&')}`;
+  }
+
+  return optimizedUrl;
+};
+
 // Helper function to get all projects
 export async function getProjects() {
   const query = `*[_type == "project"] | order(publishedAt desc) {
