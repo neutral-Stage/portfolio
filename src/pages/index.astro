@@ -186,9 +186,9 @@ const fallbackData = {
     fallbackData.siteSettings.siteDescription}
   image={personalInfo?.seo?.ogImage || personalInfo?.profileImage}
 >
-  <Navigation client:load data={siteSettings || fallbackData.siteSettings} />
+  <Navigation client:idle data={siteSettings || fallbackData.siteSettings} />
   <main>
-    <Hero client:load data={personalInfo || fallbackData.personalInfo} />
+    <Hero client:idle data={personalInfo || fallbackData.personalInfo} />
     <About client:visible data={personalInfo || fallbackData.personalInfo} />
     <Skills client:visible data={skills || []} />
     <Projects client:visible data={projects || []} />

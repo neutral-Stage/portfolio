@@ -1,14 +1,12 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import {
-    Code,
-    Palette,
-    Database,
-    Cloud,
-    Smartphone,
-    Globe,
-    Sparkles,
-  } from "lucide-svelte";
+  import Code from "lucide-svelte/icons/code";
+  import Palette from "lucide-svelte/icons/palette";
+  import Database from "lucide-svelte/icons/database";
+  import Cloud from "lucide-svelte/icons/cloud";
+  import Smartphone from "lucide-svelte/icons/smartphone";
+  import Globe from "lucide-svelte/icons/globe";
+  import Sparkles from "lucide-svelte/icons/sparkles";
   import WordsPullUp from "./WordsPullUp.svelte";
 
   export let data: any[] = [];

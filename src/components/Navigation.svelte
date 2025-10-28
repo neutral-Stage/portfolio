@@ -1,17 +1,15 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import {
-    Menu,
-    X,
-    Home,
-    User,
-    Code,
-    Briefcase,
-    BookOpen,
-    MapPin,
-    Github,
-    Mail,
-  } from "lucide-svelte";
+  import Menu from "lucide-svelte/icons/menu";
+  import X from "lucide-svelte/icons/x";
+  import Home from "lucide-svelte/icons/home";
+  import User from "lucide-svelte/icons/user";
+  import Code from "lucide-svelte/icons/code";
+  import Briefcase from "lucide-svelte/icons/briefcase";
+  import BookOpen from "lucide-svelte/icons/book-open";
+  import MapPin from "lucide-svelte/icons/map-pin";
+  import Github from "lucide-svelte/icons/github";
+  import Mail from "lucide-svelte/icons/mail";
   import { lenisStore, scrollToElement } from "../lib/lenis";
 
   export let data: any = {};

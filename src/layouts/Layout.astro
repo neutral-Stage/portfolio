@@ -130,13 +130,13 @@ const ogImage = new URL(image, Astro.site);
       <div id="cursor-inner" class="absolute w-2 h-2 bg-purple-500 rounded-full" style="top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
     </div>
 
-    <!-- Lenis Smooth Scroll -->
-    <SmoothScroll client:load />
+    <!-- Lenis Smooth Scroll - Load when idle -->
+    <SmoothScroll client:idle />
 
-    <!-- Custom Cursor Script (Fixed) -->
+    <!-- Custom Cursor Script (Fixed) - Deferred for performance -->
     <script is:inline>
-      // Wait for DOM to be ready
-      document.addEventListener('DOMContentLoaded', function() {
+      // Defer cursor initialization with requestIdleCallback
+      const initCursor = function() {
         // Only run on desktop
         if (window.innerWidth < 1024) return;
         
@@ -217,60 +217,99 @@ const ogImage = new URL(image, Astro.site);
         window.addEventListener('pagehide', function() {
           if (rafId) cancelAnimationFrame(rafId);
         });
-      });
-    </script>
-
-    <!-- Enhanced Scroll Reveal Animations -->
-    <script is:inline>
-      // Intersection Observer for scroll animations with staggered effects
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px 50px 0px'
       };
 
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
-          if (entry.isIntersecting) {
-            // Check if element has custom stagger delay
-            const customDelay = entry.target.style.getPropertyValue('--stagger-delay');
-            const delay = customDelay ? parseInt(customDelay) : index * 100;
-
-            setTimeout(() => {
-              entry.target.classList.add('visible');
-            }, delay);
-
-            observer.unobserve(entry.target);
+      // Use requestIdleCallback to defer cursor initialization
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(function() {
+          if (document.readyState === 'complete') {
+            initCursor();
+          } else {
+            window.addEventListener('load', initCursor);
           }
         });
-      }, observerOptions);
+      } else {
+        // Fallback for browsers without requestIdleCallback
+        if (document.readyState === 'complete') {
+          setTimeout(initCursor, 1);
+        } else {
+          window.addEventListener('load', function() {
+            setTimeout(initCursor, 1);
+          });
+        }
+      }
+    </script>
 
-      // Enhanced card observer for project cards
-      const cardObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
-          if (entry.isIntersecting) {
-            const customDelay = entry.target.style.getPropertyValue('--stagger-delay');
-            const delay = customDelay ? parseInt(customDelay) : index * 150;
+    <!-- Enhanced Scroll Reveal Animations - Deferred -->
+    <script is:inline>
+      // Defer scroll animations setup with requestIdleCallback
+      const initScrollAnimations = function() {
+        // Intersection Observer for scroll animations with staggered effects
+        const observerOptions = {
+          threshold: 0.1,
+          rootMargin: '0px 0px 50px 0px'
+        };
 
-            setTimeout(() => {
-              entry.target.classList.add('visible');
-            }, delay);
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+              // Check if element has custom stagger delay
+              const customDelay = entry.target.style.getPropertyValue('--stagger-delay');
+              const delay = customDelay ? parseInt(customDelay) : index * 100;
 
-            cardObserver.unobserve(entry.target);
-          }
+              setTimeout(() => {
+                entry.target.classList.add('visible');
+              }, delay);
+
+              observer.unobserve(entry.target);
+            }
+          });
+        }, observerOptions);
+
+        // Enhanced card observer for project cards
+        const cardObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry, index) => {
+            if (entry.isIntersecting) {
+              const customDelay = entry.target.style.getPropertyValue('--stagger-delay');
+              const delay = customDelay ? parseInt(customDelay) : index * 150;
+
+              setTimeout(() => {
+                entry.target.classList.add('visible');
+              }, delay);
+
+              cardObserver.unobserve(entry.target);
+            }
+          });
+        }, {
+          threshold: 0.1,
+          rootMargin: '0px 0px 50px 0px'
         });
-      }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px 50px 0px'
-      });
 
-      // Observe elements when DOM is loaded
-      document.addEventListener('DOMContentLoaded', () => {
+        // Observe elements
         const animatedElements = document.querySelectorAll('.scroll-fade-up');
         const projectCards = document.querySelectorAll('.project-card');
 
         animatedElements.forEach(el => observer.observe(el));
         projectCards.forEach(card => cardObserver.observe(card));
-      });
+      };
+
+      // Use requestIdleCallback to defer animation setup
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(function() {
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initScrollAnimations);
+          } else {
+            initScrollAnimations();
+          }
+        });
+      } else {
+        // Fallback
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initScrollAnimations);
+        } else {
+          setTimeout(initScrollAnimations, 1);
+        }
+      }
     </script>
   </body>
 </html>

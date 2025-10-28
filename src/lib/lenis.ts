@@ -3,47 +3,58 @@ import { writable } from 'svelte/store';
 export const lenisStore = writable<any>(null);
 
 export function initLenis() {
-  import('lenis').then(({ default: Lenis }) => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      touchMultiplier: 2,
-      infinite: false,
-    });
+  // Use requestIdleCallback to defer initialization during idle time
+  const init = () => {
+    import('lenis').then(({ default: Lenis }) => {
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        touchMultiplier: 2,
+        infinite: false,
+      });
 
-    // Animation frame loop
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    requestAnimationFrame(raf);
-
-    // Handle hash links
-    const handleHashLinks = () => {
-      const hash = window.location.hash;
-      if (hash) {
-        setTimeout(() => {
-          const element = document.querySelector(hash) as HTMLElement;
-          if (element) {
-            lenis.scrollTo(element, {
-              offset: -80, // Account for fixed header
-              duration: 1.5,
-            });
-          }
-        }, 100);
+      // Animation frame loop
+      function raf(time: number) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
       }
-    };
 
-    // Handle hash links on page load
-    handleHashLinks();
+      requestAnimationFrame(raf);
 
-    // Listen for hash changes
-    window.addEventListener('hashchange', handleHashLinks);
+      // Handle hash links
+      const handleHashLinks = () => {
+        const hash = window.location.hash;
+        if (hash) {
+          setTimeout(() => {
+            const element = document.querySelector(hash) as HTMLElement;
+            if (element) {
+              lenis.scrollTo(element, {
+                offset: -80, // Account for fixed header
+                duration: 1.5,
+              });
+            }
+          }, 100);
+        }
+      };
 
-    // Store the instance
-    lenisStore.set(lenis);
-  });
+      // Handle hash links on page load
+      handleHashLinks();
+
+      // Listen for hash changes
+      window.addEventListener('hashchange', handleHashLinks);
+
+      // Store the instance
+      lenisStore.set(lenis);
+    });
+  };
+
+  // Defer initialization with requestIdleCallback for better performance
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(init, { timeout: 2000 });
+  } else {
+    // Fallback for browsers without requestIdleCallback
+    setTimeout(init, 1);
+  }
 }
 
 export function scrollToElement(element: Element, options?: { offset?: number; duration?: number }) {

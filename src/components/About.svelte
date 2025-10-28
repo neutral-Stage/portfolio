@@ -1,18 +1,16 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import {
-    User,
-    Award,
-    CheckCircle,
-    Users,
-    Zap,
-    Target,
-    Rocket,
-    Star,
-    Mail,
-    Code,
-    Briefcase,
-  } from "lucide-svelte";
+  import User from "lucide-svelte/icons/user";
+  import Award from "lucide-svelte/icons/award";
+  import CheckCircle from "lucide-svelte/icons/check-circle";
+  import Users from "lucide-svelte/icons/users";
+  import Zap from "lucide-svelte/icons/zap";
+  import Target from "lucide-svelte/icons/target";
+  import Rocket from "lucide-svelte/icons/rocket";
+  import Star from "lucide-svelte/icons/star";
+  import Mail from "lucide-svelte/icons/mail";
+  import Code from "lucide-svelte/icons/code";
+  import Briefcase from "lucide-svelte/icons/briefcase";
   import WordsPullUp from "./WordsPullUp.svelte";
 
   export let data: any = {};

@@ -1,12 +1,10 @@
 <script lang="ts">
-  import {
-    Github,
-    Linkedin,
-    Twitter,
-    Mail,
-    Heart,
-    ArrowUp,
-  } from "lucide-svelte";
+  import Github from "lucide-svelte/icons/github";
+  import Linkedin from "lucide-svelte/icons/linkedin";
+  import Twitter from "lucide-svelte/icons/twitter";
+  import Mail from "lucide-svelte/icons/mail";
+  import Heart from "lucide-svelte/icons/heart";
+  import ArrowUp from "lucide-svelte/icons/arrow-up";
   import { lenisStore } from "../lib/lenis";
 
   export let data: any = {};

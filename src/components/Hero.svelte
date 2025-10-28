@@ -1,15 +1,13 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
-  import {
-    ChevronDown,
-    Github,
-    Linkedin,
-    Mail,
-    Download,
-    Sparkles,
-    Code2,
-    Rocket,
-  } from "lucide-svelte";
+  import ChevronDown from "lucide-svelte/icons/chevron-down";
+  import Github from "lucide-svelte/icons/github";
+  import Linkedin from "lucide-svelte/icons/linkedin";
+  import Mail from "lucide-svelte/icons/mail";
+  import Download from "lucide-svelte/icons/download";
+  import Sparkles from "lucide-svelte/icons/sparkles";
+  import Code2 from "lucide-svelte/icons/code-2";
+  import Rocket from "lucide-svelte/icons/rocket";
   import WordsPullUp from "./WordsPullUp.svelte";
 
   export let data: any = {};

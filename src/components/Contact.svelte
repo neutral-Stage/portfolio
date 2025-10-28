@@ -1,17 +1,15 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import {
-    Mail,
-    Phone,
-    MapPin,
-    Github,
-    Linkedin,
-    Twitter,
-    Send,
-    CheckCircle,
-    MessageSquare,
-    Sparkles,
-  } from "lucide-svelte";
+  import Mail from "lucide-svelte/icons/mail";
+  import Phone from "lucide-svelte/icons/phone";
+  import MapPin from "lucide-svelte/icons/map-pin";
+  import Github from "lucide-svelte/icons/github";
+  import Linkedin from "lucide-svelte/icons/linkedin";
+  import Twitter from "lucide-svelte/icons/twitter";
+  import Send from "lucide-svelte/icons/send";
+  import CheckCircle from "lucide-svelte/icons/check-circle";
+  import MessageSquare from "lucide-svelte/icons/message-square";
+  import Sparkles from "lucide-svelte/icons/sparkles";
   import WordsPullUp from "./WordsPullUp.svelte";
 
   export let data: any = {};

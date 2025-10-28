@@ -1,15 +1,13 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import {
-    Briefcase,
-    Calendar,
-    MapPin,
-    Award,
-    ExternalLink,
-    TrendingUp,
-    Users,
-    Code,
-  } from "lucide-svelte";
+  import Briefcase from "lucide-svelte/icons/briefcase";
+  import Calendar from "lucide-svelte/icons/calendar";
+  import MapPin from "lucide-svelte/icons/map-pin";
+  import Award from "lucide-svelte/icons/award";
+  import ExternalLink from "lucide-svelte/icons/external-link";
+  import TrendingUp from "lucide-svelte/icons/trending-up";
+  import Users from "lucide-svelte/icons/users";
+  import Code from "lucide-svelte/icons/code";
   import WordsPullUp from "./WordsPullUp.svelte";
 
   export let data: any[] = [];
